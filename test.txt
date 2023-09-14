@@ -19,6 +19,18 @@ resolve 1
 
 system.out.print("Push");
 
-
-
 rrrrr
+
+
+BackEnd:
+Go to resource>> application.properties >> database-name,username,password
+
+***hibernate
+
+packages>>
+
+--------------
+Then, make classes
+then, interface: repository
+
+
