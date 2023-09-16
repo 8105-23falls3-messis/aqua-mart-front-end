@@ -1,0 +1,20 @@
+.footer__main{
+    background-color: #0099ff;
+    height: 10vh;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0;
+}
+a{
+    color: #FFF;
+}
+.links{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
