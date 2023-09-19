@@ -17,7 +17,11 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^13.2.2",
     "react-scripts": "5.0.1",
+<<<<<<< HEAD
     "react-slick": "^0.29.0",
+=======
+    "react-scripts": "^5.0.1",
+>>>>>>> 0ad723007b1c9369ab14c64ff9eec6bf040e9c06
     "react-wavify": "^1.9.0",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4"
