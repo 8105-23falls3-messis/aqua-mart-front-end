@@ -8,40 +8,16 @@ import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import Home from "./components/home/Home";
 import Footer from "./components/footer/Footer";
-import ImageSlider from "./components/home/ImageSlider";
+// import ImageSlider from "./components/home/ImageSlider";
 
 function App() {
   return (
     <div className="app">
       <Router>
         <Routes>
-          <Route
-            path="/image"
-            element={
-              <>
-            <ImageSlider />
-              </>
-            }
-          />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/login"
-            element={
-              <>
-                <Login />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <>
-                <Home />
-                <Footer />
-              </>
-            }
-          />
+          <Route path="/register" element={<><Register /><Footer /></>} />
+          <Route path="/login" element={<><Login /><Footer /></>} />
+          <Route path="/" element={<><Home /><Footer /></>} />
         </Routes>
       </Router>
     </div>

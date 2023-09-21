@@ -12,7 +12,7 @@ function Login() {
   console.log("USER NAME & PASSWORD ", username, password);
   return (
     <div className="login">
-     
+
       <div className="login__wrapper">
         <div className="login__logo">
           <div className="logo">
@@ -45,14 +45,14 @@ function Login() {
             Keep Me Logged In
           </div>
           <Link className="btn cursor" to={"/"}>
-            <button className="cursor">Login</button>
+            <a className="cursor">Login</a>
           </Link>
           <div className="dont_have_acc">
-          <span></span>
-          <Link to={"/register"}>
-            <p>Don't have an account?</p>
-          </Link>
-          <span></span>
+            <span></span>
+            <Link to={"/register"}>
+              <p>Don't have an account?</p>
+            </Link>
+            <span></span>
           </div>
         </div>
       </div>
