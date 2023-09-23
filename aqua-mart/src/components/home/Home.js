@@ -24,7 +24,7 @@ function Home() {
         <img src={home_img} alt="home_img" />
       </div>
 
-      
+
     </div>
   );
 }
