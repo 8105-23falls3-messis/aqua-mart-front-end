@@ -1,10 +1,13 @@
 import React from "react"
+
 import "../register/register.css";
 import { Link } from "react-router-dom";
 import logo from "../../images/Vista Logos/logo-transparent-png.png";
 
 
 function Register() {
+
+
     return (
         <div className="register">
             <div className="register__warpper">
@@ -21,7 +24,7 @@ function Register() {
                 </div>
                 <div className="label">
                     <label>Emial:</label>
-                    <input type="Email" />
+                    <input type="email" />
                 </div>
                 <div className="label">
                     <label>Company(Optional):</label>
@@ -29,7 +32,7 @@ function Register() {
                 </div>
                 <div className="label">
                     <label>Address:</label>
-                    <input type="Address" />
+                    <input type="text" />
                 </div>
                 <div className="label">
                     <label>Password:</label>
@@ -39,11 +42,11 @@ function Register() {
                     <label>Re-Type Password:</label>
                     <input type="password" />
                 </div>
-                <Link to={'/'} className="btn cursor">
-                    <a className="login">Sign Up</a>
+                <Link to={'/'} className="Signup">
+                    <a className="RegSignup">Sign Up</a>
                 </Link>
-                <Link to={'/login'} className="btn cursor">
-                    <a className="login">Sign In</a>
+                <Link to={'/login'} className="RegLogin">
+                    <a className="Reglogin">Sign In</a>
                 </Link>
             </div>
         </div>

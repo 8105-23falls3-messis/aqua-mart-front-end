@@ -4,9 +4,10 @@ import "./App.css";
 // import {BrowserRouter} from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import { Routes, Route } from "react-router-dom";
+import Header from "./components/header/Header";
+import Home from "./components/home/Home";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
-import Home from "./components/home/Home";
 import Footer from "./components/footer/Footer";
 // import ImageSlider from "./components/home/ImageSlider";
 
@@ -15,9 +16,9 @@ function App() {
     <div className="app">
       <Router>
         <Routes>
-          <Route path="/register" element={<><Register /><Footer /></>} />
-          <Route path="/login" element={<><Login /><Footer /></>} />
-          <Route path="/" element={<><Home /><Footer /></>} />
+          <Route path="/register" element={<><Header /><Register /><Footer /></>} />
+          <Route path="/login" element={<><Header /><Login /><Footer /></>} />
+          <Route path="/" element={<><Header /><Home /><Footer /></>} />
         </Routes>
       </Router>
     </div>

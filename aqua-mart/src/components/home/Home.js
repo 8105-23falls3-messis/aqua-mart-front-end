@@ -2,11 +2,15 @@ import React from "react";
 import "../home/home.css";
 import home_img from "../../images/7368089.jpg";
 // import ImageSlider from "./ImageSlider";
+import logo from "../../images/Vista Logos/logo-transparent-png.png";
 
 function Home() {
   return (
     <div className="home">
       <div className="home__text">
+        <div className="logo">
+          <img src={logo} alt="logo" />
+        </div>
         <div className="home__text-inner">
           <h1 className="home__text-title">This is Aqua-Mart</h1>
           <p className="home__text-para">
