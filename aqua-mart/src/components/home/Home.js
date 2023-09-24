@@ -8,9 +8,9 @@ function Home() {
   return (
     <div className="home">
       <div className="home__text">
-        <div className="logo">
+        {/* <div className="logo">
           <img src={logo} alt="logo" />
-        </div>
+        </div> */}
         <div className="home__text-inner">
           <h1 className="home__text-title">This is Aqua-Mart</h1>
           <p className="home__text-para">

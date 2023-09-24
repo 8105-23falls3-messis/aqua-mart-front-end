@@ -48,11 +48,11 @@ function Login() {
             <a className="cursor">Login</a>
           </Link>
           <div className="dont_have_acc">
-            <span></span>
+            
             <Link to={"/register"}>
               <p>Don't have an account?</p>
             </Link>
-            <span></span>
+            
           </div>
         </div>
       </div>

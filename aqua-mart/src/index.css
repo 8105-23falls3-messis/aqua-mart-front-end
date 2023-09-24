@@ -1,7 +1,13 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Lato', sans-serif;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+@layer base {
+  li{
+    @apply p-4
+  }
+  button{
+    @apply text-white border-inherit bg-sky-500 rounded transition-all
+    hover:bg-transparent hover:text-sky-500
+  }
+}

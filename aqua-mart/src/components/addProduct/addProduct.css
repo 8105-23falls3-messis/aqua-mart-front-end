@@ -1,0 +1,8 @@
+.addProduct{
+    height: calc(100vh - 12vh - 82px);
+    border: 1px solid;
+}
+.register__label label{
+    color: #fff;
+    font-size: 18px;
+}
