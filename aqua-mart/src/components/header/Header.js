@@ -4,6 +4,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import { Link } from "react-router-dom";
+// import axios from "axios";
+// import axiosInstance from "../../axios";
+// import { useStateValue } from "../StateProvider";
 
 // import "../header/header.css";
 
@@ -12,11 +15,22 @@ function Header() {
   const handleClick = () => setToggle(!toggle);
   const [options, setOptions] = useState("");
 
+  // const [{user}, dispatch] = useStateValue();
+
+  // console.log(user);
+  //   axios.get('http://18.226.27.5:8081/user/login').then((response)=>{
+  //     console.log(response.data);
+  //   })
+  //   .catch((error)=>{
+  //     console.log("Req Failed: ", error);
+  //   })
   const onSelectOption = (e) => {
     setOptions(e.target.value);
   };
 
   console.log(options);
+
+  
   return (
     <div className="h-[80px] z-10 bg-slate-900 drop-shadow-lg">
       <div className="px-4 flex justify-between items-center w-full h-full">
@@ -49,8 +63,12 @@ function Header() {
                 className="w-19 h-7 font-medium text-lg outline-none border-none text-white focus:border-none bg-transparent"
                 onChange={onSelectOption}
                 value={options}>
-                <option className="bg-slate-900" value="sell">Sell</option>
-                <option className="bg-slate-900" value="buy">Buy</option>
+                <option className="bg-slate-900" value="sell">
+                  Sell
+                </option>
+                <option className="bg-slate-900" value="buy">
+                  Buy
+                </option>
               </select>
             </li>
           </ul>
@@ -58,7 +76,9 @@ function Header() {
         <div className="hidden md:flex items-center pr-4">
           {/* only shows when user not logged or sign up */}
           <Link to={"/login"}>
-            <button className="border-none bg-transparent text-white">
+            <button
+              className="border-none bg-transparent text-white"
+              >
               Sign In
             </button>
           </Link>

@@ -1,0 +1,5 @@
+.product_list{
+    width: 70%;
+    /* height: calc(100vh - 12vh - 80px); */
+    background-color: aqua;
+}

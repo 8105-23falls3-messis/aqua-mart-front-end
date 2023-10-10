@@ -1,15 +1,52 @@
 import React, { useEffect, useState } from "react";
 import "../login/login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../images/Vista Logos/logo-transparent-png.png";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
+import AuthService from "../AuthService";
+import { useStateValue } from "../StateProvider";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+ const [{user}, dispatch] = useStateValue();
 
-  console.log("USER NAME & PASSWORD ", username, password);
+  const navigate = useNavigate();
+  console.log(user.email, "Dispatch Function: ", dispatch);
+  console.log("USER NAME & PASSWORD ", email, password);
+
+
+  //Login
+  const handleLogin = async () => {
+    const { success, token, user, error } = await AuthService.login(
+      email,
+      password,
+      1
+    );
+
+    if (success) {
+      // Login successful
+      // Store the token in your app (e.g., in local storage or a state)
+      // Example using localStorage:
+      localStorage.setItem("jwtToken", token);
+      localStorage.setItem("jwtToken", token);
+        console.log(token);
+        console.log(token.data);
+      // Update your app's state to indicate the user is logged in
+      dispatch({ type: "LOGIN", user, token});
+     
+      navigate('/list');
+
+      // Redirect to a protected route or perform other actions
+    } else {
+      // Login failed
+      console.error("Login failed:", error);
+      // Handle login failure, show an error message, etc.
+    }
+  };
+  //******************* */
+
   return (
     <div className="login">
 
@@ -26,9 +63,9 @@ function Login() {
             <PersonIcon className="icon" />
             <input
               type="text"
-              value={username}
+              value={email}
               placeholder="username"
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="login__input">
@@ -45,14 +82,13 @@ function Login() {
             Keep Me Logged In
           </div>
           <Link className="btn cursor" to={"/"}>
-            <a className="cursor">Login</a>
+            <a className="cursor" onClick={handleLogin}>Login</a>
           </Link>
           <div className="dont_have_acc">
             
             <Link to={"/register"}>
               <p>Don't have an account?</p>
             </Link>
-            
           </div>
         </div>
       </div>

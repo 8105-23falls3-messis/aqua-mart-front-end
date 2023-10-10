@@ -10,6 +10,7 @@ import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import Footer from "./components/footer/Footer";
 import AddProduct from "./components/addProduct/AddProduct";
+import ProductList from "./components/productList/ProductList";
 // import ImageSlider from "./components/home/ImageSlider";
 
 function App() {
@@ -17,10 +18,56 @@ function App() {
     <div className="app">
       <Router>
         <Routes>
-          <Route path="/addproduct" element={<><Header /><AddProduct /><Footer /></>} />
-          <Route path="/register" element={<><Header /><Register /><Footer /></>} />
-          <Route path="/login" element={<><Header /><Login /><Footer /></>} />
-          <Route path="/" element={<><Header /><Home /><Footer /></>} />
+          <Route
+            path="/list"
+            element={
+              <>
+                <Header />
+                <ProductList />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/addproduct"
+            element={
+              <>
+                <Header />
+                <AddProduct />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <>
+                <Header />
+                <Register />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <>
+                <Header />
+                <Login />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <>
+                <Header />
+                <Home />
+                <Footer />
+              </>
+            }
+          />
         </Routes>
       </Router>
     </div>
