@@ -2,18 +2,19 @@ import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
+import { useStateValue } from "../StateProvider";
 import { Link } from "react-router-dom";
 // import axios from "axios";
 // import axiosInstance from "../../axios";
 // import { useStateValue } from "../StateProvider";
 
-// import "../header/header.css";
+import "../header/header.css";
 
 function Header() {
   const [toggle, setToggle] = useState(false);
   const handleClick = () => setToggle(!toggle);
   const [options, setOptions] = useState("");
+ const [{user}, dispatch] = useStateValue();
 
   // const [{user}, dispatch] = useStateValue();
 
@@ -28,7 +29,7 @@ function Header() {
     setOptions(e.target.value);
   };
 
-  console.log(options);
+  // console.log(options);
 
   
   return (
@@ -40,12 +41,19 @@ function Header() {
             AquaMart.
           </h1>
           <ul className="hidden text-white text-xl md:flex items-center">
+           
+           {user &&  <Link to={"/"}>
+              <li className="cursor-pointer hover:text-sky-400">Home</li>
+            </Link>}
             <Link to={"/"}>
               <li className="cursor-pointer hover:text-sky-400">Home</li>
             </Link>
 
+
             <li className="cursor-pointer hover:text-sky-400">About</li>
+            <Link to={"/list"}>
             <li className="cursor-pointer hover:text-sky-400">Lists</li>
+            </Link>            
             <li className="cursor-pointer hover:text-sky-400">Contact</li>
 
             <Link to={"/addproduct"}>
@@ -60,7 +68,7 @@ function Header() {
             </Link>
             <li>
               <select
-                className="w-19 h-7 font-medium text-lg outline-none border-none text-white focus:border-none bg-transparent"
+                className="w-19 font-medium text-lg outline-none border-none text-white focus:border-none bg-transparent"
                 onChange={onSelectOption}
                 value={options}>
                 <option className="bg-slate-900" value="sell">
@@ -91,7 +99,8 @@ function Header() {
           <Link>
             <button className="bg-transparent flex flex-col items-center justify-center text-xs">
               <AccountCircleIcon className="!w-8 !h-8 text-white hover:text-sky-400 " />
-              {options === "buy" ? "Buyer" : "Seller"}
+              {/* {options === "buy" ? "Buyer" : "Seller"} */}
+              {user ? user : "Guest"}
             </button>
           </Link>
         </div>

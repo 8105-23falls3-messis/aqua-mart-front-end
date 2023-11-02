@@ -13,29 +13,25 @@ function Login() {
  const [{user}, dispatch] = useStateValue();
 
   const navigate = useNavigate();
-  console.log(user.email, "Dispatch Function: ", dispatch);
-  console.log("USER NAME & PASSWORD ", email, password);
+  // console.log(user, "Dispatch Function: ", dispatch);
+  // console.log("USER NAME & PASSWORD ", email, password);
 
 
   //Login
   const handleLogin = async () => {
-    const { success, token, user, error } = await AuthService.login(
+    const { resData } = await AuthService.login(
       email,
       password,
       1
     );
 
-    if (success) {
-      // Login successful
-      // Store the token in your app (e.g., in local storage or a state)
-      // Example using localStorage:
-      localStorage.setItem("jwtToken", token);
-      localStorage.setItem("jwtToken", token);
-        console.log(token);
-        console.log(token.data);
+    if (resData.success) {
+      console.log(resData.token);
+      console.log(resData.msg, resData.user, resData.usermail);
       // Update your app's state to indicate the user is logged in
-      dispatch({ type: "LOGIN", user, token});
-     
+      dispatch({ type: "LOGIN", user: resData.user, token : resData.token});
+      // const item = JSON.stringify(token[0][1]);
+      // console.log(item);
       navigate('/list');
 
       // Redirect to a protected route or perform other actions
@@ -81,7 +77,7 @@ function Login() {
             <input type="checkbox" />
             Keep Me Logged In
           </div>
-          <Link className="btn cursor" to={"/"}>
+          <Link className="btn cursor">
             <a className="cursor" onClick={handleLogin}>Login</a>
           </Link>
           <div className="dont_have_acc">

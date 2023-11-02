@@ -11,6 +11,8 @@ import Register from "./components/register/Register";
 import Footer from "./components/footer/Footer";
 import AddProduct from "./components/addProduct/AddProduct";
 import ProductList from "./components/productList/ProductList";
+import Features from "./components/features/Features";
+
 // import ImageSlider from "./components/home/ImageSlider";
 
 function App() {
@@ -23,7 +25,7 @@ function App() {
             element={
               <>
                 <Header />
-                <ProductList />
+                <Features />
                 <Footer />
               </>
             }

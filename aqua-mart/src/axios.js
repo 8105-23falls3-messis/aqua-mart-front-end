@@ -9,6 +9,7 @@ const axiosInstance = axios.create({
     Authorization: `Bearer ${yourJwtToken}`, // Replace with your JWT token
     'Content-Type': 'application/json', // Set the content type
   },
+  
 });
 
 export default axiosInstance;

@@ -6,7 +6,7 @@ function ProductList() {
   return (
     <>
     {/* <Features /> */}
-    <div class="flex flex-2 items-center justify-center gap-2 flex-wrap product_list scroll-m-1 my-2 py-5 ml-auto">
+    <div class="flex flex-2 items-center justify-center gap-2 flex-wrap product_list scroll-m-1 my-2 py-5 ml-auto pb-8">
     
     <div class="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
         <a href="#">
