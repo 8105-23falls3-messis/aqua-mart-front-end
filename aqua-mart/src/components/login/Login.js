@@ -73,12 +73,9 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="keepSignIn">
-            <input type="checkbox" />
-            Keep Me Logged In
-          </div>
-          <Link className="btn cursor">
-            <a className="cursor" onClick={handleLogin}>Login</a>
+
+          <Link className="cursor login-btn">
+            <a className="cursor" onClick={handleLogin}>Sign In</a>
           </Link>
           <div className="dont_have_acc">
             

@@ -1,74 +1,70 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Lato", sans-serif;
-  text-decoration: none;
-}
 
-.register {
-  position: relative;
-  /* border: 1px solid; */
-  height: calc(100vh - 12vh - 81px);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 1.2rem 0;
-  /* bac  kground-color: #71bef6; */
-  padding-top: 50px;
-}
-
-.register__warpper {
-  position: relative;
-  /* border: 1px solid; */
-  display: flex;
-  flex-direction: column;
-  gap: 10px 0;
+   .register{
+    height: calc(100vh - 15vh - 81px);
+    /* margin-bottom: auto; */
+    /* border: 1px solid; */
+   }
+.register-title{
   text-align: center;
-}
-.register__title h2{
-  font-size: 2rem;
+  color: #000;
   font-weight: bold;
+  font-size: 2.5rem;
+}
+.form-check{
+  text-align: left;
+}
+.register-btn{
+    background: none;
+    /* font-weight: bold; */
+    text-align: center;
+    border: 0;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-weight: bold;
+    background-color: #007cff;
+    color: #ffffff;
+    padding: 0.25rem 2rem;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+  }
+.register-btn:hover{
+  background-color: #000;
+  color: #fff;
 }
 
-.register__label {
-  /* font-size: 15px; */
-  /* border: 2px solid; */
-   display: flex;
-  justify-content: space-between; 
-  gap: 0 1rem;
-}
-.register__label label{
-  font-size: 1.1rem;
-  color: #000;
-}
-.register__label > input {
-  /* display: block; */
-  /* justify-content: right; */
-  width: 250px;
-  height: 35px;
-  border: 1px solid;
-  border-radius: 5px;
-}
-
-.links{
-  margin-top: 1rem;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.register__signup a{
- background-color: #000;
- color: #fff;
- padding: 0.5rem 1.2rem;
- font-size: 1rem;
- border-radius: 10px;
-}
-
-label{
-  color: #000;
-}
+  @media (min-width: 1025px) {
+    .h-custom {
+      height: 100vh !important;
+    }
+  }
+  
+  @media (min-width: 759px) {
+    .card-registration-2 .bg-indigo {
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+  }
+  
+  @media (max-width: 758px) {
+    .card-registration-2 .bg-indigo {
+      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+  }
+  
+  @media (min-width: 759px) {
+    .card-registration-2 .bg-white {
+      border-top-left-radius: 15px;
+      border-bottom-left-radius: 15px;
+    }
+  }
+  
+  @media (max-width: 758px) {
+    .card-registration-2 .bg-white {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+  }

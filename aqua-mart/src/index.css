@@ -11,3 +11,6 @@
     hover:bg-transparent hover:text-sky-500
   }
 }
+body {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+}

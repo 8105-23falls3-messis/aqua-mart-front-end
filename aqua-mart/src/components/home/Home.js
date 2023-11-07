@@ -1,6 +1,7 @@
 import React from "react";
 import "../home/home.css";
 import home_img from "../../images/7368089.jpg";
+import { Link } from "react-router-dom";
 // import ImageSlider from "./ImageSlider";
 import logo from "../../images/Vista Logos/logo-transparent-png.png";
 
@@ -21,7 +22,12 @@ function Home() {
             consequat. Duis aute irure dolor in reprehenderit in voluptate velit
             esse cillum dolore eu fugiat nulla pariatur.{" "}
           </p>
-          <button className="btn">Explore</button>
+        
+          
+         <Link to={"/about"}>
+         <button className="btn">Explore</button>
+          </Link> 
+        
         </div>
       </div>
       <div className="home__img">
