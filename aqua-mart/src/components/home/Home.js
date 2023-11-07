@@ -1,6 +1,7 @@
 import React from "react";
 import "../home/home.css";
 import home_img from "../../images/7368089.jpg";
+import { Link } from "react-router-dom";
 // import ImageSlider from "./ImageSlider";
 import logo from "../../images/Vista Logos/logo-transparent-png.png";
 
@@ -14,21 +15,22 @@ function Home() {
         <div className="home__text-inner">
           <h1 className="home__text-title">This is Aqua-Mart</h1>
           <p className="home__text-para">
-            Sell or Buy things Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-            esse cillum dolore eu fugiat nulla pariatur.{" "}
+            Aqua-Mart is to establish a global online marketplace for the
+            aquaculture industry, facilitating the buying and selling of used
+            equipment, materials, and items. This platform empowers aquaculture
+            professionals, promotes industry sustainability, and enhances the
+            user experience through efficient and secure transactions. Click
+            below to learn more about us.{" "}
           </p>
-          <button className="btn">Explore</button>
+
+          <Link to={"/about"}>
+            <button className="btn">Explore</button>
+          </Link>
         </div>
       </div>
       <div className="home__img">
         <img src={home_img} alt="home_img" />
       </div>
-
-
     </div>
   );
 }

@@ -1,8 +1,30 @@
 .addProduct{
-    height: calc(100vh - 12vh - 82px);
-    border: 1px solid;
+    height: calc(97.3vh - 12vh - 82px);
+    /* border: 1px solid; */
 }
 .register__label label{
-    color: #fff;
+    /* color: #fff; */
     font-size: 18px;
+}
+
+.addItemBtn{
+    background: none;
+    /* font-weight: bold; */
+    text-align: center;
+    border: 0;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-weight: bold;
+    background-color: #007cff;
+    color: #ffffff;
+    padding: 0.25rem 2rem;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+  }
+.addItemBtn:hover{
+  background-color: #000;
+  color: #fff;
 }

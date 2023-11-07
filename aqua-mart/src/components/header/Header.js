@@ -5,6 +5,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useStateValue } from "../StateProvider";
 import { Link } from "react-router-dom";
 // import axios from "axios";
+import axios from '../../axios';
 // import axiosInstance from "../../axios";
 // import { useStateValue } from "../StateProvider";
 
@@ -16,6 +17,22 @@ function Header() {
   const [options, setOptions] = useState("");
  const [{user}, dispatch] = useStateValue();
 
+ const getRoles = async (e) =>{
+  e.preventDefault();
+  try {
+    const response = await axios.get("/user/roles", {
+      headers: { "Content-Type": "application/json" },
+      withCredentials: true,
+    });
+      console.log(response.data)
+    //   console.log(response.accessToken);
+      console.log(JSON.stringify(response));
+
+    //clear the input field
+  } catch (err) {
+    console.log(err)
+  }
+}
   // const [{user}, dispatch] = useStateValue();
 
   // console.log(user);
@@ -31,32 +48,43 @@ function Header() {
 
   // console.log(options);
 
-  
+ 
+
   return (
     <div className="h-[80px] z-10 bg-slate-900 drop-shadow-lg">
       <div className="px-4 flex justify-between items-center w-full h-full">
         {/* px-2 = padding: 0 0.5rem */}
         <div className="flex items-center">
+        <Link to={"/"}>
           <h1 className="text-3xl font-bold mr-4 sm:text-4xl text-white">
             AquaMart.
           </h1>
+          </Link>
           <ul className="hidden text-white text-xl md:flex items-center">
            
-           {user &&  <Link to={"/"}>
+           {/* {user &&  <Link to={"/"}>
               <li className="cursor-pointer hover:text-sky-400">Home</li>
-            </Link>}
+            </Link>} */}
             <Link to={"/"}>
-              <li className="cursor-pointer hover:text-sky-400">Home</li>
+             
+            <li className="cursor-pointer link">Home</li>
+            </Link>
+            <Link to={"/about"}>
+             
+            <li className="cursor-pointer link">About</li>
+
             </Link>
 
 
-            <li className="cursor-pointer hover:text-sky-400">About</li>
-            <Link to={"/list"}>
-            <li className="cursor-pointer hover:text-sky-400">Lists</li>
-            </Link>            
-            <li className="cursor-pointer hover:text-sky-400">Contact</li>
+            <Link to={"/contact"}>
+            <li className="cursor-pointer link">Contact</li>
+            </Link>
 
-            <Link to={"/addproduct"}>
+             {user &&  <Link to={"/addProduct"}>
+              <li className="cursor-pointer hover:text-sky-400">Add Item</li>
+            </Link>}
+            
+            {/* <Link to={"/addproduct"}>
               <li
                 className={
                   options === "sell"
@@ -65,8 +93,8 @@ function Header() {
                 }>
                 Add Product
               </li>
-            </Link>
-            <li>
+            </Link> */}
+            {/* <li>
               <select
                 className="w-19 font-medium text-lg outline-none border-none text-white focus:border-none bg-transparent"
                 onChange={onSelectOption}
@@ -78,10 +106,10 @@ function Header() {
                   Buy
                 </option>
               </select>
-            </li>
+            </li> */}
           </ul>
         </div>
-        <div className="hidden md:flex items-center pr-4">
+        {!user ?  <div className="hidden md:flex items-center pr-4">
           {/* only shows when user not logged or sign up */}
           <Link to={"/login"}>
             <button
@@ -92,18 +120,11 @@ function Header() {
           </Link>
 
           <Link to={"/register"}>
-            <button className="px-8 py-3 mx-4">Sign up</button>
+            <button className="sign-up">Sign up</button>
           </Link>
-          {/* only shows when user logged in*/}
-
-          <Link>
-            <button className="bg-transparent flex flex-col items-center justify-center text-xs">
-              <AccountCircleIcon className="!w-8 !h-8 text-white hover:text-sky-400 " />
-              {/* {options === "buy" ? "Buyer" : "Seller"} */}
-              {user ? user : "Guest"}
-            </button>
-          </Link>
-        </div>
+        </div> : ''}
+       
+          
         <div
           className="md:hidden cursor-pointer bg-sky-400"
           onClick={handleClick}>
@@ -124,7 +145,6 @@ function Header() {
         <li className="border-b-2 border-gray-900 w-full">Contact</li>
         <div className="flex flex-col my-4">
           <button className="bg-transparent text-sky-500 px-8 py-3 mb-4">
-            {" "}
             Sign In
           </button>
           <button className="px-8 py-3"> Sign Up </button>

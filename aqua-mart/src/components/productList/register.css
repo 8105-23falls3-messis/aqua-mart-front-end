@@ -1,0 +1,145 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Lato", sans-serif;
+  text-decoration: none;
+}
+
+.register {
+  position: relative;
+  border: 1px solid;
+  height: 100vh;
+  /* height: calc(100vh - 12vh - 81px); */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.2rem 0;
+  /* bac  kground-color: #71bef6; */
+  /* padding-top: 50px; */
+}
+
+.register__warpper {
+  position: relative;
+  /* border: 1px solid; */
+  display: flex;
+  flex-direction: column;
+  gap: 10px 0;
+  text-align: center;
+}
+.register__title h2{
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.register__label {
+  position: relative;
+  /* font-size: 15px; */
+  /* border: 2px solid; */
+   display: flex;
+  justify-content: space-between; 
+  gap: 0 1rem;
+}
+.register__label label{
+  font-size: 1.1rem;
+  color: #000;
+}
+.register__label > input {
+  /* display: block; */
+  /* justify-content: right; */
+  width: 250px;
+  height: 35px;
+  border: 1px solid;
+  border-radius: 5px;
+}
+
+.links{
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.register__signup a{
+ background-color: #000;
+ color: #fff;
+ padding: 0.5rem 1.2rem;
+ font-size: 1rem;
+ border-radius: 10px;
+}
+
+.register__label label{
+  color: #000;
+}
+.register__warpper a, a:visited {
+  color: #fff;
+}
+
+.register__warpper input[type="text"],
+.register__warpper input[type="password"],
+.register__warpper button,
+.register__warpper textarea {
+font-family: 'Nunito', sans-serif;
+font-size: 22px;
+padding: 0.25rem;
+border-radius: 0.5rem;
+}
+
+.register__warpper label,
+.register__warpper button {
+margin-top: 1rem;
+}
+
+.register__warpper button {
+padding: 0.5rem;
+}
+
+.register__warpper .instructions {
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  background: #000;
+  color: #fff;
+  padding: 0.25rem;
+  position: absolute;
+  /* top: 0px; */
+  left: -55%;
+  /* left: -30%; */
+}
+
+.register__warpper .instructions > svg {
+  margin-right: 0.25rem;
+}
+
+.register__warpper .offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.register__warpper .hide {
+  display: none;
+}
+
+.register__warpper .valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+
+.register__warpper .invalid {
+  color: red;
+  margin-left: 0.25rem;
+}
+
+.register__warpper .errmsg {
+  background-color: lightpink;
+  color: firebrick;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.register__warpper .line {
+  display: inline-block;
+}
