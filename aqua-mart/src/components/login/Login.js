@@ -10,34 +10,29 @@ import { useStateValue } from "../StateProvider";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
- const [{user}, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
 
   const navigate = useNavigate();
   // console.log(user, "Dispatch Function: ", dispatch);
   // console.log("USER NAME & PASSWORD ", email, password);
 
-
   //Login
   const handleLogin = async () => {
-    const { resData } = await AuthService.login(
-      email,
-      password,
-      1
-    );
+    const { resData } = await AuthService.login(email, password, 1);
 
     if (resData.success) {
       console.log(resData.token);
       console.log(resData.msg, resData.user, resData.usermail);
       // Update your app's state to indicate the user is logged in
-      dispatch({ type: "LOGIN", user: resData.user, token : resData.token});
+      dispatch({ type: "LOGIN", user: resData.user, token: resData.token });
       // const item = JSON.stringify(token[0][1]);
       // console.log(item);
-      navigate('/list');
+      navigate("/list");
 
       // Redirect to a protected route or perform other actions
     } else {
       // Login failed
-      console.error("Login failed:", error);
+      console.error("Login failed:");
       // Handle login failure, show an error message, etc.
     }
   };
@@ -45,13 +40,14 @@ function Login() {
 
   return (
     <div className="login">
-
       <div className="login__wrapper">
         <div className="login__logo">
           <div className="logo">
             <img src={logo} alt="logo" />
           </div>
-          <p>Welcome to <span className="color_change">AQUAMART</span></p>
+          <p>
+            Welcome to <span className="color_change">AQUAMART</span>
+          </p>
         </div>
 
         <div className="login__form">
@@ -78,10 +74,11 @@ function Login() {
             Keep Me Logged In
           </div>
           <Link className="btn cursor">
-            <a className="cursor" onClick={handleLogin}>Login</a>
+            <a className="cursor" onClick={handleLogin}>
+              Login
+            </a>
           </Link>
           <div className="dont_have_acc">
-            
             <Link to={"/register"}>
               <p>Don't have an account?</p>
             </Link>
