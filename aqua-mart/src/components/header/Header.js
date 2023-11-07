@@ -3,9 +3,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useStateValue } from "../StateProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import axios from "axios";
-import axios from '../../axios';
+import axios from "../../axios";
 // import axiosInstance from "../../axios";
 // import { useStateValue } from "../StateProvider";
 
@@ -15,24 +15,26 @@ function Header() {
   const [toggle, setToggle] = useState(false);
   const handleClick = () => setToggle(!toggle);
   const [options, setOptions] = useState("");
- const [{user}, dispatch] = useStateValue();
+  const [{ user, token}, dispatch] = useStateValue();
 
- const getRoles = async (e) =>{
-  e.preventDefault();
-  try {
-    const response = await axios.get("/user/roles", {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    });
-      console.log(response.data)
-    //   console.log(response.accessToken);
+  const navigate = useNavigate();
+
+  const getRoles = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get("/user/roles", {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+      console.log(response.data);
+      //   console.log(response.accessToken);
       console.log(JSON.stringify(response));
 
-    //clear the input field
-  } catch (err) {
-    console.log(err)
-  }
-}
+      //clear the input field
+    } catch (err) {
+      console.log(err);
+    }
+  };
   // const [{user}, dispatch] = useStateValue();
 
   // console.log(user);
@@ -48,42 +50,58 @@ function Header() {
 
   // console.log(options);
 
- 
+  const logOut = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "/user/logOut",
+        JSON.stringify({
+          token: token
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      dispatch({ type: "LOGIN", user: null, token: null });
+      console.log("Log out success!")
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="h-[80px] z-10 bg-slate-900 drop-shadow-lg">
       <div className="px-4 flex justify-between items-center w-full h-full">
         {/* px-2 = padding: 0 0.5rem */}
         <div className="flex items-center">
-        <Link to={"/"}>
-          <h1 className="text-3xl font-bold mr-4 sm:text-4xl text-white">
-            AquaMart.
-          </h1>
+          <Link to={"/"}>
+            <h1 className="text-3xl font-bold mr-4 sm:text-4xl text-white">
+              AquaMart.
+            </h1>
           </Link>
           <ul className="hidden text-white text-xl md:flex items-center">
-           
-           {/* {user &&  <Link to={"/"}>
+            {/* {user &&  <Link to={"/"}>
               <li className="cursor-pointer hover:text-sky-400">Home</li>
             </Link>} */}
             <Link to={"/"}>
-             
-            <li className="cursor-pointer link">Home</li>
+              <li className="cursor-pointer link">Home</li>
             </Link>
             <Link to={"/about"}>
-             
-            <li className="cursor-pointer link">About</li>
-
+              <li className="cursor-pointer link">About</li>
             </Link>
-
 
             <Link to={"/contact"}>
-            <li className="cursor-pointer link">Contact</li>
+              <li className="cursor-pointer link">Contact</li>
             </Link>
 
-             {user &&  <Link to={"/addProduct"}>
-              <li className="cursor-pointer hover:text-sky-400">Add Item</li>
-            </Link>}
-            
+            {user && (
+              <Link to={"/addProduct"}>
+                <li className="cursor-pointer hover:text-sky-400">Add Item</li>
+              </Link>
+            )}
+
             {/* <Link to={"/addproduct"}>
               <li
                 className={
@@ -109,22 +127,25 @@ function Header() {
             </li> */}
           </ul>
         </div>
-        {!user ?  <div className="hidden md:flex items-center pr-4">
-          {/* only shows when user not logged or sign up */}
-          <Link to={"/login"}>
-            <button
-              className="border-none bg-transparent text-white"
-              >
-              Sign In
-            </button>
-          </Link>
+        {!user ? (
+          <div className="hidden md:flex items-center pr-4">
+            {/* only shows when user not logged or sign up */}
+            <Link to={"/login"}>
+              <button className="border-none bg-transparent text-white">
+                Sign In
+              </button>
+            </Link>
 
-          <Link to={"/register"}>
-            <button className="sign-up">Sign up</button>
-          </Link>
-        </div> : ''}
-       
-          
+            <Link to={"/register"}>
+              <button className="sign-up">Sign up</button>
+            </Link>
+          </div>
+        ) : (
+          <button onClick={logOut} className="sign-up">
+            Sign Out
+          </button>
+        )}
+
         <div
           className="md:hidden cursor-pointer bg-sky-400"
           onClick={handleClick}>

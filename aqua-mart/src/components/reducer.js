@@ -13,6 +13,7 @@ export const initialState = {
         return {
           ...state,
           user: action.user,
+          
           token: action.token,
         };
       default:
