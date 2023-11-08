@@ -13,6 +13,7 @@ import {
 import axios from "../../axios";
 // import axiosInstance from "../../axios";
 import "../register/register.css";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [fname, setFname] = useState("");
@@ -28,6 +29,8 @@ function Register() {
   const [postalCode, setPostalCode] = useState("");
   const [province, setProvince] = useState("");
   const [country, setCountry] = useState("");
+  
+  const navigate = useNavigate();
 
   //   console.log(role);
   const handleSubmit = async (e) => {
@@ -53,11 +56,13 @@ function Register() {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
-      );
+        );
+        
       //   console.log(response.data)
       //   console.log(response.accessToken);
       console.log(JSON.stringify(response));
       if (response.data.status === 200) {
+        navigate("/list");
         // Registration was successful, you can redirect or show a success message.
         console.log("Registration successful");
       } else if (response.data.status === 200 && response.data.msg === "Account exist!") {

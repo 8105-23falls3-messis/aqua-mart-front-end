@@ -15,7 +15,7 @@ import Features from "./components/features/Features";
 import Register from "./components/register/Register";
 import About from "./components/about/About";
 import Contact from "./components/contact/Contact";
-
+import ProductPage from "./components/productPage/ProductPage";
 // import ImageSlider from "./components/home/ImageSlider";
 
 function App() {
@@ -23,6 +23,16 @@ function App() {
     <div className="app">
       <Router>
         <Routes>
+          <Route
+            path="/productdetails"
+            element={
+              <>
+                <Header />
+                <ProductPage />
+                <Footer />
+              </>
+            }
+          />
           <Route
             path="/contact"
             element={
