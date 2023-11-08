@@ -36,7 +36,6 @@ function Register() {
       const response = await axios.post(
         "/user/register",
         JSON.stringify({
-          Name: "Random",
           firstName: fname,
           midName: mname,
           lastName: lname,
@@ -58,10 +57,10 @@ function Register() {
       //   console.log(response.data)
       //   console.log(response.accessToken);
       console.log(JSON.stringify(response));
-      if (response.data.code === 200 && response.data.msg === "succeed") {
+      if (response.data.status === 200) {
         // Registration was successful, you can redirect or show a success message.
         console.log("Registration successful");
-      } else if (response.data.code === 200 && response.data.msg === "exist") {
+      } else if (response.data.status === 200 && response.data.msg === "Account exist!") {
         // User already exists
         console.log("User with the same email already exists");
       } else {
@@ -166,7 +165,7 @@ function Register() {
                           label="Date of Birth"
                           size="lg"
                           id="form4"
-                          type="text"
+                          type="date"
                           onChange={(e) => setDob(e.target.value)}
                           required
                         />

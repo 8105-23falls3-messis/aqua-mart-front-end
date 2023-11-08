@@ -73,7 +73,7 @@ function Login() {
             <input type="checkbox" />
             Keep Me Logged In
           </div>
-          <Link className="btn cursor">
+          <Link className="login-btn cursor">
             <a className="cursor" onClick={handleLogin}>
               Login
             </a>
