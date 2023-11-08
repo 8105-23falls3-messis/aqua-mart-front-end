@@ -1,0 +1,22 @@
+.img-container{
+    /* border: 2px solid; */
+    /* width: 80%; */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.img-holder{
+    /* border: 3px solid rebeccapurple; */
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    width: 50%;
+    
+}
+.contact-btn{
+    background-color: #007cff;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    font-weight: bold;
+}

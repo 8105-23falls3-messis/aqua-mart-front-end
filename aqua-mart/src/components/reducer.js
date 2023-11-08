@@ -13,9 +13,17 @@ export const initialState = {
         return {
           ...state,
           user: action.user,
-          
+          userId: action.userId,
           token: action.token,
         };
+
+        case "USER": {
+          return{
+            ...state,
+            details : action.details,
+          }
+        }
+
       default:
         return state;
     }

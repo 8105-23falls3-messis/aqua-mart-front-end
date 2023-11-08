@@ -1,6 +1,7 @@
 import React from "react";
 import "../productList/productList.css";
 import Features from "../features/Features";
+import { Link } from "react-router-dom";
 
 function ProductList() {
   return (
@@ -67,7 +68,9 @@ function ProductList() {
               href="#"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
+              <Link to={"/productdetails"}>
               Read more
+              </Link>
               <svg
                 class="-mr-1 ml-2 h-4 w-4"
                 fill="currentColor"

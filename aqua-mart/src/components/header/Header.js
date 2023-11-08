@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "../../axios";
 // import axiosInstance from "../../axios";
 // import { useStateValue } from "../StateProvider";
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import "../header/header.css";
 
@@ -15,26 +16,26 @@ function Header() {
   const [toggle, setToggle] = useState(false);
   const handleClick = () => setToggle(!toggle);
   const [options, setOptions] = useState("");
-  const [{ user, token}, dispatch] = useStateValue();
+  const [{ user, token, userId}, dispatch] = useStateValue();
 
   const navigate = useNavigate();
 
-  const getRoles = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.get("/user/roles", {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
-      console.log(response.data);
-      //   console.log(response.accessToken);
-      console.log(JSON.stringify(response));
+  // const getRoles = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await axios.get("/user/roles", {
+  //       headers: { "Content-Type": "application/json" },
+  //       withCredentials: true,
+  //     });
+  //     console.log(response.data);
+  //     //   console.log(response.accessToken);
+  //     console.log(JSON.stringify(response));
 
-      //clear the input field
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  //     //clear the input field
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   // const [{user}, dispatch] = useStateValue();
 
   // console.log(user);
@@ -63,13 +64,35 @@ function Header() {
           withCredentials: true,
         }
       );
-      dispatch({ type: "LOGIN", user: null, token: null });
+      dispatch({ type: "LOGIN", user: null, userId: null, token: null });
       console.log("Log out success!")
       navigate("/");
     } catch (err) {
       console.log(err);
     }
   };
+  console.log(userId);
+  const getUser = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get(
+        `/user/userProfile?userId=${userId}`,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      dispatch({ type: "USER",  details: response.data.content});
+
+      console.log(response);
+      navigate("/user");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+    // "email":"amirpashamughal56@hotmail.com",
+    // "password":"123456",
+    
 
   return (
     <div className="h-[80px] z-10 bg-slate-900 drop-shadow-lg">
@@ -97,9 +120,14 @@ function Header() {
             </Link>
 
             {user && (
+              <>
               <Link to={"/addProduct"}>
-                <li className="cursor-pointer hover:text-sky-400">Add Item</li>
+                <li className="cursor-pointer link">Add Item</li>
               </Link>
+              <Link to={"/list"}>
+                <li className="cursor-pointer link">List</li>
+              </Link>
+              </>
             )}
 
             {/* <Link to={"/addproduct"}>
@@ -127,6 +155,7 @@ function Header() {
             </li> */}
           </ul>
         </div>
+       
         {!user ? (
           <div className="hidden md:flex items-center pr-4">
             {/* only shows when user not logged or sign up */}
@@ -141,9 +170,17 @@ function Header() {
             </Link>
           </div>
         ) : (
+          <div className="userFunctions">
+             <div className="userProfile">
+              <Link onClick={getUser}>
+            <AccountCircleIcon className="profileIcon"/>
+            {user && <span>{user}</span>}
+              </Link>
+        </div>
           <button onClick={logOut} className="sign-up">
             Sign Out
           </button>
+            </div>
         )}
 
         <div

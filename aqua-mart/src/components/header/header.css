@@ -12,3 +12,31 @@
 .link:hover{
     color: #0099ff;
 }
+.userFunctions{
+    /* border: 1px solid #fff; */
+    display: flex; 
+    cursor: pointer;   
+}
+.userProfile{
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding-right: 10px;
+}
+.userFunctions:hover .profileIcon,
+.userFunctions:hover .userProfile span{
+    color: #0099ff;
+}
+.profileIcon{
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    color: #fff;
+    /* font-size: 3rem; */
+}
+.userProfile span{
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1rem;
+}

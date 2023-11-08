@@ -16,6 +16,8 @@ import Register from "./components/register/Register";
 import About from "./components/about/About";
 import Contact from "./components/contact/Contact";
 import ProductPage from "./components/productPage/ProductPage";
+import Profile from "./components/ProfilePage/Profile";
+
 // import ImageSlider from "./components/home/ImageSlider";
 
 function App() {
@@ -24,11 +26,21 @@ function App() {
       <Router>
         <Routes>
           <Route
+            path="/user"
+            element={
+              <>
+                <Header />
+                <Profile/>
+                <Footer />
+              </>
+            }
+          />
+          <Route
             path="/productdetails"
             element={
               <>
                 <Header />
-                <ProductPage />
+                <ProductPage/>
                 <Footer />
               </>
             }
