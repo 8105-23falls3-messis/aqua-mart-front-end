@@ -14,6 +14,7 @@ export const initialState = {
           ...state,
           user: action.user,
           userId: action.userId,
+          idRole: action.idRole,
           token: action.token,
         };
 

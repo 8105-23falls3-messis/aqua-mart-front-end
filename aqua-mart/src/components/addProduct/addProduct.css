@@ -1,6 +1,11 @@
+.mce-empty {
+  display: none !important;
+}
+.tox-statusbar {
+  display: none !important;
+}
 .addProduct{
-    height: calc(97.3vh - 12vh - 82px);
-    /* border: 1px solid; */
+  height: calc(100vh - 15vh - 81px);    /* border: 1px solid; */
 }
 .register__label label{
     /* color: #fff; */
@@ -27,4 +32,13 @@
 .addItemBtn:hover{
   background-color: #000;
   color: #fff;
+}
+.addproduct-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.addProduct-title{
+  /* font-family: 'Times New Roman', Times, serif; */
+  font-weight: bold;
 }

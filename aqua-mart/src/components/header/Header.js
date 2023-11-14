@@ -16,7 +16,7 @@ function Header() {
   const [toggle, setToggle] = useState(false);
   const handleClick = () => setToggle(!toggle);
   const [options, setOptions] = useState("");
-  const [{ user, token, userId}, dispatch] = useStateValue();
+  const [{ user, token, userId, idRole}, dispatch] = useStateValue();
 
   const navigate = useNavigate();
 
@@ -71,7 +71,7 @@ function Header() {
       console.log(err);
     }
   };
-  console.log(userId);
+  // console.log(userId);
   const getUser = async (e) => {
     e.preventDefault();
     try {
@@ -93,7 +93,7 @@ function Header() {
     // "email":"amirpashamughal56@hotmail.com",
     // "password":"123456",
     
-
+    console.log(idRole);
   return (
     <div className="h-[80px] z-10 bg-slate-900 drop-shadow-lg">
       <div className="px-4 flex justify-between items-center w-full h-full">
@@ -119,16 +119,19 @@ function Header() {
               <li className="cursor-pointer link">Contact</li>
             </Link>
 
-            {user && (
+            {user ? (
               <>
-              <Link to={"/addProduct"}>
-                <li className="cursor-pointer link">Add Item</li>
-              </Link>
               <Link to={"/list"}>
                 <li className="cursor-pointer link">List</li>
               </Link>
+              {idRole == 1 && (
+              <Link to={"/addProduct"}>
+                <li className="cursor-pointer link">Add Item</li>
+              </Link>
+              )} 
               </>
-            )}
+            ) : ''}
+            
 
             {/* <Link to={"/addproduct"}>
               <li

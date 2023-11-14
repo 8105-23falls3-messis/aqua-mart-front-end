@@ -62,7 +62,7 @@ function Register() {
       //   console.log(response.accessToken);
       console.log(JSON.stringify(response));
       if (response.data.status === 200) {
-        navigate("/list");
+        navigate("/login");
         // Registration was successful, you can redirect or show a success message.
         console.log("Registration successful");
       } else if (response.data.status === 200 && response.data.msg === "Account exist!") {

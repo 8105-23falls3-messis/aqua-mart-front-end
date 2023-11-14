@@ -30,35 +30,43 @@ function Profile() {
   const [province, setProvince] = useState("");
   const [country, setCountry] = useState("");
 
-  const [{ user, response, details }, dispatch] = useStateValue();
+  const [{ user, response, details, userId }, dispatch] = useStateValue();
 
-  // const [isEditMode, setIsEditMode] = useState(false);
-  // const toggleEditMode = () => {
-  //   setIsEditMode((prev) => !prev);
-  // };
+  const setUser = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        `/user/updateUser`,
+        JSON.stringify({
+          firstName: fname,
+          midName: mname,
+          lastName: lname,
+          email: email,
+          dateOfBirth: dob,
+          address: add,
+          city: city,
+          id: userId,
+          province: province,
+          country: country,
+          postalCode: postalCode,
+          password: psw,
+          idRole: role,
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      dispatch({ type: "USER", details: response.data.content });
 
+      console.log(response);
+      navigate("/user");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-
-  // const updateUserProfile = async () => {
-  //   try {
-  //     if (isEditMode) {
-  //       // Prepare the user data to send to the server
-  //       const userData = {
-  //         firstName: fname,
-  //         // Add other fields as needed
-  //       };
-  
-  //       // Make an API request to update the user's profile with userData
-  //       // ...
-  
-  //       // Toggle back to view mode after updating
-  //       toggleEditMode();
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating user profile", error);
-  //   }
-  // };
-  
+  var bDate = new Date(details.dateOfBirth).toLocalTimeString();
   // const getUser = async (e) => {
   //   e.preventDefault();
   //   try {
@@ -87,7 +95,7 @@ function Profile() {
        </h1> */}
       <MDBContainer fluid className="register">
         <MDBRow className="d-flex justify-content-center align-items-center h-100">
-          <form className="d-flex justify-content-center align-items-center w-100">
+          <form className="d-flex justify-content-center align-items-center w-100" onSubmit={setUser}>
             <MDBCol col="" className="">
               <MDBCard className="" style={{ borderRadius: "" }}>
                 <MDBCardBody className="text-center">
@@ -119,7 +127,6 @@ function Profile() {
                             // value={details.firstName}
                             // value={isEditMode ? fname : details.firstName}
                             size="lg"
-                            
                             id="form1"
                             type="text"
                             onChange={(e) => setFname(e.target.value)}
@@ -130,9 +137,9 @@ function Profile() {
 
                         <MDBCol md="12">
                           <MDBInput
-                            value={details.midName}
+                            label={details.midName}
                             wrapperClass="mb-4"
-                            label="Middle Name"
+                            // label="Middle Name"
                             size="lg"
                             id="form1"
                             type="text"
@@ -144,11 +151,11 @@ function Profile() {
                         <MDBCol md="12">
                           <MDBInput
                             wrapperClass="mb-4"
-                            label="Last Name"
+                            // label="Last Name"
                             size="lg"
                             id="form2"
                             type="text"
-                            value={details.lastName}
+                            label={details.lastName}
                             // value={response.lastName}
                             onChange={(e) => setLname(e.target.value)}
                             required
@@ -178,8 +185,9 @@ function Profile() {
                         <MDBCol md="6">
                           <MDBInput
                             wrapperClass="mb-4"
-                            label="Date of Birth"
-                            value={details.dateOfBirth}
+                            // label="Date of Birth"
+                            
+                            label={details.dateOfBirth}
                             size="lg"
                             id="form4"
                             type="date"
@@ -190,11 +198,12 @@ function Profile() {
 
                         <MDBCol md="6">
                           <select
-                            id="countries"
+                            id="roles"
                             size="lg"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value={details.idRole}
-                            onChange={(e) => setRole(e.target.value)}>
+                            // value={details.idRole}
+                            onChange={(e) => setRole(e.target.value)}
+                            label={details.idRole}>
                             <option selected>Choose a Role</option>
 
                             <option value="2">Buyer</option>
@@ -206,9 +215,9 @@ function Profile() {
                       <MDBInput
                         wrapperClass="mb-4"
                         labelClass="text-black"
-                        label="Your Email"
+                        label={details.email}
                         size="lg"
-                        value={details.email}
+                        // value={details.email}
                         id="form8"
                         type="email"
                         onChange={(e) => setEmail(e.target.value)}
@@ -217,8 +226,8 @@ function Profile() {
                       <MDBInput
                         wrapperClass="mb-4"
                         labelClass="text-black"
-                        label="Password"
-                        value={details.password}
+                        label="Enter Password to Update"
+                        // value={details.password}
                         size="lg"
                         id="form6"
                         type="text"
@@ -236,8 +245,8 @@ function Profile() {
                       <MDBInput
                         wrapperClass="mb-4"
                         labelClass="text-black"
-                        label="Address Line 1"
-                        value={details.address}
+                        // label="Address Line 1"
+                        label={details.address}
                         size="lg"
                         id="form5"
                         type="text"
@@ -250,8 +259,8 @@ function Profile() {
                           <MDBInput
                             wrapperClass="mb-4"
                             labelClass="text-black"
-                            label="Zip Code"
-                            value={details.postalCode}
+                            // label="Zip Code"
+                            label={details.postalCode}
                             size="lg"
                             id="form6"
                             type="text"
@@ -264,8 +273,8 @@ function Profile() {
                           <MDBInput
                             wrapperClass="mb-4"
                             labelClass="text-black"
-                            label="City"
-                            value={details.city}
+                            // label="City"
+                            label={details.city}
                             size="lg"
                             id="form7"
                             type="text"
@@ -278,8 +287,8 @@ function Profile() {
                       <MDBInput
                         wrapperClass="mb-4"
                         labelClass="text-black"
-                        label="Country"
-                        value={details.country}
+                        // label="Country"
+                        label={details.country}
                         // value={response.country}
                         size="lg"
                         id="form8"
@@ -293,9 +302,9 @@ function Profile() {
                           <MDBInput
                             wrapperClass="mb-4"
                             labelClass="text-black"
-                            label="Province"
+                            // label="Province"
                             size="lg"
-                            value={details.province}
+                            label={details.province}
                             id="form9"
                             type="text"
                             onChange={(e) => setProvince(e.target.value)}
@@ -307,7 +316,7 @@ function Profile() {
                           <MDBInput
                             wrapperClass="mb-4"
                             labelClass="text-black"
-                            label="Phone Number"
+                            label={details.province}
                             // value={response.province}
                             size="lg"
                             id="form10"

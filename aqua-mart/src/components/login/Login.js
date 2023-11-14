@@ -20,10 +20,12 @@ function Login() {
   // console.log(response);
   //Login
   const handleLogin = async () => {
-    const { resData } = await AuthService.login(email, password, 2);
+    const { resData } = await AuthService.login(email, password, role);
     if (resData.success) {
       // console.log(resData.response.data.content.user);
       console.log(resData.response.data.content.user.id);
+      console.log(resData.response.data.content.user);
+
       // console.log(resData.token);
       // console.log(resData.msg, resData.user, resData.usermail);
       // Update your app's state to indicate the user is logged in
@@ -32,6 +34,7 @@ function Login() {
         user: resData.user,
         token: resData.token,
         userId: resData.response.data.content.user.id,
+        idRole: resData.response.data.content.user.idRole,
       });
       // const item = JSON.stringify(token[0][1]);
       // console.log(item);
@@ -77,11 +80,11 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          {/* <div className="login__input">
+          {/* <div className="login__input"> */}
             <select
               id="countries"
               size="lg"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="bg-gray-50 border-solid border-black text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={role}
               onChange={(e) => setRole(e.target.value)}>
               <option selected>Choose a Role</option>
@@ -89,17 +92,17 @@ function Login() {
               <option value="2">Buyer</option>
               <option value="1">Seller</option>
             </select>
-          </div> */}
-          <div className="keepSignIn">
+          {/* </div> */}
+          {/* <div className="keepSignIn">
             <input type="checkbox" />
             Keep Me Logged In
-          </div>
+          </div> */}
           <Link className="login-btn cursor">
             <a className="cursor" onClick={handleLogin}>
               Login
             </a>
           </Link>
-          <div className="dont_have_acc">
+          <div className="dont_have_acc text-center">
             <Link to={"/register"}>
               <p>Don't have an account?</p>
             </Link>
