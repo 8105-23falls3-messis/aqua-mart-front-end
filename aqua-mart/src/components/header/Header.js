@@ -1,54 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useStateValue } from "../StateProvider";
 import { Link, useNavigate } from "react-router-dom";
-// import axios from "axios";
 import axios from "../../axios";
-// import axiosInstance from "../../axios";
-// import { useStateValue } from "../StateProvider";
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import "../header/header.css";
 
 function Header() {
   const [toggle, setToggle] = useState(false);
   const handleClick = () => setToggle(!toggle);
-  const [options, setOptions] = useState("");
-  const [{ user, token, userId, idRole}, dispatch] = useStateValue();
+
+  const [{ user, token, userId, idRole, storedUser, storedToken }, dispatch] =
+    useStateValue();
 
   const navigate = useNavigate();
 
-  // const getRoles = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.get("/user/roles", {
-  //       headers: { "Content-Type": "application/json" },
-  //       withCredentials: true,
-  //     });
-  //     console.log(response.data);
-  //     //   console.log(response.accessToken);
-  //     console.log(JSON.stringify(response));
-
-  //     //clear the input field
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-  // const [{user}, dispatch] = useStateValue();
-
-  // console.log(user);
-  //   axios.get('http://18.226.27.5:8081/user/login').then((response)=>{
-  //     console.log(response.data);
-  //   })
-  //   .catch((error)=>{
-  //     console.log("Req Failed: ", error);
-  //   })
-  const onSelectOption = (e) => {
-    setOptions(e.target.value);
+  const getUserInfo = () => {
+    return localStorage.getItem("user");
+  };
+  const getToken = () => {
+    return localStorage.getItem("token");
   };
 
+  const userInfo = getUserInfo();
+  const userInfoObj = JSON.parse(userInfo);
+  console.log("User", userInfoObj);
+
+  const tokenInfo = getToken();
+  const tokenObj = JSON.parse(tokenInfo);
+  console.log("Token", tokenInfo);
+  console.log("TokenOBJ", tokenObj);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
+    if (storedUser) {
+      dispatch({ type: "SET_USER", storedUser: JSON.parse(storedUser) });
+    }
+    if (storedToken) {
+      dispatch({ type: "SET_TOKEN", storedToken: JSON.parse(storedToken) });
+    }
+  }, [dispatch]);
+
+  // console.log(storedUser, storedToken);
+
+  const handleLinkClick = (path) => {
+    setToggle(false);
+    navigate(path);
+    console.log(path);
+  };
   // console.log(options);
 
   const logOut = async (e) => {
@@ -57,16 +59,21 @@ function Header() {
       const response = await axios.post(
         "/user/logOut",
         JSON.stringify({
-          token: token
+          token: token,
         }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      dispatch({ type: "SET_USER", storedUser: null });
+      dispatch({ type: "SET_TOKEN", storedToken: null });
       dispatch({ type: "LOGIN", user: null, userId: null, token: null });
-      console.log("Log out success!")
+      console.log("Log out success!");
       navigate("/");
+      setToggle(false);
     } catch (err) {
       console.log(err);
     }
@@ -75,14 +82,11 @@ function Header() {
   const getUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(
-        `/user/userProfile?userId=${userId}`,
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      dispatch({ type: "USER",  details: response.data.content});
+      const response = await axios.get(`/user/userProfile?userId=${userId}`, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+      dispatch({ type: "USER", details: response.data.content });
 
       console.log(response);
       navigate("/user");
@@ -90,103 +94,150 @@ function Header() {
       console.log(err);
     }
   };
-    // "email":"amirpashamughal56@hotmail.com",
-    // "password":"123456",
-    
-    console.log(idRole);
+  const getProvinces = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get("user/provinces", {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+      dispatch({ type: "PROVINCES", provinces: response.data.content });
+
+      console.log(response);
+      navigate("/register");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  console.log(storedToken);
+  const getProducts = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get(
+        "product/products",
+        JSON.stringify({
+          condition1: null,
+          condition2: null,
+          pageNum: 1,
+          pageSize: 4
+        }),
+        {
+          headers: { "Content-Type": "application/json", "token": storedToken},
+          withCredentials: true,
+        }
+      );
+        console.log("products are here!")
+      console.log(response);
+      navigate("/list");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const category = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get("/product/categories", {
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${storedToken}` },
+        withCredentials: true,
+      });
+      dispatch({ type: "PRODUCT", category: response.data.content });
+
+      console.log(response);
+      navigate("/addproduct");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <div className="h-[80px] z-10 bg-slate-900 drop-shadow-lg">
-      <div className="px-4 flex justify-between items-center w-full h-full">
+    <div className="h-20 z-10 bg-slate-900 drop-shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between align-items-center h-full">
         {/* px-2 = padding: 0 0.5rem */}
-        <div className="flex items-center">
+        <div className="d-flex align-items-center">
           <Link to={"/"}>
-            <h1 className="text-3xl font-bold mr-4 sm:text-4xl text-white">
+            <h1 className="logo-title text-2xl sm:text-3xl font-bold text-white mr-6">
               AquaMart.
             </h1>
           </Link>
-          <ul className="hidden text-white text-xl md:flex items-center">
+          <ul className="hidden desktop-menu mt-2 md:flex align-items-center space-x-4 text-white text-lg ">
             {/* {user &&  <Link to={"/"}>
               <li className="cursor-pointer hover:text-sky-400">Home</li>
             </Link>} */}
-            <Link to={"/"}>
-              <li className="cursor-pointer link">Home</li>
-            </Link>
-            <Link to={"/about"}>
-              <li className="cursor-pointer link">About</li>
+           {!storedUser ? ( <Link className="text-white" to={"/"}>
+              <li className="link">Home</li>
+            </Link>) : ("")
+           }
+           
+            <Link
+              className="text-white cursor-pointer hover:text-sky-400"
+              to={"/about"}>
+              <li className="link">About</li>
             </Link>
 
-            <Link to={"/contact"}>
-              <li className="cursor-pointer link">Contact</li>
+            <Link className="text-white" to={"/contact"}>
+              <li className="link">Contact</li>
             </Link>
 
-            {user ? (
+            {userInfoObj ? (
               <>
-              <Link to={"/list"}>
-                <li className="cursor-pointer link">List</li>
-              </Link>
-              {idRole == 1 && (
-              <Link to={"/addProduct"}>
-                <li className="cursor-pointer link">Add Item</li>
-              </Link>
-              )} 
+                <Link className="text-white" onClick={getProducts}>
+                  <li className="link">List</li>
+                </Link>
+                {userInfoObj.idRole == 1 && (
+                  <Link className="text-white"  onClick={category}>
+                    <li className="link">Add Item</li>
+                  </Link>
+                )}
               </>
-            ) : ''}
-            
-
-            {/* <Link to={"/addproduct"}>
-              <li
-                className={
-                  options === "sell"
-                    ? "cursor-pointer hover:text-sky-400"
-                    : "hidden"
-                }>
-                Add Product
-              </li>
-            </Link> */}
-            {/* <li>
-              <select
-                className="w-19 font-medium text-lg outline-none border-none text-white focus:border-none bg-transparent"
-                onChange={onSelectOption}
-                value={options}>
-                <option className="bg-slate-900" value="sell">
-                  Sell
-                </option>
-                <option className="bg-slate-900" value="buy">
-                  Buy
-                </option>
-              </select>
-            </li> */}
+            ) : (
+              ""
+            )}
           </ul>
         </div>
-       
-        {!user ? (
-          <div className="hidden md:flex items-center pr-4">
-            {/* only shows when user not logged or sign up */}
-            <Link to={"/login"}>
-              <button className="border-none bg-transparent text-white">
-                Sign In
-              </button>
-            </Link>
-
-            <Link to={"/register"}>
-              <button className="sign-up">Sign up</button>
-            </Link>
-          </div>
-        ) : (
-          <div className="userFunctions">
-             <div className="userProfile">
-              <Link onClick={getUser}>
-            <AccountCircleIcon className="profileIcon"/>
-            {user && <span>{user}</span>}
+        <div className="d-flex align-items-center justify-center gap-4">
+          {!userInfoObj ? (
+            <div className="hidden md:flex items-center pr-4">
+              {/* only shows when user not logged or sign up */}
+              <Link to={"/login"}>
+                <button className="border-none bg-transparent text-white">
+                  Sign In
+                </button>
               </Link>
-        </div>
-          <button onClick={logOut} className="sign-up">
-            Sign Out
-          </button>
-            </div>
-        )}
 
-        <div
+              <Link onClick={getProvinces}>
+                <button className="sign-up">Sign up</button>
+              </Link>
+            </div>
+          ) : (
+            <div className="userFunctions text-white shadow-md flex items-center">
+              <div className="userProfile flex items-center">
+                <Link
+                  onClick={getUser}
+                  className="flex items-center text-white hover:text-sky-500">
+                  <AccountCircleIcon className="profileIcon text-3xl" />
+                  {userInfoObj && (
+                    <span className="font-medium">{userInfoObj.firstName}</span>
+                  )}
+                </Link>
+              </div>
+              <button onClick={logOut} className="hidden md:block sign-up">
+                Sign Out
+              </button>
+            </div>
+          )}
+
+          <div className="md:hidden">
+            <button
+              onClick={handleClick}
+              className="p-2 text-white bg-sky-500 rounded">
+              {!toggle ? <MenuIcon /> : <CloseIcon />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* <div
           className="md:hidden cursor-pointer bg-sky-400"
           onClick={handleClick}>
           {!toggle ? (
@@ -195,22 +246,92 @@ function Header() {
             <CloseIcon className="!w-10 !h-10" />
           )}
         </div>
+      </div> */}
+
+      {/* Mobile View */}
+      <div
+        className={`absolute z-50 top-full left-0 w-full bg-gray-800 transition-transform ${
+          toggle ? "translate-x-0" : "-translate-x-full"
+        }`}>
+        <ul
+          // className={
+          //   !toggle ? "hidden" : "absolute text-white bg-gray-800 w-full px-8"}
+          className="text-white p-4">
+          <li
+            onClick={() => handleLinkClick("/")}
+            className="border-b-2 border-gray-900 w-full">
+            {" "}
+            Home
+          </li>
+
+         
+
+          <li
+            onClick={() => handleLinkClick("/contact")}
+            className="border-b-2 border-gray-900 w-full">
+            Contact
+          </li>
+
+          <li
+            onClick={() => handleLinkClick("/about")}
+            className="border-b-2 border-gray-900 w-full">
+            About
+          </li>
+          {userInfoObj ? (
+              <>
+                <li
+            onClick={() => handleLinkClick("/list")}
+            className="border-b-2 border-gray-900 w-full">
+            Lists
+          </li>
+                {userInfoObj.idRole == 1 && (
+                  <li
+                  onClick={() => handleLinkClick("/addproduct")}
+                  className="border-b-2 border-gray-900 w-full">
+                  Add Product
+                </li>
+                )}
+              </>
+            ) : (
+              ""
+            )}
+          <div className="flex flex-col my-4">
+            
+          {!userInfoObj ? (
+            <div className="flex items-center pr-4">
+              {/* only shows when user not logged or sign up */}
+              
+                <button onClick={() => handleLinkClick("/login")} className="border-none bg-transparent text-white">
+                  Sign In
+                </button>
+              
+
+              
+                <button onClick={() => handleLinkClick("/register")} className="sign-up">Sign up</button>
+              
+            </div>
+          ) : (
+            <div className="userFunctions text-white shadow-md flex items-center">
+             
+              <button onClick={logOut} className="sign-up">
+                Sign Out
+              </button>
+            </div>
+          )}
+            {/* <button
+              onClick={() => handleLinkClick("/login")}
+              className="bg-transparent text-sky-500 px-8 py-3 mb-4">
+              Sign In
+            </button>
+            <button
+              onClick={() => handleLinkClick("/register")}
+              className="px-8 py-3 w-full">
+              {" "}
+              Sign Up{" "}
+            </button> */}
+          </div>
+        </ul>
       </div>
-      <ul
-        className={
-          !toggle ? "hidden" : "absolute text-white bg-gray-800 w-full px-8"
-        }>
-        <li className="border-b-2 border-gray-900 w-full">About</li>
-        <li className="border-b-2 border-gray-900 w-full">Home</li>
-        <li className="border-b-2 border-gray-900 w-full">Lists</li>
-        <li className="border-b-2 border-gray-900 w-full">Contact</li>
-        <div className="flex flex-col my-4">
-          <button className="bg-transparent text-sky-500 px-8 py-3 mb-4">
-            Sign In
-          </button>
-          <button className="px-8 py-3"> Sign Up </button>
-        </div>
-      </ul>
     </div>
   );
 }

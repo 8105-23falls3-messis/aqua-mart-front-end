@@ -40,8 +40,13 @@ const AuthService = {
 
       return { resData };
     } catch (error) {
+      
+      var resData = {
+       error: error,
+        success: false,
+      }
       console.error("Login failed:", error);
-      return { success: false, error: error };
+      return { resData };
     }
   },
 };

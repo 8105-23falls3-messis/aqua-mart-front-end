@@ -5,7 +5,7 @@ import Wave from "react-wavify";
 
 function Footer() {
   return (
-    <div className="footer">
+   
       <div className="footer__main">
         <h4>Copyright © 2023 PremiumSoft™ AquaMart Inc.</h4>
         <div className="links">
@@ -16,7 +16,7 @@ function Footer() {
           {/* <Link to={"/about"}> */}
         </div>
       </div>
-    </div>
+   
   );
 }
 

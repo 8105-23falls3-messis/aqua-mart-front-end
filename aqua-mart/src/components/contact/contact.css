@@ -1,7 +1,8 @@
 .contact{
-    height: calc(94vh - 15vh - 81px);
+    height: calc(100vh - 15vh - 81px);
     text-align: center;
-    padding: 10px ;
-    margin: 20px 10px;
+    padding: 10px;
+    padding-top: 20px;
+    /* margin: 20px 10px; */
 }
     

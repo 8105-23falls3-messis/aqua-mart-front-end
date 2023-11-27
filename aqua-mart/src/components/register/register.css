@@ -1,6 +1,8 @@
 
    .register{
-    height: calc(100vh - 15vh - 81px);
+    position: relative;
+    z-index: 100;
+    /* height: calc(100vh - 15vh - 81px); */
     /* margin-bottom: auto; */
     /* border: 1px solid; */
    }
@@ -35,6 +37,29 @@
   color: #fff;
 }
 
+
+.valid{
+  border: 1px solid green;
+  border-top: none;
+  border-radius: 0.25rem;
+}
+/* .invalid{
+  border: 2px solid red;
+  border-top: none;
+  border-radius: 0.25rem;
+} */
+button:disabled{
+  opacity: 0.6;
+}
+.show-password-button{
+  margin-top: 6px;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+/* input:invalid{
+  border: 1px solid red;
+} */
   @media (min-width: 1025px) {
     .h-custom {
       height: 100vh !important;
@@ -59,6 +84,7 @@
     .card-registration-2 .bg-white {
       border-top-left-radius: 15px;
       border-bottom-left-radius: 15px;
+
     }
   }
   
@@ -68,3 +94,5 @@
       border-top-right-radius: 15px;
     }
   }
+
+

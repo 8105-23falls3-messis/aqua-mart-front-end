@@ -29,22 +29,19 @@ const subCategories = [
 ];
 const filters = [
   {
-    id: "color",
-    name: "Color",
+    id: "brand",
+    name: "brand",
     options: [
-      { value: "white", label: "White", checked: false },
-      { value: "beige", label: "Beige", checked: false },
-      { value: "blue", label: "Blue", checked: true },
-      { value: "brown", label: "Brown", checked: false },
-      { value: "green", label: "Green", checked: false },
-      { value: "purple", label: "Purple", checked: false },
+      { value: "dell", label: "Dell", checked: false },
+      { value: "hp", label: "HP", checked: false },
+      { value: "lenovo", label: "Lenovo", checked: true },
     ],
   },
   {
     id: "category",
     name: "Category",
     options: [
-      { value: "new-arrivals", label: "New Arrivals", checked: false },
+      { value: "new", label: "New", checked: false },
       { value: "sale", label: "Sale", checked: false },
       { value: "travel", label: "Travel", checked: true },
       { value: "organization", label: "Organization", checked: false },
@@ -68,10 +65,15 @@ const filters = [
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-function Features() {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [{user}, dispatch] = useStateValue();
 
+function Features() {
+ 
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [{user, details}, dispatch] = useStateValue();
+
+  
+
+  // console.log("details List", details.firstName);
   return (
     <div className="bg-white">
       <div>

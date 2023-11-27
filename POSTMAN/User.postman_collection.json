@@ -1,0 +1,151 @@
+{
+	"info": {
+		"_postman_id": "82f9d710-8799-45cd-a18e-63b1d16fc2f3",
+		"name": "User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3123651",
+		"_collection_link": "https://dark-crescent-108046.postman.co/workspace/Aquamart~a5d17913-dc02-4412-975d-9c1974839fe2/collection/3123651-82f9d710-8799-45cd-a18e-63b1d16fc2f3?action=share&source=collection_link&creator=3123651"
+	},
+	"item": [
+		{
+			"name": "Countries",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"condition1\":null,\r\n\"condition2\":null,\r\n\"pageNum\":1,\r\n\"pageSize\":4\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/user/countries",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"user",
+						"countries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Provinces",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"condition1\":null,\r\n\"condition2\":null,\r\n\"pageNum\":1,\r\n\"pageSize\":4\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/user/provinces",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"user",
+						"provinces"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"b@b.com\",\r\n\"password\":\"bbbb\",\r\n\"idRole\":\"2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/user/login",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n          \"firstName\": \"fname\",\r\n          \"midName\": \"mname\",\r\n          \"lastName\": \"lname\",\r\n          \"email\": \"cyn@gmail.com\",\r\n          \"dateOfBirth\": \"2018-03-29T13:34:00.000\",\r\n          \"address\": \"add\",\r\n          \"city\": null,\r\n          \"province\": null,\r\n          \"postalCode\": null,\r\n          \"country\": null,\r\n          \"password\": \"psw\",\r\n          \"idRole\": 1\r\n        }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/user/register",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

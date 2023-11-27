@@ -8,24 +8,33 @@ import AuthService from "../AuthService";
 import { useStateValue } from "../StateProvider";
 
 function Login() {
+  const [{ user }, dispatch] = useStateValue();
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
-  const [{ user }, dispatch] = useStateValue();
+  
+  //for Conditions
+  const [login, setLogin] = useState(true);
+  // const [checkRole, setCheckRole] = useState('');
+  const [errors, setErros] = useState(false);
 
   const navigate = useNavigate();
-  // console.log(user, "Dispatch Function: ", dispatch);
-  // console.log("USER NAME & PASSWORD ", email, password);
 
-  // console.log(response);
-  //Login
   const handleLogin = async () => {
+
+    if(!email || !password || !role){
+      setErros(true);
+      return;
+    }else{
+      setErros(false);
+    }
     const { resData } = await AuthService.login(email, password, role);
     if (resData.success) {
       // console.log(resData.response.data.content.user);
       console.log(resData.response.data.content.user.id);
       console.log(resData.response.data.content.user);
-
+      console.log("SetLogin", login);
       // console.log(resData.token);
       // console.log(resData.msg, resData.user, resData.usermail);
       // Update your app's state to indicate the user is logged in
@@ -35,22 +44,34 @@ function Login() {
         token: resData.token,
         userId: resData.response.data.content.user.id,
         idRole: resData.response.data.content.user.idRole,
+        details: resData.response.data.content.user,
       });
-      // const item = JSON.stringify(token[0][1]);
-      // console.log(item);
-      navigate("/list");
-
-      // Redirect to a protected route or perform other actions
-    } else {
-      // Login failed
-      console.error("Login failed:");
+      console.log("token", resData.token);
+      console.log("Details", resData.response.data.content.user);
+      localStorage.setItem('user', JSON.stringify(resData.response.data.content.user));
+      localStorage.setItem('token', JSON.stringify(resData.token));
+      
+      // dispatch({
+        //   type: "USER",
+        //   details: resData.data.content.user,
+        // })
+        // const item = JSON.stringify(token[0][1]);
+        // console.log(item);
+        navigate("/list");
+        
+        // Redirect to a protected route or perform other actions
+      } else {
+        setLogin(false);
+        console.log("SetLogin", login);
+        // Login failed
+        console.error("Login failed:");
       // Handle login failure, show an error message, etc.
     }
   };
   //******************* */
 
   return (
-    <div className="login">
+    // <div className="login">
       <div className="login__wrapper">
         <div className="login__logo">
           <div className="logo">
@@ -87,7 +108,7 @@ function Login() {
               class="bg-gray-50 border-solid border-black text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               value={role}
               onChange={(e) => setRole(e.target.value)}>
-              <option selected>Choose a Role</option>
+              <option value="" disabled hidden>Choose a Role</option>
 
               <option value="2">Buyer</option>
               <option value="1">Seller</option>
@@ -97,19 +118,23 @@ function Login() {
             <input type="checkbox" />
             Keep Me Logged In
           </div> */}
-          <Link className="login-btn cursor">
-            <a className="cursor" onClick={handleLogin}>
+          
+            <a className="text-white login-btn cursor hover:text-white hover:bg-black transition-all" onClick={handleLogin}>
               Login
             </a>
-          </Link>
+          
           <div className="dont_have_acc text-center">
             <Link to={"/register"}>
-              <p>Don't have an account?</p>
+              <p className="mb-0">Don't have an account?</p>
             </Link>
+          <p className={errors ? "error" : "hidden"}>Please enter your Credentials</p>
+          {/* <div className={login ? "hideError" : "showError"}> */}
+            <p className={login ? "hidden" : "error"}>Invalid username or password or role</p>
+          {/* </div> */}
           </div>
         </div>
       </div>
-    </div>
+    // </div>
   );
 }
 

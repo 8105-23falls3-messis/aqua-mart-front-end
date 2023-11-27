@@ -13,8 +13,16 @@ import {
 } from "mdb-react-ui-kit";
 import { Editor } from "@tinymce/tinymce-react";
 import "../addProduct/addProduct.css";
+import { useStateValue } from "../StateProvider";
+import { type } from "@testing-library/user-event/dist/type";
+import axios from "../../axios";
+import { useNavigate } from "react-router-dom";
+let images;
 
 function AddProduct0() {
+  const navigate = useNavigate();
+  const [{ details, token, storedUser, storedToken }] = useStateValue();
+
   const [productName, setProductName] = useState();
   const [productBrand, setProductBrand] = useState();
   const [productCategory, setProductCategory] = useState();
@@ -23,42 +31,97 @@ function AddProduct0() {
   const [productImage, setProductImage] = useState();
 
   const inputRef = React.useRef();
-
-  const handleChangeFile = (e) => {
+  // let fileArray = [];
+  
+  // console.log(details);
+  const handleChangeFile = async (e) => {
     setProductImage(e.target.files);
-    console.log(inputRef.current.files);
-}
+    // console.log(inputRef.current.files);
+    const fileList = e.target.files; // This gives you the FileList
+   
+    const fileArray = Array.from(fileList).map((file, index) => ({
+      // id: index,
+      fileName: file.name,
+      type : file.type,
+      // url : URL.createObjectURL(file),
+      cover: index === 0,
+      // product: productName
+    }));
+    // console.log(fileArray);
+    images = fileArray;
+    // console.log(images);
+
+    try{
+      const response = await axios.post("image/upload", JSON.stringify({
+        images: fileArray
+      }), {
+        headers: { "Content-Type": "application/json", "token": storedToken },
+        withCredentials: true,
+      }
+      );
+      console.log(response);
+    } catch(err){
+      console.log(err);
+    }
+  };
+  
+  // console.log(storedToken);
+  // const images = productImage.map((element, index) => ({
+  //   id: index, // Assuming you want to initialize all ids with 0
+  //   fileName: element.name,
+  //   type: element.type,
+  //   url: "", // You need to define how you want to handle URLs
+  //   product: "", // You need to define the product association
+  // }));
+  console.log(storedUser);
+
+
   const handleSubmit = async (e) => {
+    const formData = new FormData();
+    const files = Array.from(productImage);
+
+    files.forEach((file, index) => {
+      formData.append(`images[${index}]`, file);
+    });
+    
     e.preventDefault();
+    try {
+      const response = await axios.post(
+        "/product/add",
+        JSON.stringify({
+          title: productName,
+          brand: productBrand,
+          cost: productPrice,
+          description: productDescription,
+          category: {
+            id: 2,
+          },
+          user: {
+            id: storedUser.id,
+          },
 
-    console.log("PNaem:", productName, "\nPBrand:", productBrand, "\nCate:", productCategory, "\nFiles: ", productImage,"\nPDes:", productBrand  )
-    // try {
-    //   const response = await axios.post("/user/register", JSON.stringify({}), {
-    //     headers: { "Content-Type": "application/json" },
-    //     withCredentials: true,
-    //   });
+          images: images,
+          active: true,
+        }),
+        {
+          headers: { "Content-Type": "application/json", "token": storedToken},
+          withCredentials: true,
+        }
+      );
 
-    //   //   console.log(response.data)
-    //   //   console.log(response.accessToken);
-    //   console.log(JSON.stringify(response));
-    //   if (response.data.status === 200) {
-    //     navigate("/login");
-    //     // Registration was successful, you can redirect or show a success message.
-    //     console.log("Registration successful");
-    //   } else if (
-    //     response.data.status === 200 &&
-    //     response.data.msg === "Account exist!"
-    //   ) {
-    //     // User already exists
-    //     console.log("User with the same email already exists");
-    //   } else {
-    //     // Handle other scenarios
-    //     console.log("Registration failed for an unknown reason");
-    //   }
-    //   //clear the input field
-    // } catch (err) {
-    //   console.log("Registration failed:", err);
-    // }
+      console.log(response);
+      if (response.status === 200) {
+        navigate("/list");
+
+        console.log("Product Added successfully");
+      } else {
+        // Handle other scenarios
+        console.log("failed to add product");
+      }
+      //clear the input field
+    } catch (err) {
+      console.log("Registration failed:", err);
+    }
   };
 
   return (
@@ -72,7 +135,9 @@ function AddProduct0() {
               <MDBCardBody className="text-center d-flex flex-col justify-center align-items-center">
                 {/* <h2 className="addProduct-title">Add Product</h2> */}
                 <MDBRow className="d-flex justify-center align-items-center ">
-                  <MDBCol md="6" className="bg-blue d-flex justify-start align-items-start gap-5 w-100 h-100">
+                  <MDBCol
+                    md="6"
+                    className="bg-blue d-flex justify-start align-items-start gap-5 w-100 h-100">
                     <MDBRow className="addproduct-container">
                       <MDBCol md="12">
                         <MDBInput
@@ -123,14 +188,11 @@ function AddProduct0() {
                     </MDBRow>
 
                     <MDBRow className="d-flex justify-center align-items-center">
-                     
-
                       <MDBCol md="12">
                         {/* <span className="text-left"> Product Description</span> */}
                         <Editor
-                          apiKey='w9uy9glikbd20zxx2bcxt39mmyc48x4nz63ipssqfv5xg520'
+                          apiKey="w9uy9glikbd20zxx2bcxt39mmyc48x4nz63ipssqfv5xg520"
                           initialValue="Enter Product Description"
-
                           init={{
                             height: 200,
                             menubar: false,
@@ -143,9 +205,11 @@ function AddProduct0() {
                             ],
                             toolbar:
                               "undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
-                              branding: false,
+                            branding: false,
                           }}
-                          onEditorChange={(content) => setProductDescription(content)}
+                          onEditorChange={(content) =>
+                            setProductDescription(content)
+                          }
                         />
                         {/* <MDBInput
                           wrapperClass="mb-4"
@@ -159,7 +223,6 @@ function AddProduct0() {
                           }
                           required
                         /> */}
-
                       </MDBCol>
                       <MDBCol md="12" className="text-left mb-4">
                         <MDBFile

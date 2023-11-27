@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import "../addProduct/addProduct.css";
+// import { useStateValue } from "../StateProvider";
 
 function AddProduct() {
+  
+  // const [{ details }, dispatch] = useStateValue();
+
   // img
   const [selectedImage, setSelectedImage] = useState(null);
 
+  // console.log(details);
   // Handle when a user selects an image
   const handleImageChange = (event) => {
     const file = event.target.files[0];

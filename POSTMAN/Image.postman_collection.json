@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "7ffe4be4-83bf-49f0-8770-c1e970460c3d",
+		"name": "Image",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3123651",
+		"_collection_link": "https://dark-crescent-108046.postman.co/workspace/Aquamart~a5d17913-dc02-4412-975d-9c1974839fe2/collection/3123651-7ffe4be4-83bf-49f0-8770-c1e970460c3d?action=share&source=collection_link&creator=3123651"
+	},
+	"item": [
+		{
+			"name": "Upload",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "files",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": [],
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/image/upload",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"image",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddImage",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " [\r\n    {\r\n    \"fileName\":\"myImage1png\",\r\n     \"type\":\"png\",\r\n     \"cover\": 0,\r\n     \"product\":  {\"id\":38\r\n\r\n         }\r\n    },\r\n    {\r\n    \"fileName\":\"myImage2.png\",\r\n     \"type\":\"png\",\r\n     \"cover\": 0,\r\n          \"product\":  {\"id\":38\r\n\r\n         }\r\n    },\r\n    {\r\n    \"fileName\":\"myImageLunita2023.png\",\r\n     \"type\":\"png\",\r\n     \"cover\": 0,\r\n          \"product\":  {\"id\":38\r\n\r\n         }\r\n    }\r\n\r\n    ]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/product/addImage",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"product",
+						"addImage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFiles",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/vocal/Pictures/Screenshots/Screenshot 2023-03-13 232004.png",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/image/files",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"image",
+						"files"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
