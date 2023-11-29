@@ -17,12 +17,13 @@ import { useStateValue } from "../StateProvider";
 import { type } from "@testing-library/user-event/dist/type";
 import axios from "../../axios";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 let images;
 
 
 function AddProduct0() {
   const navigate = useNavigate();
-  const [{ details, token, setToken, setUser, category }] = useStateValue();
+  const [{ details, token, setToken, setUser, category }, dispatch] = useStateValue();
 
   console.log(">>>>>", setToken, setUser);
   const [productName, setProductName] = useState();
@@ -33,8 +34,6 @@ function AddProduct0() {
   const [productImage, setProductImage] = useState();
 
   const inputRef = React.useRef();
-
-  const [{}, dispatch] = useStateValue();
   
   useEffect(() => {
     categories();
@@ -45,10 +44,10 @@ function AddProduct0() {
   async function categories(){
     try {
       const response = await axios.get("/product/categories", {
-        headers: { "Content-Type": "application/json", token: setToken },
+        headers: { "Content-Type": "application/json", "token": setToken },
         withCredentials: true,
       });
-      dispatch({ type: "CATEGOTY", categories: response.data.content });
+      dispatch({ type: "PRODUCT", category: response.data.content });
 
       console.log("Categories" ,response);
       // navigate("/addproduct");
@@ -204,7 +203,7 @@ function AddProduct0() {
 
                         <select id="categories" className="w-100 mb-4" onChange={(e) => setProductCategory(e.target.value)}>
                           <option value={''} disabled>Select Category</option>
-                          {category.map((c)=>
+                          {category !== undefined && category.map((c)=>
                           <option key={c.id} value={c.id}>{c.name}</option>
                           )}
                         </select>

@@ -18,6 +18,7 @@ import Contact from "./components/contact/Contact";
 import ProductPage from "./components/productPage/ProductPage";
 import Profile from "./components/ProfilePage/Profile";
 import AddProduct0 from "./components/addProduct/AddProduct0";
+import GetProducts from "./components/features/GetProducts";
 
 
 // import ImageSlider from "./components/home/ImageSlider";
@@ -72,7 +73,9 @@ function App() {
             element={
               <>
                 <Header />
-                <Features />
+                {/* <Features />
+                 */}
+                 <GetProducts />
                 <Footer />
               </>
             }

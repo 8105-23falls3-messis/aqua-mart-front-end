@@ -15,63 +15,14 @@ import { useStateValue } from "../StateProvider";
 import { useEffect } from "react";
 import axios from "../../axios";
 
-const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
-  { name: "Best Rating", href: "#", current: false },
-  { name: "Newest", href: "#", current: false },
-  { name: "Price: Low to High", href: "#", current: false },
-  { name: "Price: High to Low", href: "#", current: false },
-];
-const subCategories = [
-  { name: "Totes", href: "#" },
-  { name: "Backpacks", href: "#" },
-  { name: "Travel Bags", href: "#" },
-  { name: "Hip Bags", href: "#" },
-  { name: "Laptop Sleeves", href: "#" },
-];
-const filters = [
-  {
-    id: "brand",
-    name: "brand",
-    options: [
-      { value: "dell", label: "Dell", checked: false },
-      { value: "hp", label: "HP", checked: false },
-      { value: "lenovo", label: "Lenovo", checked: true },
-    ],
-  },
-  {
-    id: "category",
-    name: "Category",
-    options: [
-      { value: "new", label: "New", checked: false },
-      { value: "sale", label: "Sale", checked: false },
-      { value: "travel", label: "Travel", checked: true },
-      { value: "organization", label: "Organization", checked: false },
-      { value: "accessories", label: "Accessories", checked: false },
-    ],
-  },
-  {
-    id: "size",
-    name: "Size",
-    options: [
-      { value: "2l", label: "2L", checked: false },
-      { value: "6l", label: "6L", checked: false },
-      { value: "12l", label: "12L", checked: false },
-      { value: "18l", label: "18L", checked: false },
-      { value: "20l", label: "20L", checked: false },
-      { value: "40l", label: "40L", checked: true },
-    ],
-  },
-];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 function Features() {
- 
+  
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [{user, details, category, setToken}, dispatch] = useStateValue();
+  const [searchItem, setSearchItem] = useState('');
+
 
   console.log("TOKEN", setToken);
   useEffect(() => {
@@ -123,6 +74,7 @@ function Features() {
   // console.log("details List", details.firstName);
   return (
     <div className="bg-white">
+      
       <div>
         {/* Mobile filter dialog */}
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
