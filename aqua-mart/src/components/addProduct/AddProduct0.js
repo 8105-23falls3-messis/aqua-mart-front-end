@@ -19,10 +19,12 @@ import axios from "../../axios";
 import { useNavigate } from "react-router-dom";
 let images;
 
+
 function AddProduct0() {
   const navigate = useNavigate();
-  const [{ details, token, storedUser, storedToken }] = useStateValue();
+  const [{ details, token, setToken, setUser, category }] = useStateValue();
 
+  console.log(">>>>>", setToken, setUser);
   const [productName, setProductName] = useState();
   const [productBrand, setProductBrand] = useState();
   const [productCategory, setProductCategory] = useState();
@@ -31,6 +33,32 @@ function AddProduct0() {
   const [productImage, setProductImage] = useState();
 
   const inputRef = React.useRef();
+
+  const [{}, dispatch] = useStateValue();
+  
+  useEffect(() => {
+    categories();
+  }, [dispatch]);
+
+
+  // Category
+  async function categories(){
+    try {
+      const response = await axios.get("/product/categories", {
+        headers: { "Content-Type": "application/json", token: setToken },
+        withCredentials: true,
+      });
+      dispatch({ type: "CATEGOTY", categories: response.data.content });
+
+      console.log("Categories" ,response);
+      // navigate("/addproduct");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+
   // let fileArray = [];
   
   // console.log(details);
@@ -55,7 +83,7 @@ function AddProduct0() {
       const response = await axios.post("image/upload", JSON.stringify({
         images: fileArray
       }), {
-        headers: { "Content-Type": "application/json", "token": storedToken },
+        headers: { "Content-Type": "application/json", "token": setToken },
         withCredentials: true,
       }
       );
@@ -73,7 +101,7 @@ function AddProduct0() {
   //   url: "", // You need to define how you want to handle URLs
   //   product: "", // You need to define the product association
   // }));
-  console.log(storedUser);
+  // console.log(storedUser);
 
 
   const handleSubmit = async (e) => {
@@ -97,14 +125,14 @@ function AddProduct0() {
             id: 2,
           },
           user: {
-            id: storedUser.id,
+            id: setUser.id,
           },
 
           images: images,
           active: true,
         }),
         {
-          headers: { "Content-Type": "application/json", "token": storedToken},
+          headers: { "Content-Type": "application/json", "token": setToken},
           withCredentials: true,
         }
       );
@@ -164,7 +192,7 @@ function AddProduct0() {
                       </MDBCol>
 
                       <MDBCol md="12">
-                        <MDBInput
+                        {/* <MDBInput
                           wrapperClass="mb-4"
                           label="Category"
                           size="lg"
@@ -172,7 +200,16 @@ function AddProduct0() {
                           type="text"
                           onChange={(e) => setProductCategory(e.target.value)}
                           required
-                        />
+                        /> */}
+
+                        <select id="categories" className="w-100 mb-4" onChange={(e) => setProductCategory(e.target.value)}>
+                          <option value={''} disabled>Select Category</option>
+                          {category.map((c)=>
+                          <option key={c.id} value={c.id}>{c.name}</option>
+                          )}
+                        </select>
+
+
                       </MDBCol>
                       <MDBCol md="12">
                         <MDBInput

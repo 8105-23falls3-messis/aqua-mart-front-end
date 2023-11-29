@@ -20,25 +20,31 @@ const reducer = (state, action) => {
         token: action.token,
         details: action.details,
       };
-    case "SET_USER":
+    case "USER_INFO":
       return {
         ...state,
-        storedUser: action.storedUser,
+        setUser: action.setUser,
       };
-    case "SET_TOKEN":
+    case "USER_TOKEN":
       return {
         ...state,
-        storedToken: action.storedToken,
+        setToken: action.setToken,
       };
-    case "Product":
+    case "PRODUCT":
       return {
         ...state,
         category: action.category,
+        products: action.products,
       };
     case "PROVINCES":
       return {
         ...state,
         provinces: action.provinces,
+      };
+    case "COUNTRIES":
+      return {
+        ...state,
+        countries: action.countries,
       };
     default:
       return state;

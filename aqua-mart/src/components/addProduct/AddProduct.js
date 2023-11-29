@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "../addProduct/addProduct.css";
+import { Category } from "@mui/icons-material";
+import { useEffect } from "react";
 // import { useStateValue } from "../StateProvider";
 
 function AddProduct() {
@@ -9,6 +11,7 @@ function AddProduct() {
   // img
   const [selectedImage, setSelectedImage] = useState(null);
 
+  useEffect()
   // console.log(details);
   // Handle when a user selects an image
   const handleImageChange = (event) => {
@@ -25,6 +28,7 @@ function AddProduct() {
       reader.readAsDataURL(file);
     }
   };
+
   // img
   return (
     <div className="addProduct flex item-center justify-center pt-5">

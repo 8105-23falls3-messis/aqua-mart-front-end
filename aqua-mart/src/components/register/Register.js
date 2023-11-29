@@ -18,7 +18,7 @@ import { useStateValue } from "../StateProvider";
 
 function Register() {
   
-  const [{provinces}, dispatch] = useStateValue();
+  const [{provinces, countries}, dispatch] = useStateValue();
   const navigate = useNavigate();
 
 
@@ -325,7 +325,13 @@ function Register() {
                         />
                       </MDBCol>
                       <MDBCol md="5">
-                      <MDBInput
+                      <select className="w-100 mb-3" required>
+                          <option value="" disabled selected>Select Countries</option>
+                          {countries.map((c)=>
+                          <option key={c.id} value={c.id}> {c.name} </option>
+                          )}
+                        </select>
+                      {/* <MDBInput
                       wrapperClass="mb-4"
                       labelClass="text-black"
                       label="Country"
@@ -334,7 +340,7 @@ function Register() {
                       type="text"
                       onChange={(e) => setCountry(e.target.value)}
                       required
-                    />
+                    /> */}
                       </MDBCol>
                     </MDBRow>
 
@@ -342,7 +348,14 @@ function Register() {
 
                     <MDBRow>
                       <MDBCol md="5">
-                        <MDBInput
+                        <select className="w-100 mb-3" required>
+                          <option value="" disabled selected>Select Province</option>
+                          {provinces.map((p)=>
+                          <option key={p.id} value={p.id} >{p.name}</option>
+                          )}
+                        </select>
+                     
+                        {/* <MDBInput
                           wrapperClass="mb-4"
                           labelClass="text-black"
                           label="Province"
@@ -351,7 +364,7 @@ function Register() {
                           type="text"
                           onChange={(e) => setProvince(e.target.value)}
                           required
-                        />
+                        /> */}
                       </MDBCol>
 
                       <MDBCol md="7">

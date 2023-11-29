@@ -12,6 +12,8 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
 import { useStateValue } from "../StateProvider";
+import { useEffect } from "react";
+import axios from "../../axios";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -69,7 +71,52 @@ function classNames(...classes) {
 function Features() {
  
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [{user, details}, dispatch] = useStateValue();
+  const [{user, details, category, setToken}, dispatch] = useStateValue();
+
+  console.log("TOKEN", setToken);
+  useEffect(() => {
+    categories();
+    getProducts();
+  }, [dispatch]);
+
+  // Category
+  async function categories(){
+    try {
+      const response = await axios.get("/product/categories", {
+        headers: { "Content-Type": "application/json", "token": setToken },
+        withCredentials: true,
+      });
+      dispatch({ type: "CATEGOTY", category: response.data.content });
+
+      console.log("Categories" ,response);
+      // navigate("/addproduct");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function getProducts() {
+    // e.preventDefault();
+    try {
+      const response = await axios.post(
+        "product/products",{
+          "condition1":null,
+          "condition2":null,
+          "pageNum":1,
+          "pageSize":4
+          },
+        {
+          headers: { "Content-Type": "application/json", "token": setToken },
+          withCredentials: true,
+        });
+        dispatch({ type: "PRODUCT", products: response.data.content });
+
+      // console.log("products are here!")
+      // console.log(response);
+      // navigate("/list");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   
 
@@ -131,8 +178,8 @@ function Features() {
                         </li>
                       ))}
                     </ul> */}
-
-                    {filters.map((section) => (
+                    
+                    {/* {category.map((section) => (
                       <Disclosure
                         as="div"
                         key={section.id}
@@ -185,7 +232,7 @@ function Features() {
                           </>
                         )}
                       </Disclosure>
-                    ))}
+                    ))} */}
                   </form>
                 </Dialog.Panel>
               </Transition.Child>

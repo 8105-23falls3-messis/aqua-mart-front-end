@@ -6,8 +6,12 @@ import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import AuthService from "../AuthService";
 import { useStateValue } from "../StateProvider";
+import axios from "../../axios";
+
 
 function Login() {
+
+
   const [{ user }, dispatch] = useStateValue();
   
   const [email, setEmail] = useState("");
@@ -20,6 +24,19 @@ function Login() {
   const [errors, setErros] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
+    if (storedUser) {
+      dispatch({type: "USER_INFO", setUser: storedUser})
+      // dispatch({ type: "SET_USER", storedUser: JSON.parse(storedUser) });
+    }
+    if (storedToken) {
+      dispatch({type: "USER_TOKEN", setToken: storedToken})
+      // dispatch({ type: "SET_TOKEN", storedToken: JSON.parse(storedToken) });
+    }
+  }, [dispatch]);
 
   const handleLogin = async () => {
 
@@ -46,17 +63,16 @@ function Login() {
         idRole: resData.response.data.content.user.idRole,
         details: resData.response.data.content.user,
       });
-      console.log("token", resData.token);
-      console.log("Details", resData.response.data.content.user);
+      // console.log("token", resData.token);
+      // console.log("Details", resData.response.data.content.user);
       localStorage.setItem('user', JSON.stringify(resData.response.data.content.user));
       localStorage.setItem('token', JSON.stringify(resData.token));
+      dispatch({type: "USER_TOKEN", setToken: resData.token})
+      dispatch({type: "USER_INFO", setUser: resData.response.data.content.user})
       
-      // dispatch({
-        //   type: "USER",
-        //   details: resData.data.content.user,
-        // })
-        // const item = JSON.stringify(token[0][1]);
-        // console.log(item);
+     
+
+     
         navigate("/list");
         
         // Redirect to a protected route or perform other actions
