@@ -13,8 +13,8 @@ function Header() {
   const navigate = useNavigate();
   const handleClick = () => setToggle(!toggle);
 
-  const [{ setUser, setToken, userId, idRole }, dispatch] = useStateValue();
-
+  const [{ setUser, setToken, userId, idRole, product }, dispatch] =
+    useStateValue();
 
   const getUserInfo = () => {
     return localStorage.getItem("user");
@@ -52,8 +52,6 @@ function Header() {
   };
   // console.log(options);
 
-
-
   /**************
   LOGOUT FUNCTION
   **************/
@@ -72,6 +70,10 @@ function Header() {
       );
       localStorage.removeItem("user");
       localStorage.removeItem("token");
+      localStorage.removeItem("product");
+      localStorage.removeItem("categories");
+      localStorage.removeItem("jwtToken");
+      localStorage.removeItem("oneProduct");
       dispatch({ type: "USER_INFO", setUser: null });
       dispatch({ type: "USER_TOKEN", setToken: null });
       dispatch({ type: "LOGIN", user: null, userId: null, token: null });
@@ -82,7 +84,6 @@ function Header() {
       console.log(err);
     }
   };
-  
 
   /***********
   USER PROFILE
@@ -103,7 +104,6 @@ function Header() {
     }
   };
 
-  
   // const getProvinces = async (e) => {
   //   e.preventDefault();
   //   try {
@@ -121,7 +121,7 @@ function Header() {
   // };
   // console.log(storedToken);
 
-  async function products(){
+  async function products() {
     e.preventDefault();
     try {
       const response = await axios.get(
@@ -137,17 +137,15 @@ function Header() {
           withCredentials: true,
         }
       );
-     
+
       // console.log("products are here!")
       // console.log(response);
       // navigate("/list");
     } catch (err) {
       console.log(err);
     }
-  };
+  }
 
-  
-  
   const getProducts = async (e) => {
     e.preventDefault();
     try {
@@ -188,7 +186,7 @@ function Header() {
    CATEGORIES
   ***********/
 
-   async function categories(){
+  async function categories() {
     try {
       const response = await axios.get("/product/categories", {
         headers: { "Content-Type": "application/json", token: setToken },
@@ -198,41 +196,41 @@ function Header() {
 
       console.log(response.data.content);
       navigate("/addproduct");
-    } catch (err) {
-      console.log(err);
-    }
-   }
-
-  const category = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.get("/product/categories", {
-        headers: { "Content-Type": "application/json", token: setToken },
-        withCredentials: true,
-      });
-      dispatch({ type: "PRODUCT", category: response.data.content });
-
-      console.log(response.data.content);
-      navigate("/addproduct");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  async function categories(){
-    try {
-      const response = await axios.get("/product/categories", {
-        headers: { "Content-Type": "application/json", token: setToken },
-        withCredentials: true,
-      });
-      dispatch({ type: "CATEGOTY", categories: response.data.content });
-
-      console.log("Categories" ,response);
-      // navigate("/addproduct");
     } catch (err) {
       console.log(err);
     }
   }
+
+  // const category = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await axios.get("/product/categories", {
+  //       headers: { "Content-Type": "application/json", token: setToken },
+  //       withCredentials: true,
+  //     });
+  //     dispatch({ type: "PRODUCT", category: response.data.content });
+
+  //     console.log(response.data.content);
+  //     navigate("/addproduct");
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  // async function categories(){
+  //   try {
+  //     const response = await axios.get("/product/categories", {
+  //       headers: { "Content-Type": "application/json", token: setToken },
+  //       withCredentials: true,
+  //     });
+  //     dispatch({ type: "CATEGOTY", categories: response.data.content });
+
+  //     console.log("Categories" ,response);
+  //     // navigate("/addproduct");
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   return (
     <div className="h-20 z-10 bg-slate-900 drop-shadow-lg">
@@ -337,7 +335,7 @@ function Header() {
 
       {/* Mobile View */}
       <div
-        className={`absolute z-50 top-full left-0 w-full bg-gray-800 transition-transform ${
+        className={`mobile-view absolute z-50 top-full left-0 w-full bg-gray-800 transition-transform ${
           toggle ? "translate-x-0" : "-translate-x-full"
         }`}>
         <ul
@@ -347,7 +345,6 @@ function Header() {
           <li
             onClick={() => handleLinkClick("/")}
             className="border-b-2 border-gray-900 w-full">
-            {" "}
             Home
           </li>
 

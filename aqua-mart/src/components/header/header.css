@@ -38,6 +38,10 @@
   font-weight: bold;
   font-size: 1.1rem;
 }
+.mobile-view{
+    border: 3px solid red;
+        
+}
 
 @media screen and (max-width: 900px) {
   .logo-title {

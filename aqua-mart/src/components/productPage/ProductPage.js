@@ -8,6 +8,26 @@ import "../../components/productPage/productPage.css"
 import PhoneIcon from '@mui/icons-material/Phone';
 import { Phone } from "@mui/icons-material";
 
+/*
+import React from 'react';
+
+
+function Email({email, subject}) {
+
+    const encodedSubject = encodeURIComponent(subject);
+    const mailtoLink = `mailto:${email}?subject=${encodedSubject}`;
+
+  return (
+   <div>
+      <a href={mailtoLink} target="_blank" rel="noopener noreferrer">
+      <button>Send Email</button>
+    </a>
+   </div>
+  )
+}
+
+export default Email
+*/
 const ProductPage = () => {
   const productDetailItem = {
     images: [
@@ -57,7 +77,14 @@ const ProductPage = () => {
   };
   const plusMinuceButton =
     "flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
-  return (
+  
+    const email = 'malekabrar569@gmail.com'
+    const encodedSubject = encodeURIComponent("Regarding Product you listed on the AquaMart");
+    const mailtoLink = `mailto:${email}?subject=${encodedSubject}`;
+
+  
+  
+    return (
     <section className="container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:grid lg:grid-cols-2 lg:py-10">
       {/* image gallery */}
       <div className="img-container container mx-auto">
@@ -159,9 +186,10 @@ const ProductPage = () => {
           </div>
         </div> */}
         <div className="mt-7 flex flex-row items-center gap-6">
+          
           <button className="contact-btn flex h-12 w-1/3 items-center justify-center ">
             <PhoneIcon className="mx-2" />
-                    Contact          </button>
+                   <a href={mailtoLink}> Contact</a>           </button>
           {/* <button className="flex h-12 w-1/3 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300">
             <AiOutlineHeart className="mx-2" />
             

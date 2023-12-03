@@ -2,7 +2,6 @@ import React from "react";
 import "../productList/productList.css";
 import Features from "../features/Features";
 import { Link } from "react-router-dom";
-
 function ProductList() {
   return (
     <>

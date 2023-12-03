@@ -1,5 +1,7 @@
 //Storing Backend data in the reducer
 
+import { Cases } from "@mui/icons-material";
+
 export const initialState = {
   user: null,
 };
@@ -35,6 +37,7 @@ const reducer = (state, action) => {
         ...state,
         category: action.category,
         products: action.products,
+        getProduct: action.getProduct,
       };
     case "PROVINCES":
       return {
@@ -46,6 +49,11 @@ const reducer = (state, action) => {
         ...state,
         countries: action.countries,
       };
+      case "ProductById":
+        return{
+          ...state,
+          productById: action.productById,
+        }
     default:
       return state;
   }
