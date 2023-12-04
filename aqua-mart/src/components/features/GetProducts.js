@@ -1,91 +1,63 @@
 import React from "react";
-import ProductList from "../productList/ProductList";
 import "../features/getProducts.css";
-import { Fragment, useState } from "react";
-import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  FunnelIcon,
-  MinusIcon,
-  PlusIcon,
-  Squares2X2Icon,
-} from "@heroicons/react/20/solid";
+import { useState } from "react";
 import { useStateValue } from "../StateProvider";
 import { useEffect } from "react";
 import axios from "../../axios";
 import { useNavigate } from "react-router-dom";
-
-import img from "../../images/53519.jpg";
-
+import { useCookies } from "react-cookie";
 function GetProducts() {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [{ user, details, category, setToken, products }, dispatch] =
-    useStateValue();
+  const [{ category, setToken }, dispatch] = useStateValue();
   const [searchItem, setSearchItem] = useState("");
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
   const [isNewest, setIsNewest] = useState(false);
   const [product, setProduct] = useState([]);
+  
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
   // const [categoryItem, setCategoryItem] = useState([]);
   const navigate = useNavigate();
 
-  console.log("TOKEN", setToken);
-  // console.log("PRO", products);
-  console.log(priceRange);
   useEffect(() => {
     const storedCategories = JSON.parse(localStorage.getItem("categories"));
-    // const storedProducts = JSON.parse(localStorage.getItem("product"));
-
     if (storedCategories) {
-      // Parse only if the value is not undefined
-      // const parsedCategories = JSON.parse(storedCategories);
-      // If categories exist in localStorage, use them
       dispatch({ type: "PRODUCT", category: storedCategories });
     } else {
       // Otherwise, fetch categories from the API
       categories();
     }
-
-    // if (storedProducts) {
-    // Parse only if the value is not undefined
-    // const parsedCategories = JSON.parse(storedCategories);
-    // If categories exist in localStorage, use them
-    // dispatch({ type: "PRODUCT", category: storedProducts });
-    // } else {
-    // Otherwise, fetch categories from the API
-    // getProducts();
   }, []);
 
-  useEffect(() => {
-    axios
-      .post(
+  const getProducts = async (e, page) => {
+    try {
+      const response = await axios.post(
         "product/products",
         {
           condition1: null,
           condition2: null,
-          pageNum: 1,
+          pageNum: page,
           pageSize: 4,
         },
         {
-          headers: { "Content-Type": "application/json", token: setToken },
+          headers: { "Content-Type": "application/json", token: cookies.token },
           withCredentials: true,
         }
-      )
-      .then((response) => {
-        setProduct(response.data.content);
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-  useEffect(() => {
-    const savedProduct = localStorage.getItem("product");
-    if (savedProduct) {
-      setProduct(JSON.parse(savedProduct));
+      );
+      localStorage.setItem("product", JSON.stringify(response.data.content.list));
+      setProduct(response.data.content.list);
+      console.log(response.data);
+      navigate("/list");
+    } catch (err) {
+      console.log(err);
     }
-  }, []);
+  };
+
+  useEffect(() => {
+    console.log('---> use effect')
+    const page = 1;
+    getProducts(null, page);
+  },[]);
+
 
   useEffect(() => {
     localStorage.setItem("product", JSON.stringify(product));
@@ -102,7 +74,7 @@ function GetProducts() {
         dispatch({ type: "PRODUCT", category: storedCategories });
       } else {
         const response = await axios.get("/product/categories", {
-          headers: { "Content-Type": "application/json", token: setToken },
+          headers: { "Content-Type": "application/json", token: cookies.token },
           withCredentials: true,
         });
         const fetchedCategories = response.data.content;
@@ -119,36 +91,6 @@ function GetProducts() {
     }
   }
 
-  // async function getProducts() {
-  //   // e.preventDefault();
-  //   try {
-  //     const response = await axios.post(
-  //       "product/products",
-  //       {
-  //         condition1: null,
-  //         condition2: null,
-  //         pageNum: 1,
-  //         pageSize: 4,
-  //       },
-  //       {
-  //         headers: { "Content-Type": "application/json", token: setToken },
-  //         withCredentials: true,
-  //       }
-  //     );
-  //     const fetchedProducts = response.data.content;
-  //     console.log("Products", fetchedProducts);
-  //     localStorage.setItem("product", JSON.stringify(fetchedProducts));
-
-  //     dispatch({ type: "PRODUCT", products: fetchedProducts });
-
-  //     // console.log("products are here!", response.data.content)
-  //     // console.log(response);
-  //     // navigate("/list");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
   const handleCategoryChange = (categoryName) => {
     if (selectedCategory.includes(categoryName)) {
       setSelectedCategory(
@@ -157,18 +99,19 @@ function GetProducts() {
     } else {
       setSelectedCategory([...selectedCategory, categoryName]);
     }
+    console.log('handle categorychange', selectedCategory)
   };
-  
-//DETAILS
+
+  //DETAILS
   const getProductOne = (id) => {
     axios
       .get(`/product/get/${id}`, {
-        headers: { "Content-Type": "application/json", token: setToken },
+        headers: { "Content-Type": "application/json", token: cookies.token },
         withCredentials: true,
       })
       .then((response) => {
-        console.log(response.data);
-        const fetchedProduct = response.data.content;
+        console.log(response.data.content.product);
+        const fetchedProduct = response.data.content.product;
         localStorage.setItem("ProductById", JSON.stringify(fetchedProduct));
         dispatch({ type: "ProductById", productById: fetchedProduct });
         navigate("/productdetails");
@@ -178,34 +121,6 @@ function GetProducts() {
       });
   };
 
-  // const handlePriceRangeChange = (newRange) => {
-  //   setPriceRange(newRange);
-  // };
-
-  // const handleNewestChange = (isChecked) => {
-  //   setIsNewest(isChecked);
-  // };
-
-  // console.log("details List", details.firstName);
-
-  // const getProduct = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.get(`/product/get/40`, {
-  //       headers: { "Content-Type": "application/json", token: setToken },
-  //       withCredentials: true,
-  //     });
-  //     const fetchedProduct = response.data.content;
-
-  //     localStorage.setItem("oneProduct", JSON.stringify(fetchedProduct));
-  //     dispatch({ type: "PRODUCT", getProduct: fetchedProduct });
-
-  //     console.log(response);
-  //     navigate("/productdetails");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   return (
     <div className="products-section">
@@ -268,11 +183,12 @@ function GetProducts() {
             product
               .filter((val) => {
                 if (searchItem == "") {
+                  console.log('check 1st if', selectedCategory)
                   return val;
                 } else if (
                   val.title
                     .toLowerCase()
-                    .includes(searchItem.toLocaleLowerCase())
+                    .includes(searchItem.toLowerCase())
                 ) {
                   return val;
                 }
@@ -281,7 +197,9 @@ function GetProducts() {
                 return (
                   <div key={p.id} className="product">
                     <div className="product_img">
-                      <img src={p.images[0].url} alt="img" />
+                      {p.images[0].url !== undefined && (
+                        <img src={p.images[0].url} alt="img" />
+                      )}
                     </div>
                     <div className="product_details">
                       <h3 className="product_details-title">{p.title}</h3>
@@ -305,6 +223,9 @@ function GetProducts() {
               })}
         </div>
       </main>
+      <div>
+        <a onClick={() => getProducts(null,2)}>Next</a>
+      </div>
     </div>
   );
 }
@@ -337,3 +258,96 @@ export default GetProducts;
 //       );
 //     })}
 // </div>
+
+
+  // useEffect(() => {
+  //   axios
+  //     .post(
+  //       "product/products",
+  //       {
+  //         condition1: null,
+  //         condition2: null,
+  //         pageNum: 1,
+  //         pageSize: 4,
+  //       },
+  //       {
+  //         headers: { "Content-Type": "application/json", token: setToken },
+  //         withCredentials: true,
+  //       }
+  //     )
+  //     .then((response) => {
+  //       localStorage.setItem("product", JSON.stringify(response.data.content));
+  //       // setProduct(response.data.content);
+  //       console.log(response);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
+  // useEffect(() => {
+  //   const savedProduct = localStorage.getItem("product");
+  //   if (savedProduct) {
+  //     setProduct(JSON.parse(savedProduct));
+  //   }
+  // }, [dispatch]);
+
+  // const handlePriceRangeChange = (newRange) => {
+  //   setPriceRange(newRange);
+  // };
+
+  // const handleNewestChange = (isChecked) => {
+  //   setIsNewest(isChecked);
+  // };
+
+  // console.log("details List", details.firstName);
+
+  // const getProduct = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await axios.get(`/product/get/40`, {
+  //       headers: { "Content-Type": "application/json", token: setToken },
+  //       withCredentials: true,
+  //     });
+  //     const fetchedProduct = response.data.content;
+
+  //     localStorage.setItem("oneProduct", JSON.stringify(fetchedProduct));
+  //     dispatch({ type: "PRODUCT", getProduct: fetchedProduct });
+
+  //     console.log(response);
+  //     navigate("/productdetails");
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  
+  // async function getProducts() {
+  //   // e.preventDefault();
+  //   try {
+  //     const response = await axios.post(
+  //       "product/products",
+  //       {
+  //         condition1: null,
+  //         condition2: null,
+  //         pageNum: 1,
+  //         pageSize: 4,
+  //       },
+  //       {
+  //         headers: { "Content-Type": "application/json", token: setToken },
+  //         withCredentials: true,
+  //       }
+  //     );
+  //     const fetchedProducts = response.data.content;
+  //     console.log("Products", fetchedProducts);
+  //     localStorage.setItem("product", JSON.stringify(fetchedProducts));
+
+  //     dispatch({ type: "PRODUCT", products: fetchedProducts });
+
+  //     // console.log("products are here!", response.data.content)
+  //     // console.log(response);
+  //     // navigate("/list");
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }

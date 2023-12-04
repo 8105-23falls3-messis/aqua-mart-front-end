@@ -7,6 +7,9 @@ import "react-rater/lib/react-rater.css";
 import "../../components/productPage/productPage.css"
 import PhoneIcon from '@mui/icons-material/Phone';
 import { Phone } from "@mui/icons-material";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useStateValue } from "../StateProvider";
 
 /*
 import React from 'react';
@@ -29,6 +32,18 @@ function Email({email, subject}) {
 export default Email
 */
 const ProductPage = () => {
+  const [{productById}, dispatch] = useStateValue();
+  const [oneProduct, setOneProduct] = useState();
+  
+  useEffect(() => {
+    const savedOneProduct = localStorage.getItem("ProductById");
+    if (savedOneProduct) {
+      // console.log(savedOneProduct);
+      setOneProduct(JSON.parse(savedOneProduct));
+    }
+  }, []);
+
+// console.log(oneProduct);
   const productDetailItem = {
     images: [
       {
@@ -78,8 +93,9 @@ const ProductPage = () => {
   const plusMinuceButton =
     "flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
   
-    const email = 'malekabrar569@gmail.com'
-    const encodedSubject = encodeURIComponent("Regarding Product you listed on the AquaMart");
+    const email = productById.user.email; 
+    console.log(productById);
+    const encodedSubject = encodeURIComponent(`Regarding Product  namey ${productById.title} you listed on the AquaMart`);
     const mailtoLink = `mailto:${email}?subject=${encodedSubject}`;
 
   
@@ -88,13 +104,13 @@ const ProductPage = () => {
     <section className="container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:grid lg:grid-cols-2 lg:py-10">
       {/* image gallery */}
       <div className="img-container container mx-auto">
-      {productDetailItem.images.map((x, index) => {
+      {productById.images.map((x) => {
               return (
                 <div
-                  key={index}
+                  key={x.id}
                   className="img-holder"
                 >
-                  <img src={x.original} alt="img"/>
+                  <img src={x.url} alt="img"/>
                 </div>
               );
             })}
@@ -104,7 +120,7 @@ const ProductPage = () => {
 
       <div className="mx-auto px-5 lg:px-5">
         <h2 className="pt-3 text-2xl font-bold lg:pt-0">
-          {productDetailItem.title}
+          {productById.title}
         </h2>
         {/* <div className="mt-1">
           <div className="flex items-center">
@@ -129,23 +145,23 @@ const ProductPage = () => {
           )}
         </p> */}
         <p className="font-bold">
-          Brand: <span className="font-normal">{productDetailItem.brand}</span>
+          Brand: <span className="font-normal">{productById.brand}</span>
         </p>
         <p className="font-bold">
           Cathegory:{" "}
-          <span className="font-normal">{productDetailItem.category}</span>
+          <span className="font-normal">{productById.category.name}</span>
         </p>
         {/* <p className="font-bold">
           SKU: <span className="font-normal">{productDetailItem.sku}</span>
         </p> */}
         <p className="mt-1 text-4xl font-bold text-black"> Cost:
-          ${productDetailItem.price}{" "} 
+          ${productById.cost}
           {/* <span className="text-xs text-gray-400 line-through">
             ${productDetailItem.previousPrice}
           </span> */}
         </p>
         <p className="pt-1 text-sm leading-5 text-gray-500">
-          {productDetailItem.description}
+          {productById.description}
         </p>
         {/* <div className="mt-6">
           <p className="pb-2 text-xs text-gray-500">Size</p>

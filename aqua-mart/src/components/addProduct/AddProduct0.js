@@ -18,12 +18,13 @@ import { type } from "@testing-library/user-event/dist/type";
 import axios from "../../axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { Cookie } from "@mui/icons-material";
 let images;
-
 
 function AddProduct0() {
   const navigate = useNavigate();
-  const [{ details, token, setToken, setUser, category }, dispatch] = useStateValue();
+  const [{ details, token, setToken, setUser, category }, dispatch] =
+    useStateValue();
 
   console.log(">>>>>", setToken, setUser);
   const [productName, setProductName] = useState();
@@ -34,42 +35,39 @@ function AddProduct0() {
   const [productImage, setProductImage] = useState();
 
   const inputRef = React.useRef();
-  
+
   useEffect(() => {
     categories();
   }, [dispatch]);
 
-
   // Category
-  async function categories(){
+  async function categories() {
     try {
       const response = await axios.get("/product/categories", {
-        headers: { "Content-Type": "application/json", "token": setToken },
+        headers: { "Content-Type": "application/json", token: setToken },
         withCredentials: true,
       });
       dispatch({ type: "PRODUCT", category: response.data.content });
 
-      console.log("Categories" ,response);
+      console.log("Categories", response);
       // navigate("/addproduct");
     } catch (err) {
       console.log(err);
     }
   }
 
-
-
   // let fileArray = [];
-  
+
   // console.log(details);
   const handleChangeFile = async (e) => {
     setProductImage(e.target.files);
     // console.log(inputRef.current.files);
     const fileList = e.target.files; // This gives you the FileList
-   
+
     const fileArray = Array.from(fileList).map((file, index) => ({
       // id: index,
       fileName: file.name,
-      type : file.type,
+      type: file.type,
       // url : URL.createObjectURL(file),
       cover: index === 0,
       // product: productName
@@ -78,20 +76,23 @@ function AddProduct0() {
     images = fileArray;
     // console.log(images);
 
-    try{
-      const response = await axios.post("image/upload", JSON.stringify({
-        images: fileArray
-      }), {
-        headers: { "Content-Type": "application/json", "token": setToken },
-        withCredentials: true,
-      }
+    try {
+      const response = await axios.post(
+        "image/upload",
+        JSON.stringify({
+          images: fileArray,
+        }),
+        {
+          headers: { "Content-Type": "application/json", token: Cookie.token },
+          withCredentials: true,
+        }
       );
       console.log(response);
-    } catch(err){
+    } catch (err) {
       console.log(err);
     }
   };
-  
+
   // console.log(storedToken);
   // const images = productImage.map((element, index) => ({
   //   id: index, // Assuming you want to initialize all ids with 0
@@ -101,7 +102,33 @@ function AddProduct0() {
   //   product: "", // You need to define the product association
   // }));
   // console.log(storedUser);
-
+  const fetchAndUpdateProductData = async () => {
+    try {
+      const response = await axios.post(
+        "product/products",
+        {
+          condition1: null,
+          condition2: null,
+          pageNum: 1,
+          pageSize: 4,
+        },
+        {
+          headers: { "Content-Type": "application/json", token: setToken },
+          withCredentials: true,
+        }
+      );
+  
+      // Update the product state
+      // setProduct(response.data.content);
+      console.log("pRODUCTS IS BEING cALLED");
+  
+      // Update local storage
+      localStorage.setItem("product", JSON.stringify(response.data.content));
+      navigate("/list");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleSubmit = async (e) => {
     const formData = new FormData();
@@ -110,7 +137,7 @@ function AddProduct0() {
     files.forEach((file, index) => {
       formData.append(`images[${index}]`, file);
     });
-    
+
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -131,14 +158,16 @@ function AddProduct0() {
           active: true,
         }),
         {
-          headers: { "Content-Type": "application/json", "token": setToken},
+          headers: { "Content-Type": "application/json", token: setToken },
           withCredentials: true,
         }
       );
 
       console.log(response);
       if (response.status === 200) {
-        navigate("/list");
+        // Now trigger the API call
+        fetchAndUpdateProductData();
+        // navigate("/list");
 
         console.log("Product Added successfully");
       } else {
@@ -201,14 +230,20 @@ function AddProduct0() {
                           required
                         /> */}
 
-                        <select id="categories" className="w-100 mb-4" onChange={(e) => setProductCategory(e.target.value)}>
-                          <option value={''} disabled>Select Category</option>
-                          {category !== undefined && category.map((c)=>
-                          <option key={c.id} value={c.id}>{c.name}</option>
-                          )}
+                        <select
+                          id="categories"
+                          className="w-100 mb-4"
+                          onChange={(e) => setProductCategory(e.target.value)}>
+                          <option value={""} disabled>
+                            Select Category
+                          </option>
+                          {category !== undefined &&
+                            category.map((c) => (
+                              <option key={c.id} value={c.id}>
+                                {c.name}
+                              </option>
+                            ))}
                         </select>
-
-
                       </MDBCol>
                       <MDBCol md="12">
                         <MDBInput
@@ -242,6 +277,7 @@ function AddProduct0() {
                             toolbar:
                               "undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
                             branding: false,
+                            forced_root_block: false, 
                           }}
                           onEditorChange={(content) =>
                             setProductDescription(content)

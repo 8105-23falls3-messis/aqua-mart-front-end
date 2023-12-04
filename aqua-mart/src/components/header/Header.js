@@ -299,7 +299,7 @@ function Header() {
               <div className="userProfile flex items-center">
                 <Link
                   onClick={getUser}
-                  className="flex items-center text-white hover:text-sky-500">
+                  className="flex items-center text-white">
                   <AccountCircleIcon className="profileIcon text-3xl" />
                   {userInfoObj && (
                     <span className="font-medium">{userInfoObj.firstName}</span>

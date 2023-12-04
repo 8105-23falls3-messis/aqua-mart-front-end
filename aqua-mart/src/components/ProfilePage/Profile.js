@@ -20,7 +20,7 @@ function Profile() {
 
   const navigate = useNavigate();
 
-  const [{ details, userId, storedUser}, dispatch] = useStateValue();
+  const [{ details, userId, storedUser, setToken}, dispatch] = useStateValue();
   // console.log("S", storedUser);
   const [fname, setFname] = useState(details.firstName || "");
   const [mname, setMname] = useState(details.midName || "");
@@ -70,7 +70,7 @@ function Profile() {
           idRole: role,
         }),
         {
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", "token": setToken  },
           withCredentials: true,
         }
       );

@@ -7,12 +7,15 @@ import LockIcon from "@mui/icons-material/Lock";
 import AuthService from "../AuthService";
 import { useStateValue } from "../StateProvider";
 import axios from "../../axios";
+import { useCookies } from "react-cookie";
 
 
 function Login() {
 
 
   const [{ user }, dispatch] = useStateValue();
+
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -67,6 +70,7 @@ function Login() {
       // console.log("Details", resData.response.data.content.user);
       localStorage.setItem('user', JSON.stringify(resData.response.data.content.user));
       localStorage.setItem('token', JSON.stringify(resData.token));
+      setCookie('token', resData.token);
       dispatch({type: "USER_TOKEN", setToken: resData.token})
       dispatch({type: "USER_INFO", setUser: resData.response.data.content.user})
       
