@@ -16,12 +16,12 @@ function ProductByUser() {
   //   console.log(userInfo.id);
   const getProductByUser = async () => {
     axios
-      .get(`/product/get/${userInfo.id}`, {
+      .get(`/product/getByUser/${userInfo.id}`, {
         headers: { "Content-Type": "application/json", "token": cookies.token },
         withCredentials: true,
       })
       .then((response) => {
-        const fetchedProducts = response.data.content.product;
+        const fetchedProducts = response.data.content.products;
         console.log(fetchedProducts);
         setUserProducts(fetchedProducts);
         localStorage.setItem("ProductByUser", JSON.stringify(fetchedProducts));
