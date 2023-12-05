@@ -51,7 +51,8 @@ function GetProducts() {
         JSON.stringify(response.data.content.list)
       );
       setProduct(response.data.content.list);
-      console.log(response.data);
+      console.log(response.data.content.list[0].images[0].url);
+      console.log(response.data.content.list);
       navigate("/list");
       setCurrNextPage(response.data.content.nextPage);
       setPrevCurrPage(response.data.content.prePage);
@@ -207,9 +208,9 @@ function GetProducts() {
                 return (
                   <div key={p.id} className="product">
                     <div className="product_img">
-                      {p.images[0].url !== undefined && (
+                      {/* {p.images[0].url !== undefined && (
                         <img src={p.images[0].url} alt="img" />
-                      )}
+                      )} */}
                     </div>
                     <div className="product_details">
                       <h3 className="product_details-title">{p.title}</h3>

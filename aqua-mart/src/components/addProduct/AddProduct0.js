@@ -18,7 +18,7 @@ import { type } from "@testing-library/user-event/dist/type";
 import axios from "../../axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { Cookie } from "@mui/icons-material";
+import { useCookies } from "react-cookie";
 let images;
 let imagenes = [];
 
@@ -35,11 +35,17 @@ function AddProduct0() {
   const [productDescription, setProductDescription] = useState();
   const [productImage, setProductImage] = useState();
 
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+
   const inputRef = React.useRef();
 
   const storedCategoriesDataString = localStorage.getItem("categories");
   const CategoriesInfo = JSON.parse(storedCategoriesDataString);
   console.log(CategoriesInfo);
+
+  const storedUser = localStorage.getItem("user");
+  const userInfo = JSON.parse(storedUser);
+  console.log(userInfo.id);
 
   // let fileArray = [];
   //const [file, setFile] = useState(null);
@@ -89,12 +95,12 @@ function AddProduct0() {
       const response = await axios.post("image/upload", formData, {
         // <<<<<<< HEAD
         // <<<<<<< HEAD
-        headers: { "Content-Type": "application/json", token: Cookie.token },
+        headers: { "Content-Type": "application/json", token: cookies.token },
         // =======
         // >>>>>>> 61a6d4598e73e53f55e078f1533b41b42a203ab0
         // =======
 
-        headers: { "Content-Type": "multipart/form-data", token: Cookie.token },
+        headers: { "Content-Type": "multipart/form-data", token: cookies.token },
         // >>>>>>> d416782aee2d416ff9ab90817a6dd8d34c05a732
         withCredentials: true,
       });
@@ -131,7 +137,7 @@ function AddProduct0() {
           pageSize: 4,
         },
         {
-          headers: { "Content-Type": "application/json", token: Cookie.token },
+          headers: { "Content-Type": "application/json", token: cookies.token },
           withCredentials: true,
         }
       );
@@ -162,20 +168,20 @@ function AddProduct0() {
             id: 2,
           },
           user: {
-            id: setUser.id,
+            id: userInfo.id,
           },
 
-          images: imagenes,
+          images: images,
           active: true,
         }),
         {
-          headers: { "Content-Type": "application/json", token: Cookie.token },
+          headers: { "Content-Type": "application/json", token: cookies.token },
           withCredentials: true,
         }
       );
 
       console.log(response);
-      if (response.status === 200) {
+      if (response.data.code === 200) {
         // Now trigger the API call
         fetchAndUpdateProductData();
         // navigate("/list");
