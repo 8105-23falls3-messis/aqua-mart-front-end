@@ -321,6 +321,7 @@ function AddProduct0() {
                           multiple
                           inputRef={inputRef}
                           onChange={handleChangeFile}
+                          required
                         />
                       </MDBCol>
                     </MDBRow>
