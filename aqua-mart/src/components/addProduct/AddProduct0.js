@@ -72,7 +72,7 @@ function AddProduct0() {
     const formData = new FormData();
     //formData.append('files', fileList);
 
-<<<<<<< HEAD
+// <<<<<<< HEAD
     const fileArray = Array.from(fileList).map((file, index) => ({
       // id: index,
       fileName: file.name,
@@ -89,22 +89,21 @@ function AddProduct0() {
     /************
     Upload Images
     *************/
-=======
+// =======
         // Append each file to the formData
         for (let j = 0; j < fileList.length; j++) {
           formData.append('files', fileList[j]);
         }
->>>>>>> 61a6d4598e73e53f55e078f1533b41b42a203ab0
+// >>>>>>> 61a6d4598e73e53f55e078f1533b41b42a203ab0
     try {
       const response = await axios.post(
         "image/upload",
         formData,
         {
-<<<<<<< HEAD
+// <<<<<<< HEAD
           headers: { "Content-Type": "application/json", "token": Cookie.token },
-=======
-          headers: { "Content-Type": "multipart/form-data", token: Cookie.token },
->>>>>>> 61a6d4598e73e53f55e078f1533b41b42a203ab0
+// =======
+// >>>>>>> 61a6d4598e73e53f55e078f1533b41b42a203ab0
           withCredentials: true,
         }
       );

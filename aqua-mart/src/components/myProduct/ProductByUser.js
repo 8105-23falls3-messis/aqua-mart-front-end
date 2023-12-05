@@ -21,7 +21,7 @@ function ProductByUser() {
         withCredentials: true,
       })
       .then((response) => {
-        const fetchedProducts = response.data.content.product;
+        const fetchedProducts = response.data.content;
         console.log(fetchedProducts);
         setUserProducts(fetchedProducts);
         localStorage.setItem("ProductByUser", JSON.stringify(fetchedProducts));

@@ -10,13 +10,14 @@ function GetProducts() {
   const [{ category, setToken }, dispatch] = useStateValue();
   const [searchItem, setSearchItem] = useState("");
   const [selectedCategory, setSelectedCategory] = useState([]);
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
   const [isNewest, setIsNewest] = useState(false);
   const [product, setProduct] = useState([]);
   const [currNextPage, setCurrNextPage] = useState(1);
   const [currPrevPage, setPrevCurrPage] = useState(1);
-  
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   // const [categoryItem, setCategoryItem] = useState([]);
   const navigate = useNavigate();
 
@@ -45,24 +46,26 @@ function GetProducts() {
           withCredentials: true,
         }
       );
-      localStorage.setItem("product", JSON.stringify(response.data.content.list));
+      localStorage.setItem(
+        "product",
+        JSON.stringify(response.data.content.list)
+      );
       setProduct(response.data.content.list);
       console.log(response.data);
       navigate("/list");
-      setCurrNextPage(response.data.content.nextPage)
-      setPrevCurrPage(response.data.content.prePage)
-      console.log(currPrevPage ,currNextPage);
+      setCurrNextPage(response.data.content.nextPage);
+      setPrevCurrPage(response.data.content.prePage);
+      console.log(currPrevPage, currNextPage);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    console.log('---> use effect')
+    console.log("---> use effect");
     // setCurrPage(currPage+1);
     getProducts(null, currNextPage);
-  },[]);
-
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("product", JSON.stringify(product));
@@ -95,7 +98,9 @@ function GetProducts() {
       console.log(err);
     }
   }
-
+  const handleCategoryFilterChange = (e) => {
+    setCategoryFilter(e.target.value);
+  };
   const handleCategoryChange = (categoryName) => {
     if (selectedCategory.includes(categoryName)) {
       setSelectedCategory(
@@ -104,7 +109,7 @@ function GetProducts() {
     } else {
       setSelectedCategory([...selectedCategory, categoryName]);
     }
-    console.log('handle categorychange', selectedCategory)
+    console.log("handle categorychange", selectedCategory);
   };
 
   //DETAILS
@@ -126,7 +131,6 @@ function GetProducts() {
       });
   };
 
-
   return (
     <div className="products-section">
       <main className="main-container mx-auto max-w-7xl px-2 flex sm:px-6 lg:px-8">
@@ -140,6 +144,7 @@ function GetProducts() {
               onChange={(e) => setSearchItem(e.target.value)}
             />
           </div>
+         
           <div className="category-section">
             <h4>Categories</h4>
             {category !== undefined &&
@@ -148,8 +153,8 @@ function GetProducts() {
                   <input
                     className="category-checks"
                     type="checkbox"
-                    checked={selectedCategory.includes(category.name)}
-                    onChange={() => handleCategoryChange(category.name)}
+                    checked={categoryFilter.includes(category.name)}
+                    onChange={handleCategoryFilterChange}
                   />
                   <label className="pl-2">{category.name}</label>
                 </div>
@@ -188,15 +193,15 @@ function GetProducts() {
             product
               .filter((val) => {
                 if (searchItem == "") {
-                  console.log('check 1st if', selectedCategory)
+                  console.log("check 1st if", selectedCategory);
                   return val;
                 } else if (
-                  val.title
-                    .toLowerCase()
-                    .includes(searchItem.toLowerCase())
-                ) {
-                  return val;
-                }
+                  val.title.toLowerCase().includes(searchItem.toLowerCase())
+                  ) {
+                    return val;
+                  }else if(val.category.name.toLowerCase().includes(categoryFilter.toLowerCase())){
+                    return val;
+                  }
               })
               .map((p) => {
                 return (
@@ -229,8 +234,8 @@ function GetProducts() {
         </div>
       </main>
       <div className="pagination">
-        <a onClick={() => getProducts(null,currPrevPage)}>Previous</a>
-        <a onClick={() => getProducts(null,currNextPage)}>Next</a>
+        <a onClick={() => getProducts(null, currPrevPage)}>Previous</a>
+        <a onClick={() => getProducts(null, currNextPage)}>Next</a>
       </div>
     </div>
   );
@@ -265,95 +270,93 @@ export default GetProducts;
 //     })}
 // </div>
 
+// useEffect(() => {
+//   axios
+//     .post(
+//       "product/products",
+//       {
+//         condition1: null,
+//         condition2: null,
+//         pageNum: 1,
+//         pageSize: 4,
+//       },
+//       {
+//         headers: { "Content-Type": "application/json", token: setToken },
+//         withCredentials: true,
+//       }
+//     )
+//     .then((response) => {
+//       localStorage.setItem("product", JSON.stringify(response.data.content));
+//       // setProduct(response.data.content);
+//       console.log(response);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// }, []);
 
-  // useEffect(() => {
-  //   axios
-  //     .post(
-  //       "product/products",
-  //       {
-  //         condition1: null,
-  //         condition2: null,
-  //         pageNum: 1,
-  //         pageSize: 4,
-  //       },
-  //       {
-  //         headers: { "Content-Type": "application/json", token: setToken },
-  //         withCredentials: true,
-  //       }
-  //     )
-  //     .then((response) => {
-  //       localStorage.setItem("product", JSON.stringify(response.data.content));
-  //       // setProduct(response.data.content);
-  //       console.log(response);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
+// useEffect(() => {
+//   const savedProduct = localStorage.getItem("product");
+//   if (savedProduct) {
+//     setProduct(JSON.parse(savedProduct));
+//   }
+// }, [dispatch]);
 
-  // useEffect(() => {
-  //   const savedProduct = localStorage.getItem("product");
-  //   if (savedProduct) {
-  //     setProduct(JSON.parse(savedProduct));
-  //   }
-  // }, [dispatch]);
+// const handlePriceRangeChange = (newRange) => {
+//   setPriceRange(newRange);
+// };
 
-  // const handlePriceRangeChange = (newRange) => {
-  //   setPriceRange(newRange);
-  // };
+// const handleNewestChange = (isChecked) => {
+//   setIsNewest(isChecked);
+// };
 
-  // const handleNewestChange = (isChecked) => {
-  //   setIsNewest(isChecked);
-  // };
+// console.log("details List", details.firstName);
 
-  // console.log("details List", details.firstName);
+// const getProduct = async (e) => {
+//   e.preventDefault();
+//   try {
+//     const response = await axios.get(`/product/get/40`, {
+//       headers: { "Content-Type": "application/json", token: setToken },
+//       withCredentials: true,
+//     });
+//     const fetchedProduct = response.data.content;
 
-  // const getProduct = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.get(`/product/get/40`, {
-  //       headers: { "Content-Type": "application/json", token: setToken },
-  //       withCredentials: true,
-  //     });
-  //     const fetchedProduct = response.data.content;
+//     localStorage.setItem("oneProduct", JSON.stringify(fetchedProduct));
+//     dispatch({ type: "PRODUCT", getProduct: fetchedProduct });
 
-  //     localStorage.setItem("oneProduct", JSON.stringify(fetchedProduct));
-  //     dispatch({ type: "PRODUCT", getProduct: fetchedProduct });
+//     console.log(response);
+//     navigate("/productdetails");
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
-  //     console.log(response);
-  //     navigate("/productdetails");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+// async function getProducts() {
+//   // e.preventDefault();
+//   try {
+//     const response = await axios.post(
+//       "product/products",
+//       {
+//         condition1: null,
+//         condition2: null,
+//         pageNum: 1,
+//         pageSize: 4,
+//       },
+//       {
+//         headers: { "Content-Type": "application/json", token: setToken },
+//         withCredentials: true,
+//       }
+//     );
+//     const fetchedProducts = response.data.content;
+//     console.log("Products", fetchedProducts);
+//     localStorage.setItem("product", JSON.stringify(fetchedProducts));
 
-  
-  // async function getProducts() {
-  //   // e.preventDefault();
-  //   try {
-  //     const response = await axios.post(
-  //       "product/products",
-  //       {
-  //         condition1: null,
-  //         condition2: null,
-  //         pageNum: 1,
-  //         pageSize: 4,
-  //       },
-  //       {
-  //         headers: { "Content-Type": "application/json", token: setToken },
-  //         withCredentials: true,
-  //       }
-  //     );
-  //     const fetchedProducts = response.data.content;
-  //     console.log("Products", fetchedProducts);
-  //     localStorage.setItem("product", JSON.stringify(fetchedProducts));
+//     dispatch({ type: "PRODUCT", products: fetchedProducts });
 
-  //     dispatch({ type: "PRODUCT", products: fetchedProducts });
-
-  //     // console.log("products are here!", response.data.content)
-  //     // console.log(response);
-  //     // navigate("/list");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
+//     // console.log("products are here!", response.data.content)
+//     // console.log(response);
+//     // navigate("/list");
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
