@@ -90,9 +90,9 @@ function ProductByUser() {
                 return (
                   <div key={p.id} className="product">
                     <div className="product_img">
-                      {/* {p.images[0].url !== undefined && (
+                      {p.images[0].url !== undefined && (
                         <img src={p.images[0].url} alt="img" />
-                      )}         */}
+                      )}        
                     </div>
                     <div className="product_details">
                       <h3 className="product_details-title">{p.title}</h3>

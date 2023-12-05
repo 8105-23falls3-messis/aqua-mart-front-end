@@ -171,7 +171,7 @@ function AddProduct0() {
             id: userInfo.id,
           },
 
-          images: images,
+          images: imagenes,
           active: true,
         }),
         {
@@ -181,7 +181,7 @@ function AddProduct0() {
       );
 
       console.log(response);
-      if (response.data.code === 200) {
+      if (response.status === 200) {
         // Now trigger the API call
         fetchAndUpdateProductData();
         // navigate("/list");
