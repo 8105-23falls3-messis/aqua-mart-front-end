@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Cookie } from "@mui/icons-material";
 let images;
+let imagenes=[];
 
 function AddProduct0() {
   const navigate = useNavigate();
@@ -57,13 +58,21 @@ function AddProduct0() {
   }
 
   // let fileArray = [];
-
+  //const [file, setFile] = useState(null);
   // console.log(details);
   const handleChangeFile = async (e) => {
+    debugger;
+    //setFile(e.target.files[0]);
+
     setProductImage(e.target.files);
     // console.log(inputRef.current.files);
     const fileList = e.target.files; // This gives you the FileList
+    //setFile(e.target.files[0]);
+    
+    const formData = new FormData();
+    //formData.append('files', fileList);
 
+<<<<<<< HEAD
     const fileArray = Array.from(fileList).map((file, index) => ({
       // id: index,
       fileName: file.name,
@@ -80,22 +89,49 @@ function AddProduct0() {
     /************
     Upload Images
     *************/
+=======
+        // Append each file to the formData
+        for (let j = 0; j < fileList.length; j++) {
+          formData.append('files', fileList[j]);
+        }
+>>>>>>> 61a6d4598e73e53f55e078f1533b41b42a203ab0
     try {
       const response = await axios.post(
         "image/upload",
-        JSON.stringify({
-          images: fileArray,
-        }),
+        formData,
         {
+<<<<<<< HEAD
           headers: { "Content-Type": "application/json", "token": Cookie.token },
+=======
+          headers: { "Content-Type": "multipart/form-data", token: Cookie.token },
+>>>>>>> 61a6d4598e73e53f55e078f1533b41b42a203ab0
           withCredentials: true,
         }
       );
+      console.log(images);
       console.log(response);
+
+      createImage(response);
     } catch (err) {
       console.log(err);
     }
   };
+
+
+  function createImage(response){
+    const miImagen=null;
+
+    for (let i=0; i<response.data.content.length; i++){
+      const miImagen = new Object();
+      miImagen.fileName = response.data.content[i].fileName;
+      miImagen.contenType = response.data.content[i].contenType;
+      miImagen.url = response.data.content[i].url;
+
+      imagenes[i]=miImagen;
+    }
+  }
+
+  
 
   // console.log(storedToken);
   // const images = productImage.map((element, index) => ({
@@ -135,12 +171,7 @@ function AddProduct0() {
   };
 
   const handleSubmit = async (e) => {
-    const formData = new FormData();
-    const files = Array.from(productImage);
 
-    files.forEach((file, index) => {
-      formData.append(`images[${index}]`, file);
-    });
 
     e.preventDefault();
     try {
@@ -158,7 +189,7 @@ function AddProduct0() {
             id: setUser.id,
           },
 
-          images: images,
+          images: imagenes,
           active: true,
         }),
         {
