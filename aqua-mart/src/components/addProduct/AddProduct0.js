@@ -20,14 +20,14 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Cookie } from "@mui/icons-material";
 let images;
-let imagenes=[];
+let imagenes = [];
 
 function AddProduct0() {
   const navigate = useNavigate();
   const [{ details, token, setToken, setUser, category }, dispatch] =
     useStateValue();
 
-  console.log(">>>>>", setToken, setUser);
+  // console.log(">>>>>", setToken, setUser);
   const [productName, setProductName] = useState();
   const [productBrand, setProductBrand] = useState();
   const [productCategory, setProductCategory] = useState();
@@ -37,25 +37,9 @@ function AddProduct0() {
 
   const inputRef = React.useRef();
 
-  useEffect(() => {
-    categories();
-  }, [dispatch]);
-
-  // Category
-  async function categories() {
-    try {
-      const response = await axios.get("/product/categories", {
-        headers: { "Content-Type": "application/json", "token": Cookie.token },
-        withCredentials: true,
-      });
-      dispatch({ type: "PRODUCT", category: response.data.content });
-      
-      console.log("Categories", response);
-      // navigate("/addproduct");
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  const storedCategoriesDataString = localStorage.getItem("categories");
+  const CategoriesInfo = JSON.parse(storedCategoriesDataString);
+  console.log(CategoriesInfo);
 
   // let fileArray = [];
   //const [file, setFile] = useState(null);
@@ -68,12 +52,12 @@ function AddProduct0() {
     // console.log(inputRef.current.files);
     const fileList = e.target.files; // This gives you the FileList
     //setFile(e.target.files[0]);
-    
+
     const formData = new FormData();
     //formData.append('files', fileList);
 
-<<<<<<< HEAD
-// <<<<<<< HEAD
+    // <<<<<<< HEAD
+    // <<<<<<< HEAD
     const fileArray = Array.from(fileList).map((file, index) => ({
       // id: index,
       fileName: file.name,
@@ -86,39 +70,34 @@ function AddProduct0() {
     images = fileArray;
     // console.log(images);
 
-
     /************
     Upload Images
     *************/
-// =======
-=======
+    // =======
+    // =======
 
->>>>>>> d416782aee2d416ff9ab90817a6dd8d34c05a732
-        // Append each file to the formData
-        for (let j = 0; j < fileList.length; j++) {
-          formData.append('files', fileList[j]);
-        }
-<<<<<<< HEAD
-// >>>>>>> 61a6d4598e73e53f55e078f1533b41b42a203ab0
-=======
->>>>>>> d416782aee2d416ff9ab90817a6dd8d34c05a732
+    // >>>>>>> d416782aee2d416ff9ab90817a6dd8d34c05a732
+    // Append each file to the formData
+    for (let j = 0; j < fileList.length; j++) {
+      formData.append("files", fileList[j]);
+    }
+    // <<<<<<< HEAD
+    // >>>>>>> 61a6d4598e73e53f55e078f1533b41b42a203ab0
+    // =======
+    // >>>>>>> d416782aee2d416ff9ab90817a6dd8d34c05a732
     try {
-      const response = await axios.post(
-        "image/upload",
-        formData,
-        {
-<<<<<<< HEAD
-// <<<<<<< HEAD
-          headers: { "Content-Type": "application/json", "token": Cookie.token },
-// =======
-// >>>>>>> 61a6d4598e73e53f55e078f1533b41b42a203ab0
-=======
+      const response = await axios.post("image/upload", formData, {
+        // <<<<<<< HEAD
+        // <<<<<<< HEAD
+        headers: { "Content-Type": "application/json", token: Cookie.token },
+        // =======
+        // >>>>>>> 61a6d4598e73e53f55e078f1533b41b42a203ab0
+        // =======
 
-          headers: { "Content-Type": "multipart/form-data", token: Cookie.token },
->>>>>>> d416782aee2d416ff9ab90817a6dd8d34c05a732
-          withCredentials: true,
-        }
-      );
+        headers: { "Content-Type": "multipart/form-data", token: Cookie.token },
+        // >>>>>>> d416782aee2d416ff9ab90817a6dd8d34c05a732
+        withCredentials: true,
+      });
       console.log(images);
       console.log(response);
 
@@ -128,31 +107,19 @@ function AddProduct0() {
     }
   };
 
+  function createImage(response) {
+    const miImagen = null;
 
-  function createImage(response){
-    const miImagen=null;
-
-    for (let i=0; i<response.data.content.length; i++){
+    for (let i = 0; i < response.data.content.length; i++) {
       const miImagen = new Object();
       miImagen.fileName = response.data.content[i].fileName;
       miImagen.contenType = response.data.content[i].contenType;
       miImagen.url = response.data.content[i].url;
 
-      imagenes[i]=miImagen;
+      imagenes[i] = miImagen;
     }
   }
 
-  
-
-  // console.log(storedToken);
-  // const images = productImage.map((element, index) => ({
-  //   id: index, // Assuming you want to initialize all ids with 0
-  //   fileName: element.name,
-  //   type: element.type,
-  //   url: "", // You need to define how you want to handle URLs
-  //   product: "", // You need to define the product association
-  // }));
-  // console.log(storedUser);
   const fetchAndUpdateProductData = async () => {
     try {
       const response = await axios.post(
@@ -164,15 +131,15 @@ function AddProduct0() {
           pageSize: 4,
         },
         {
-          headers: { "Content-Type": "application/json", "token": Cookie.token },
+          headers: { "Content-Type": "application/json", token: Cookie.token },
           withCredentials: true,
         }
       );
-  
+
       // Update the product state
       // setProduct(response.data.content);
       console.log("pRODUCTS IS BEING cALLED");
-  
+
       // Update local storage
       localStorage.setItem("product", JSON.stringify(response.data.content));
       navigate("/list");
@@ -182,8 +149,6 @@ function AddProduct0() {
   };
 
   const handleSubmit = async (e) => {
-
-
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -204,7 +169,7 @@ function AddProduct0() {
           active: true,
         }),
         {
-          headers: { "Content-Type": "application/json", "token": Cookie.token },
+          headers: { "Content-Type": "application/json", token: Cookie.token },
           withCredentials: true,
         }
       );
@@ -227,21 +192,22 @@ function AddProduct0() {
   };
 
   return (
-    <MDBContainer fluid className="addProduct">
+    
+ <MDBContainer fluid className="addProduct">
       <MDBRow className="d-flex justify-content-center align-items-center h-100">
         <form
           onSubmit={handleSubmit}
           className="d-flex justify-content-center align-items-center w-100">
           <MDBCol col="" className="">
-            <MDBCard className="" style={{ borderRadius: "5" }}>
-              <MDBCardBody className="text-center d-flex flex-col justify-center align-items-center">
-                {/* <h2 className="addProduct-title">Add Product</h2> */}
+            <div className="" >
+              <div className="">
+                {/* <h2 className="addProduct-title">Add Product</h2> */} 
                 <MDBRow className="d-flex justify-center align-items-center ">
                   <MDBCol
                     md="6"
                     className="bg-blue d-flex justify-start align-items-start gap-5 w-100 h-100">
                     <MDBRow className="addproduct-container">
-                      <MDBCol md="12">
+                      <MDBCol className="position-static">
                         <MDBInput
                           wrapperClass="mb-4"
                           label="Item Name"
@@ -253,7 +219,7 @@ function AddProduct0() {
                         />
                       </MDBCol>
 
-                      <MDBCol md="12">
+                      <MDBCol md="position-static">
                         <MDBInput
                           wrapperClass="mb-4"
                           label="Brand Name"
@@ -283,8 +249,8 @@ function AddProduct0() {
                           <option value={""} disabled>
                             Select Category
                           </option>
-                          {category !== undefined &&
-                            category.map((c) => (
+                          {CategoriesInfo !== undefined &&
+                            CategoriesInfo.map((c) => (
                               <option key={c.id} value={c.id}>
                                 {c.name}
                               </option>
@@ -309,7 +275,7 @@ function AddProduct0() {
                         {/* <span className="text-left"> Product Description</span> */}
                         <Editor
                           apiKey="w9uy9glikbd20zxx2bcxt39mmyc48x4nz63ipssqfv5xg520"
-                          initialValue="Enter Product Description"
+                          initialValue=""
                           init={{
                             height: 200,
                             menubar: false,
@@ -355,12 +321,12 @@ function AddProduct0() {
                   </MDBCol>
                 </MDBRow>
                 <button className="register-btn">Add</button>
-              </MDBCardBody>
-            </MDBCard>
+              </div>
+            </div>
           </MDBCol>
         </form>
       </MDBRow>
-    </MDBContainer>
+    </MDBContainer>  
   );
 }
 

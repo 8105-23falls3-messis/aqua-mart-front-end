@@ -346,7 +346,7 @@ function Header() {
 
       {/* Mobile View */}
       <div
-        className={`mobile-view absolute z-50 top-full left-0 w-full bg-gray-800 transition-transform ${
+        className={`mobile-view absolute top-full left-0 w-full bg-gray-800 transition-transform ${
           toggle ? "translate-x-0" : "-translate-x-full"
         }`}>
         <ul

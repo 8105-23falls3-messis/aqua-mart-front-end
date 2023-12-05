@@ -1,6 +1,6 @@
 .addProduct{
-  position: relative;
-  z-index: -1;
+  /* position: relative;
+  z-index: -1; */
 }
 .mce-empty {
   display: none !important;
@@ -15,7 +15,9 @@
     /* color: #fff; */
     font-size: 18px;
 }
-
+.col-md-12{
+  position: static;
+}
 .addItemBtn{
     background: none;
     /* font-weight: bold; */
