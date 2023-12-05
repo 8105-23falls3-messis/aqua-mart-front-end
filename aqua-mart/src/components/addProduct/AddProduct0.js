@@ -44,11 +44,11 @@ function AddProduct0() {
   async function categories() {
     try {
       const response = await axios.get("/product/categories", {
-        headers: { "Content-Type": "application/json", token: setToken },
+        headers: { "Content-Type": "application/json", "token": Cookie.token },
         withCredentials: true,
       });
       dispatch({ type: "PRODUCT", category: response.data.content });
-
+      
       console.log("Categories", response);
       // navigate("/addproduct");
     } catch (err) {
@@ -76,6 +76,10 @@ function AddProduct0() {
     images = fileArray;
     // console.log(images);
 
+
+    /************
+    Upload Images
+    *************/
     try {
       const response = await axios.post(
         "image/upload",
@@ -83,7 +87,7 @@ function AddProduct0() {
           images: fileArray,
         }),
         {
-          headers: { "Content-Type": "application/json", token: Cookie.token },
+          headers: { "Content-Type": "application/json", "token": Cookie.token },
           withCredentials: true,
         }
       );
@@ -113,7 +117,7 @@ function AddProduct0() {
           pageSize: 4,
         },
         {
-          headers: { "Content-Type": "application/json", token: setToken },
+          headers: { "Content-Type": "application/json", "token": Cookie.token },
           withCredentials: true,
         }
       );
@@ -158,7 +162,7 @@ function AddProduct0() {
           active: true,
         }),
         {
-          headers: { "Content-Type": "application/json", token: setToken },
+          headers: { "Content-Type": "application/json", "token": Cookie.token },
           withCredentials: true,
         }
       );

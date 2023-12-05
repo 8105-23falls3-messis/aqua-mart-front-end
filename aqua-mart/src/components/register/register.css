@@ -2,7 +2,7 @@
    .register{
     position: relative;
     z-index: 100;
-    /* height: calc(100vh - 15vh - 81px); */
+    min-height: calc(100vh - 15vh - 81px);
     /* margin-bottom: auto; */
     /* border: 1px solid; */
    }

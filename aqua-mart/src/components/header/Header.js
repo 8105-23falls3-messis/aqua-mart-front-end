@@ -7,8 +7,10 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "../../axios";
 
 import "../header/header.css";
+import { useCookies } from "react-cookie";
 
 function Header() {
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
   const handleClick = () => setToggle(!toggle);
@@ -68,6 +70,10 @@ function Header() {
           withCredentials: true,
         }
       );
+
+      // Remove the 'token' cookie
+      removeCookie("token");
+
       localStorage.removeItem("user");
       localStorage.removeItem("token");
       localStorage.removeItem("product");
@@ -270,9 +276,14 @@ function Header() {
                   <li className="link">List</li>
                 </Link>
                 {userInfoObj.idRole == 1 && (
+                  <>
                   <Link className="text-white" to={"/addproduct"}>
                     <li className="link">Add Item</li>
                   </Link>
+                  <Link className="text-white" to={"/myproduct"}>
+                    <li className="link">My Products</li>
+                  </Link>
+                  </>
                 )}
               </>
             ) : (

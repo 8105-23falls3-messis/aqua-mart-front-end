@@ -203,9 +203,11 @@ const ProductPage = () => {
         </div> */}
         <div className="mt-7 flex flex-row items-center gap-6">
           
-          <button className="contact-btn flex h-12 w-1/3 items-center justify-center ">
+          <button className="contact-btn">
+          {/* flex h-12 items-center justify-center  */}
             <PhoneIcon className="mx-2" />
-                   <a href={mailtoLink}> Contact</a>           </button>
+                   <a className="text-white hover:text-sky-500" href={mailtoLink}> Contact</a>           
+                   </button>
           {/* <button className="flex h-12 w-1/3 items-center justify-center bg-amber-400 duration-100 hover:bg-yellow-300">
             <AiOutlineHeart className="mx-2" />
             

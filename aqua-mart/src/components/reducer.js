@@ -53,6 +53,11 @@ const reducer = (state, action) => {
         return{
           ...state,
           productById: action.productById,
+        };
+      case "ProductByUser":
+        return{
+          ...state,
+          productByUser: action.productByUser,
         }
     default:
       return state;

@@ -120,7 +120,7 @@ function Register() {
 
   return (
     <MDBContainer fluid className="register">
-      <MDBRow className="d-flex justify-content-center align-items-center h-100">
+      <MDBRow className="d-flex justify-content-center align-items-center h-100 pt-5">
         <form
           onSubmit={handleSubmit}
           className="d-flex justify-content-center align-items-center w-100">

@@ -19,6 +19,7 @@ import ProductPage from "./components/productPage/ProductPage";
 import Profile from "./components/ProfilePage/Profile";
 import AddProduct0 from "./components/addProduct/AddProduct0";
 import GetProducts from "./components/features/GetProducts";
+import ProductByUser from "./components/myProduct/ProductByUser";
 
 
 // import ImageSlider from "./components/home/ImageSlider";
@@ -28,6 +29,16 @@ function App() {
     <div className="app">
       <Router>
         <Routes>
+          <Route
+            path="/myproduct"
+            element={
+              <>
+                <Header />
+                <ProductByUser />
+                <Footer />
+              </>
+            }
+          />
           <Route
             path="/user"
             element={

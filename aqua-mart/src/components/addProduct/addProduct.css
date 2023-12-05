@@ -1,3 +1,7 @@
+.addProduct{
+  position: relative;
+  z-index: -1;
+}
 .mce-empty {
   display: none !important;
 }

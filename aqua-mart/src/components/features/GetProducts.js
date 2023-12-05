@@ -13,6 +13,8 @@ function GetProducts() {
   const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
   const [isNewest, setIsNewest] = useState(false);
   const [product, setProduct] = useState([]);
+  const [currNextPage, setCurrNextPage] = useState(1);
+  const [currPrevPage, setPrevCurrPage] = useState(1);
   
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   // const [categoryItem, setCategoryItem] = useState([]);
@@ -47,6 +49,9 @@ function GetProducts() {
       setProduct(response.data.content.list);
       console.log(response.data);
       navigate("/list");
+      setCurrNextPage(response.data.content.nextPage)
+      setPrevCurrPage(response.data.content.prePage)
+      console.log(currPrevPage ,currNextPage);
     } catch (err) {
       console.log(err);
     }
@@ -54,8 +59,8 @@ function GetProducts() {
 
   useEffect(() => {
     console.log('---> use effect')
-    const page = 1;
-    getProducts(null, page);
+    // setCurrPage(currPage+1);
+    getProducts(null, currNextPage);
   },[]);
 
 
@@ -135,22 +140,22 @@ function GetProducts() {
               onChange={(e) => setSearchItem(e.target.value)}
             />
           </div>
-          <div>
+          <div className="category-section">
             <h4>Categories</h4>
             {category !== undefined &&
               category.map((category) => (
-                <div key={category.id}>
+                <div className="category" key={category.id}>
                   <input
                     className="category-checks"
                     type="checkbox"
                     checked={selectedCategory.includes(category.name)}
                     onChange={() => handleCategoryChange(category.name)}
                   />
-                  <label>{category.name}</label>
+                  <label className="pl-2">{category.name}</label>
                 </div>
               ))}
           </div>
-          <div>
+          {/* <div>
             <h4>Price Range</h4>
             <label>Min: {priceRange.min}</label>
             <input
@@ -175,7 +180,7 @@ function GetProducts() {
                 setPriceRange({ ...priceRange, max: Number(e.target.value) });
               }}
             />
-          </div>
+          </div> */}
         </div>
 
         <div className="products">
@@ -214,7 +219,7 @@ function GetProducts() {
 
                       <a
                         onClick={() => getProductOne(p.id)}
-                        className="product_details-btn">
+                        className="product_details-btn text-white">
                         Details
                       </a>
                     </div>
@@ -223,8 +228,9 @@ function GetProducts() {
               })}
         </div>
       </main>
-      <div>
-        <a onClick={() => getProducts(null,2)}>Next</a>
+      <div className="pagination">
+        <a onClick={() => getProducts(null,currPrevPage)}>Previous</a>
+        <a onClick={() => getProducts(null,currNextPage)}>Next</a>
       </div>
     </div>
   );
