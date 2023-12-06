@@ -79,29 +79,15 @@ function AddProduct0() {
     /************
     Upload Images
     *************/
-    // =======
-    // =======
-
-    // >>>>>>> d416782aee2d416ff9ab90817a6dd8d34c05a732
-    // Append each file to the formData
+ 
     for (let j = 0; j < fileList.length; j++) {
       formData.append("files", fileList[j]);
     }
-    // <<<<<<< HEAD
-    // >>>>>>> 61a6d4598e73e53f55e078f1533b41b42a203ab0
-    // =======
-    // >>>>>>> d416782aee2d416ff9ab90817a6dd8d34c05a732
+
     try {
       const response = await axios.post("image/upload", formData, {
-        // <<<<<<< HEAD
-        // <<<<<<< HEAD
-        headers: { "Content-Type": "application/json", token: cookies.token },
-        // =======
-        // >>>>>>> 61a6d4598e73e53f55e078f1533b41b42a203ab0
-        // =======
 
         headers: { "Content-Type": "multipart/form-data", token: cookies.token },
-        // >>>>>>> d416782aee2d416ff9ab90817a6dd8d34c05a732
         withCredentials: true,
       });
       console.log(images);
@@ -165,7 +151,8 @@ function AddProduct0() {
           cost: productPrice,
           description: productDescription,
           category: {
-            id: 2,
+            id: productCategory,
+            //id:2,
           },
           user: {
             id: userInfo.id,
@@ -238,23 +225,23 @@ function AddProduct0() {
                       </MDBCol>
 
                       <MDBCol md="12">
-                        {/* <MDBInput
+ {/*                        { <MDBInput
                           wrapperClass="mb-4"
                           label="Category"
                           size="lg"
                           id="form2"
                           type="text"
-                          onChange={(e) => setProductCategory(e.target.value)}
-                          required
-                        /> */}
-
+                          //onChange={(e) => setProductCategory(e.target.value)}
+                          //required
+                        /> } */}
+                        <label>Select Category</label>
                         <select
                           id="categories"
                           className="w-100 mb-4"
                           onChange={(e) => setProductCategory(e.target.value)}>
-                          <option value={""} disabled>
+{/*                           <option value={""} disabled>
                             Select Category
-                          </option>
+                          </option> */}
                           {CategoriesInfo !== undefined &&
                             CategoriesInfo.map((c) => (
                               <option key={c.id} value={c.id}>

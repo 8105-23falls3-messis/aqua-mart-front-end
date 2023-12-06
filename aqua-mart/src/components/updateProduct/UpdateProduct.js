@@ -4,6 +4,10 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "../../axios";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+
+let images;
+let imagenesArray = [];
 
 function UpdateProduct() {
   const { id } = useParams();
@@ -15,13 +19,52 @@ function UpdateProduct() {
   const CategoriesInfo = JSON.parse(storedCategoriesDataString);
   const [newImage, setNewImage] = useState(null);
   console.log(id);
+  const navigate = useNavigate();
 
-  const handleImageChange = (e) => {
-    const newImageFile = e.target.files[0];
-    setNewImage(newImageFile);
-    console.log(newImage);
-    console.log(newImageFile);
+  const handleChangeFile = async (e) => {
+    debugger;
+    const fileList = e.target.files; // This gives you the FileList
+
+    const formData = new FormData();
+
+    const fileArray = Array.from(fileList).map((file, index) => ({
+      fileName: file.name,
+      type: file.type,
+      cover: index === 0,
+    }));
+
+    images = fileArray;
+
+    for (let j = 0; j < fileList.length; j++) {
+      formData.append("files", fileList[j]);
+    }
+    try {
+      const response = await axios.post("image/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data", token: cookies.token },
+        withCredentials: true,
+      });
+      console.log(images);
+      console.log(response);
+
+      createImage(response);
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+
+  function createImage(response) {
+    const miImagen = null;
+
+    for (let i = 0; i < response.data.content.length; i++) {
+      const miImagen = new Object();
+      miImagen.fileName = response.data.content[i].fileName;
+      miImagen.contenType = response.data.content[i].contenType;
+      miImagen.url = response.data.content[i].url;
+
+      imagenesArray[i] = miImagen;
+    }
+  }
 
   const handleInputChange = (fieldName, value) => {
     setProductInfo((prevInfo) => ({
@@ -57,29 +100,79 @@ function UpdateProduct() {
   /***********
    * Update Product Information
    */
-  const UpdateProductById = () => {
-    axios
-      .post(
-        "product/update",
-        {
-          id: productInfo.id,
+  const UpdateProductById = async (e)=> {
+let updateImage;
+/*     if (imagenesArray.length==0){
+      updateImage=imagenesArray;
+    }else{
+      updateImage=null;
+    } */
+
+    e.preventDefault();
+    try {
+      const response = await axios
+      .put(
+        "/product/update",
+        JSON.stringify({
+          id:productInfo.id,
           title: productInfo.title,
           brand: productInfo.brand,
-          description: productInfo.description,
           cost: productInfo.cost,
+          description: productInfo.description,
+          category: {
+            id: productInfo.category,
+          },
+          images: imagenesArray,
+   
+        }),
+        {
+          headers: { "Content-Type": "application/json", token: cookies.token },
+          withCredentials: true,
+        }
+      );
+
+      console.log(response);
+      if (response.status === 200) {
+        fetchAndUpdateProductData();
+        console.log("Product Updated successfully");
+      } else {
+        // Handle other scenarios
+        console.log("failed to Update product");
+      }
+      //clear the input field
+    } catch (err) {
+      console.log("Registration failed:", err);
+    }
+  };
+
+  const fetchAndUpdateProductData = async () => {
+    try {
+      const response = await axios.post(
+        "product/products",
+        {
+          condition1: null,
+          condition2: null,
+          pageNum: 1,
+          pageSize: 4,
         },
         {
           headers: { "Content-Type": "application/json", token: cookies.token },
           withCredentials: true,
         }
-      )
-      .then((response) => {
-        console.log(response.data.content);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      );
+
+      // Update the product state
+      // setProduct(response.data.content);
+      console.log("pRODUCTS IS BEING cALLED");
+
+      // Update local storage
+      localStorage.setItem("product", JSON.stringify(response.data.content));
+      navigate("/list");
+    } catch (err) {
+      console.log(err);
+    }
   };
+
 
   return (
     <div className="update-product">
@@ -107,7 +200,7 @@ function UpdateProduct() {
             <select
               id="categories"
               className="w-100 mb-4"
-              value={productInfo.category.id}
+              value={productInfo.category}
               onChange={(e) => handleInputChange("category", e.target.value)}>
               <option value={""} disabled>
                 Select Category
@@ -149,7 +242,7 @@ function UpdateProduct() {
                   type="file"
                   id="newImage"
                   accept="image/*"
-                  onChange={handleImageChange}
+                  onChange={handleChangeFile}
                 />
               </>
             )}
