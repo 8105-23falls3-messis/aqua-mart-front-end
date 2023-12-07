@@ -15,44 +15,48 @@ import "../../components/ProfilePage/profile.css";
 import { useStateValue } from "../StateProvider";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 function Profile() {
-
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  
+  const storedUserDataString = localStorage.getItem("user");
+  const userInfo = JSON.parse(storedUserDataString);
   const navigate = useNavigate();
 
-  const [{ details, userId, storedUser, setToken}, dispatch] = useStateValue();
+  const [{ details, userId, storedUser, setToken }, dispatch] = useStateValue();
   // console.log("S", storedUser);
-  const [fname, setFname] = useState(details.firstName || "");
-  const [mname, setMname] = useState(details.midName || "");
-  const [lname, setLname] = useState(details.lastName || "");
-  const [email, setEmail] = useState(details.email || "");
-  const [phone, setPhone] = useState(details.phoneNum || "");
-  const [psw, setPsw] = useState(details.password || "");
-  const [role, setRole] = useState(details.idRole || "");
-  const [dob, setDob] = useState(details.dateOfBirth || "");
-  const [add, setAdd] = useState(details.address || "");
-  const [city, setCity] = useState(details.city || "");
-  const [postalCode, setPostalCode] = useState(details.postalCode || "");
-  const [province, setProvince] = useState(details.province || "");
-  const [country, setCountry] = useState(details.country || "");
-  const [compName, setCompName] = useState(details.companyName || "");
-
+  const [fname, setFname] = useState(userInfo.firstName || "");
+  const [mname, setMname] = useState(userInfo.midName || "");
+  const [lname, setLname] = useState(userInfo.lastName || "");
+  const [email, setEmail] = useState(userInfo.email || "");
+  const [phone, setPhone] = useState(userInfo.phoneNum || "");
+  const [psw, setPsw] = useState(userInfo.password || "");
+  const [role, setRole] = useState(userInfo.idRole || "");
+  const [dob, setDob] = useState(userInfo.dateOfBirth || "");
+  const [add, setAdd] = useState(userInfo.address || "");
+  const [city, setCity] = useState(userInfo.city || "");
+  const [postalCode, setPostalCode] = useState(userInfo.postalCode || "");
+  const [province, setProvince] = useState(userInfo.province || "");
+  const [country, setCountry] = useState(userInfo.country || "");
+  const [compName, setCompName] = useState(userInfo.companyName || "");
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString(undefined, {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
-  }
-  formatDate(details.dateOfBirth)
+  };
   
+  formatDate(details.dateOfBirth);
+
   const setUser = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        '/user/updateUser',
+        "/user/updateUser",
         JSON.stringify({
           firstName: fname,
           midName: mname,
@@ -70,14 +74,14 @@ function Profile() {
           idRole: role,
         }),
         {
-          headers: { "Content-Type": "application/json", "token": setToken  },
+          headers: { "Content-Type": "application/json", token: cookies.token },
           withCredentials: true,
         }
       );
       dispatch({ type: "LOGIN", details: response.data.content.user });
       // details: resData.response.data.content.user,
       console.log("Details", response.data.content.user);
-      localStorage.setItem('user', JSON.stringify(response.data.content));
+      localStorage.setItem("user", JSON.stringify(response.data.content));
 
       console.log(response);
       navigate("/list");
@@ -86,26 +90,24 @@ function Profile() {
     }
   };
 
-  
- 
   return (
     <>
-     
       <MDBContainer fluid className="register">
         <MDBRow className="d-flex justify-content-center align-items-center h-100">
-          <form className="d-flex justify-content-center align-items-center w-100" onSubmit={setUser}>
+          <form
+            className="d-flex justify-content-center align-items-center w-100"
+            onSubmit={setUser}>
             <MDBCol col="" className="">
               <MDBCard className="" style={{ borderRadius: "" }}>
                 <MDBCardBody className="text-center">
                   {/* <h2 className="register-title">Register</h2> */}
                   <MDBRow>
                     <MDBCol md="6" className="bg-blue">
-                     
                       <MDBRow>
                         <MDBCol md="12">
                           <MDBInput
                             wrapperClass="mb-4"
-                            label={details.firstName}
+                            label={userInfo.firstName}
                             // value={details.firstName}
                             // value={isEditMode ? fname : details.firstName}
                             size="lg"
@@ -118,7 +120,7 @@ function Profile() {
 
                         <MDBCol md="6">
                           <MDBInput
-                            label={details.midName}
+                            label={userInfo.midName}
                             wrapperClass="mb-4"
                             // label="Middle Name"
                             size="lg"
@@ -135,21 +137,20 @@ function Profile() {
                             size="lg"
                             id="form2"
                             type="text"
-                            label={details.lastName}
+                            label={userInfo.lastName}
                             // value={response.lastName}
                             onChange={(e) => setLname(e.target.value)}
                           />
                         </MDBCol>
                       </MDBRow>
 
-                     
                       <MDBRow>
                         <MDBCol md="6">
                           <MDBInput
                             wrapperClass="mb-4"
                             // label="Date of Birth"
-                            
-                            label={formatDate(details.dateOfBirth)}
+
+                            label={formatDate(userInfo.dateOfBirth)}
                             size="lg"
                             id="form4"
                             type="date"
@@ -164,7 +165,7 @@ function Profile() {
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             // value={details.idRole}
                             onChange={(e) => setRole(e.target.value)}
-                            label={details.idRole}>
+                            label={userInfo.idRole}>
                             <option selected>Choose a Role</option>
 
                             <option value="2">Buyer</option>
@@ -176,7 +177,7 @@ function Profile() {
                       <MDBInput
                         wrapperClass="mb-4"
                         labelClass="text-black"
-                        label={details.email}
+                        label={userInfo.email}
                         size="lg"
                         // value={details.email}
                         id="form8"
@@ -192,17 +193,15 @@ function Profile() {
                         id="form6"
                         type="text"
                         onChange={(e) => setPsw(e.target.value)}
-                        
                       />
                     </MDBCol>
 
                     <MDBCol md="6" className="text-black">
-                     
                       <MDBInput
                         wrapperClass="mb-4"
                         labelClass="text-black"
                         // label="Address Line 1"
-                        label={details.companyName}
+                        label={userInfo.companyName}
                         size="lg"
                         id="form5"
                         type="text"
@@ -212,7 +211,7 @@ function Profile() {
                         wrapperClass="mb-4"
                         labelClass="text-black"
                         // label="Address Line 1"
-                        label={details.address}
+                        label={userInfo.address}
                         size="lg"
                         id="form5"
                         type="text"
@@ -225,7 +224,7 @@ function Profile() {
                             wrapperClass="mb-3"
                             labelClass="text-black"
                             // label="Zip Code"
-                            label={details.postalCode}
+                            label={userInfo.postalCode}
                             size="lg"
                             id="form6"
                             type="text"
@@ -238,7 +237,7 @@ function Profile() {
                             wrapperClass="mb-4"
                             labelClass="text-black"
                             // label="City"
-                            label={details.city}
+                            label={userInfo.city}
                             size="lg"
                             id="form7"
                             type="text"
@@ -246,21 +245,19 @@ function Profile() {
                           />
                         </MDBCol>
                         <MDBCol md="4">
-                        <MDBInput
-                        wrapperClass="mb-4"
-                        labelClass="text-black"
-                        // label="Country"
-                        label={details.country}
-                        // value={response.country}
-                        size="lg"
-                        id="form8"
-                        type="text"
-                        onChange={(e) => setCountry(e.target.value)}
-                      />
+                          <MDBInput
+                            wrapperClass="mb-4"
+                            labelClass="text-black"
+                            // label="Country"
+                            label={userInfo.country}
+                            // value={response.country}
+                            size="lg"
+                            id="form8"
+                            type="text"
+                            onChange={(e) => setCountry(e.target.value)}
+                          />
                         </MDBCol>
                       </MDBRow>
-
-                      
 
                       <MDBRow>
                         <MDBCol md="5">
@@ -269,7 +266,7 @@ function Profile() {
                             labelClass="text-black"
                             // label="Province"
                             size="lg"
-                            label={details.province}
+                            label={userInfo.province}
                             id="form9"
                             type="text"
                             onChange={(e) => setProvince(e.target.value)}
@@ -280,7 +277,7 @@ function Profile() {
                           <MDBInput
                             wrapperClass="mb-4"
                             labelClass="text-black"
-                            label={details.phoneNum}
+                            label={userInfo.phoneNum}
                             // value={response.province}
                             size="lg"
                             id="form10"

@@ -1,0 +1,13 @@
+.myproducts-section{
+    border: 1px solid;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+.myproducts{
+    padding: 1rem;
+    border: 1px solid;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}

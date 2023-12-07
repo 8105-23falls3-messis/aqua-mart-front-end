@@ -31,6 +31,9 @@ function Header() {
 
   const tokenInfo = getToken();
   const tokenObj = JSON.parse(tokenInfo);
+
+ 
+  
   // console.log("Token", tokenInfo);
   // console.log("TokenOBJ", tokenObj);
 
@@ -189,8 +192,13 @@ function Header() {
   };
 
   /*********
-   CATEGORIES
+   Change Languages
   ***********/
+   const onChangeLang = (e) => {
+    const lang_code = e.target.value;
+    i18n.changeLan
+    i18n.changeLanguage(lang_code);
+  };
 
   async function categories() {
     try {
@@ -322,7 +330,7 @@ function Header() {
               </button>
             </div>
           )}
-
+          
           <div className="md:hidden">
             <button
               onClick={handleClick}

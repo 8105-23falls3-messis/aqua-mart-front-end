@@ -6,6 +6,7 @@ import axios from "../../axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import '../myProduct/productByUser.css'
 function ProductByUser() {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [{}, dispatch] = useStateValue();
@@ -79,7 +80,7 @@ function ProductByUser() {
   };
   return (
     <>
-      <div>
+      <div className="myproducts-section">
         My Product
         {userProducts === null ? (
           <h2>There is no product here...</h2>

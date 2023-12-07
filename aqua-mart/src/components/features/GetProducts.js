@@ -73,6 +73,34 @@ function GetProducts() {
   }, [product]);
   // console.log(searchItem);
 
+
+  const getFilteredProducts = async (e, condition) => {
+    try {
+      const response = await axios.post(
+        "product/products",
+        {
+          condition1: null,
+          condition2: condition,
+          pageNum: page,
+          pageSize: 4,
+        },
+        {
+          headers: { "Content-Type": "application/json", token: cookies.token },
+          withCredentials: true,
+        }
+      );
+      localStorage.setItem(
+        "product",
+        JSON.stringify(response.data.content.list)
+      );
+      console.log(response.data.content.list);
+      // navigate("/list");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
   // Category
   async function categories() {
     try {
@@ -101,6 +129,8 @@ function GetProducts() {
   }
   const handleCategoryFilterChange = (e) => {
     setCategoryFilter(e.target.value);
+    console.log(categoryFilter);
+
   };
   const handleCategoryChange = (categoryName) => {
     if (selectedCategory.includes(categoryName)) {
@@ -199,8 +229,6 @@ function GetProducts() {
                 } else if (
                   val.title.toLowerCase().includes(searchItem.toLowerCase())
                   ) {
-                    return val;
-                  }else if(val.category.name.toLowerCase().includes(categoryFilter.toLowerCase())){
                     return val;
                   }
               })
