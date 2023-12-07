@@ -66,11 +66,30 @@ function UpdateProduct() {
     }
   }
 
-  const handleInputChange = (fieldName, value) => {
-    setProductInfo((prevInfo) => ({
-      ...prevInfo,
-      [fieldName]: value,
-    }));
+  const handleInputChange = async (fieldName, value) => {
+    if (fieldName=="category"){
+      await axios.get(`/product/categories/${value}`, {
+        headers: { "Content-Type": "application/json", token: cookies.token },
+        withCredentials: true,
+      })
+      .then((response) => {
+        let category = {id:response.data.content.id, name:response.data.content.name};
+        value= category;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+
+
+      setProductInfo((prevInfo) => ({
+        ...prevInfo,
+        [fieldName]: value,
+      }));
+    
+
+
+
     console.log(productInfo);
   };
 
@@ -102,11 +121,7 @@ function UpdateProduct() {
    */
   const UpdateProductById = async (e)=> {
 let updateImage;
-/*     if (imagenesArray.length==0){
-      updateImage=imagenesArray;
-    }else{
-      updateImage=null;
-    } */
+
 
     e.preventDefault();
     try {
@@ -120,7 +135,7 @@ let updateImage;
           cost: productInfo.cost,
           description: productInfo.description,
           category: {
-            id: productInfo.category,
+            id: productInfo.category.id,
           },
           images: imagenesArray,
    
