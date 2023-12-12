@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import axios from "../../axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-
+import "../../components/updateProduct/updateProduct.css";
 let images;
 let imagenesArray = [];
 
@@ -22,7 +22,7 @@ function UpdateProduct() {
   const navigate = useNavigate();
 
   const handleChangeFile = async (e) => {
-    debugger;
+    // debugger;
     const fileList = e.target.files; // This gives you the FileList
 
     const formData = new FormData();
@@ -40,7 +40,10 @@ function UpdateProduct() {
     }
     try {
       const response = await axios.post("image/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data", token: cookies.token },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: cookies.token,
+        },
         withCredentials: true,
       });
       console.log(images);
@@ -51,7 +54,6 @@ function UpdateProduct() {
       console.log(err);
     }
   };
-
 
   function createImage(response) {
     const miImagen = null;
@@ -100,9 +102,9 @@ function UpdateProduct() {
   /***********
    * Update Product Information
    */
-  const UpdateProductById = async (e)=> {
-let updateImage;
-/*     if (imagenesArray.length==0){
+  const UpdateProductById = async (e) => {
+    let updateImage;
+    /*     if (imagenesArray.length==0){
       updateImage=imagenesArray;
     }else{
       updateImage=null;
@@ -110,11 +112,10 @@ let updateImage;
 
     e.preventDefault();
     try {
-      const response = await axios
-      .put(
+      const response = await axios.put(
         "/product/update",
         JSON.stringify({
-          id:productInfo.id,
+          id: productInfo.id,
           title: productInfo.title,
           brand: productInfo.brand,
           cost: productInfo.cost,
@@ -123,7 +124,6 @@ let updateImage;
             id: productInfo.category,
           },
           images: imagenesArray,
-   
         }),
         {
           headers: { "Content-Type": "application/json", token: cookies.token },
@@ -173,15 +173,14 @@ let updateImage;
     }
   };
 
-
   return (
-    <div className="update-product">
+    <div className="update-product-section">
       <h3>Update Product Infomation</h3>
       {productInfo !== undefined && (
         //   console.log(">>>", productInfo.title)
-        <div className="product">
+        <div className="update-product">
           <div className="product_input">
-            <label>Product Title</label>
+            <label>Product Title: </label>
             <input
               type="text"
               value={productInfo.title}
@@ -189,7 +188,7 @@ let updateImage;
             />
           </div>
           <div className="product_input">
-            <label>Product Brand</label>
+            <label>Product Brand : </label>
             <input
               type="text"
               value={productInfo.brand}
@@ -197,9 +196,10 @@ let updateImage;
             />
           </div>
           <div className="product_input">
+            <label>Product Category : </label>
             <select
               id="categories"
-              className="w-100 mb-4"
+              className="categoty-input"
               value={productInfo.category}
               onChange={(e) => handleInputChange("category", e.target.value)}>
               <option value={""} disabled>
@@ -214,7 +214,7 @@ let updateImage;
             </select>
           </div>
           <div className="product_input">
-            <label>Product Cost</label>
+            <label>Product Cost : </label>
             <input
               type="text"
               value={productInfo.cost}
@@ -222,14 +222,14 @@ let updateImage;
             />
           </div>
           <div className="product_input">
-            <label>Product Description</label>
+            <label>Product Description : </label>
             <input
               type="text"
               value={productInfo.description}
               onChange={(e) => handleInputChange("description", e.target.value)}
             />
           </div>
-          <div className="product-input">
+          <div className="image-class">
             {productInfo.images[0].url !== undefined && (
               <>
                 <img
@@ -237,44 +237,22 @@ let updateImage;
                   alt="Old Product Image"
                   className="old-product-image"
                 />
-                <label htmlFor="newImage">Upload new image:</label>
-                <input
-                  type="file"
-                  id="newImage"
-                  accept="image/*"
-                  onChange={handleChangeFile}
-                />
               </>
             )}
+            <div className="product-input">
+              <label htmlFor="newImage">Upload new image:</label>
+              <input
+                type="file"
+                id="newImage"
+                accept="image/*"
+                onChange={handleChangeFile}
+                multiple
+              />
+            </div>
+            <button className="btn update-btn" onClick={UpdateProductById}>Update</button>
           </div>
-          <button onClick={UpdateProductById}>Update</button>
         </div>
       )}
-      {/* <div className="product-input">
-        <label>Product Title</label>
-        <input type="text" value={productInfo.title} />
-      </div>
-      <div className="product-input">
-        <label>Product Brand</label>
-        <input type="text" value={productInfo.brand} />
-      </div>
-      <div className="product-input">
-        <select id="categories" className="w-100 mb-4">
-          <option value={""} disabled>
-            Select Category
-          </option>
-          {CategoriesInfo !== undefined &&
-            CategoriesInfo.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-        </select>
-      </div>
-      <div className="product-input">
-        <label>Product Title</label>
-        <input type="text" value={productInfo.title} />
-            </div>*/}
     </div>
   );
 }

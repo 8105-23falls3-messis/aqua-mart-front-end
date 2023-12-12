@@ -2,13 +2,11 @@ import React from "react";
 import "../contact/contact.css";
 
 function Contact() {
-
-  
   const storedUserDataString = localStorage.getItem("user");
   const userInfo = JSON.parse(storedUserDataString);
-  
- const whatsappphonenumber = 16399972605;
- const urlencodedtext = `Hi, this is ${userInfo.firstName}`;
+
+  const whatsappphonenumber = 16399972605;
+  //  const urlencodedtext = `Hi, this is ${userInfo.firstName}`;
 
   return (
     <div className="contact">
@@ -19,9 +17,18 @@ function Contact() {
         Kitchener, Ontario, Canada. <br />
         Postal Code: N2M XXX <br />
         Contact: 1-555-666-9999 <br />
-        Email: Support@AuqaMart.com
-        <a href={`https://wa.me/${whatsappphonenumber}?text=${encodeURIComponent(urlencodedtext)}`}>WhatsApp</a>
+        Email: Support@AuqaMart.com <br />
+        {/* {!userInfo.firstName == undefined && (
+          <>
+        <a href={`https://wa.me/${whatsappphonenumber}?text=${encodeURIComponent(urlencodedtext)}`} class="btn-whatsapp-pulse">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+        WhatsApp
+          </>
+        )
 
+        } */}
+        {/* <a href={`https://wa.me/${whatsappphonenumber}?text=${encodeURIComponent(urlencodedtext)}`}>WhatsApp</a> */}
       </p>
     </div>
   );

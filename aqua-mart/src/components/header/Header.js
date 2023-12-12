@@ -34,22 +34,6 @@ function Header() {
 
  
   
-  // console.log("Token", tokenInfo);
-  // console.log("TokenOBJ", tokenObj);
-
-  // useEffect(() => {
-  //   const storedUser = localStorage.getItem("user");
-  //   const storedToken = localStorage.getItem("token");
-  //   if (storedUser) {
-  //     dispatch({ type: "SET_USER", storedUser: JSON.parse(storedUser) });
-  //   }
-  //   if (storedToken) {
-  //     dispatch({ type: "SET_TOKEN", storedToken: JSON.parse(storedToken) });
-  //   }
-  // }, []);
-
-  // console.log(storedUser, storedToken);
-
   const handleLinkClick = (path) => {
     setToggle(false);
     navigate(path);
@@ -113,23 +97,7 @@ function Header() {
     }
   };
 
-  // const getProvinces = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.get("user/provinces", {
-  //       headers: { "Content-Type": "application/json" },
-  //       withCredentials: true,
-  //     });
-  //     dispatch({ type: "PROVINCES", provinces: response.data.content });
-
-  //     console.log(response);
-  //     navigate("/register");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-  // console.log(storedToken);
-
+  
   async function products() {
     e.preventDefault();
     try {
@@ -215,36 +183,6 @@ function Header() {
     }
   }
 
-  // const category = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.get("/product/categories", {
-  //       headers: { "Content-Type": "application/json", token: setToken },
-  //       withCredentials: true,
-  //     });
-  //     dispatch({ type: "PRODUCT", category: response.data.content });
-
-  //     console.log(response.data.content);
-  //     navigate("/addproduct");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // async function categories(){
-  //   try {
-  //     const response = await axios.get("/product/categories", {
-  //       headers: { "Content-Type": "application/json", token: setToken },
-  //       withCredentials: true,
-  //     });
-  //     dispatch({ type: "CATEGOTY", categories: response.data.content });
-
-  //     console.log("Categories" ,response);
-  //     // navigate("/addproduct");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
 
   return (
     <div className="h-20 z-10 bg-slate-900 drop-shadow-lg">
@@ -341,16 +279,7 @@ function Header() {
         </div>
       </div>
 
-      {/* <div
-          className="md:hidden cursor-pointer bg-sky-400"
-          onClick={handleClick}>
-          {!toggle ? (
-            <MenuIcon className="!w-10 !h-10 bg-white" />
-          ) : (
-            <CloseIcon className="!w-10 !h-10" />
-          )}
-        </div>
-      </div> */}
+     
 
       {/* Mobile View */}
       <div
@@ -386,11 +315,18 @@ function Header() {
                 Lists
               </li>
               {userInfoObj.idRole == 1 && (
+                <>
                 <li
                   onClick={() => handleLinkClick("/addproduct")}
                   className="border-b-2 border-gray-900 w-full">
                   Add Product
                 </li>
+                <li
+                  onClick={() => handleLinkClick("/myproduct")}
+                  className="border-b-2 border-gray-900 w-full">
+                  My Product
+                </li>
+                </>                  
               )}
             </>
           ) : (

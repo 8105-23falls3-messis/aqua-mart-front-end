@@ -327,7 +327,7 @@ function Register() {
                       <MDBCol md="5">
                       <select className="w-100 mb-3" required>
                           <option value="" disabled selected>Select Countries</option>
-                          {countries.map((c)=>
+                          {!countries == undefined && countries.map((c)=>
                           <option key={c.id} value={c.id}> {c.name} </option>
                           )}
                         </select>

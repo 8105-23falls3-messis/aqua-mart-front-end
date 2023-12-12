@@ -6,8 +6,21 @@
 }
 .myproducts{
     padding: 1rem;
-    border: 1px solid;
+    /* border: 1px solid; */
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    justify-content: center;
+}
+.myproducts-section h3{
+    text-align: center;
+    font-weight: 600;
+}
+.product-details{
+    display: flex;
+}
+.update-product .product .product-details{
+    text-align: left;
+    align-items: flex-start;
+    justify-content: flex-start;
 }

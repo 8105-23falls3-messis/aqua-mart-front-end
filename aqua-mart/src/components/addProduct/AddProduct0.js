@@ -47,11 +47,8 @@ function AddProduct0() {
   const userInfo = JSON.parse(storedUser);
   console.log(userInfo.id);
 
-  // let fileArray = [];
-  //const [file, setFile] = useState(null);
-  // console.log(details);
   const handleChangeFile = async (e) => {
-    debugger;
+    // debugger;
     //setFile(e.target.files[0]);
 
     setProductImage(e.target.files);
@@ -62,8 +59,6 @@ function AddProduct0() {
     const formData = new FormData();
     //formData.append('files', fileList);
 
-    // <<<<<<< HEAD
-    // <<<<<<< HEAD
     const fileArray = Array.from(fileList).map((file, index) => ({
       // id: index,
       fileName: file.name,
@@ -79,15 +74,17 @@ function AddProduct0() {
     /************
     Upload Images
     *************/
- 
+
     for (let j = 0; j < fileList.length; j++) {
       formData.append("files", fileList[j]);
     }
 
     try {
       const response = await axios.post("image/upload", formData, {
-
-        headers: { "Content-Type": "multipart/form-data", token: cookies.token },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: cookies.token,
+        },
         withCredentials: true,
       });
       console.log(images);
@@ -185,16 +182,15 @@ function AddProduct0() {
   };
 
   return (
-    
- <MDBContainer fluid className="addProduct">
+    <MDBContainer fluid className="addProduct">
       <MDBRow className="d-flex justify-content-center align-items-center h-100">
         <form
           onSubmit={handleSubmit}
           className="d-flex justify-content-center align-items-center w-100">
           <MDBCol col="" className="">
-            <div className="" >
+            <div className="">
               <div className="">
-                {/* <h2 className="addProduct-title">Add Product</h2> */} 
+                {/* <h2 className="addProduct-title">Add Product</h2> */}
                 <MDBRow className="d-flex justify-center align-items-center ">
                   <MDBCol
                     md="6"
@@ -225,23 +221,11 @@ function AddProduct0() {
                       </MDBCol>
 
                       <MDBCol md="12">
- {/*                        { <MDBInput
-                          wrapperClass="mb-4"
-                          label="Category"
-                          size="lg"
-                          id="form2"
-                          type="text"
-                          //onChange={(e) => setProductCategory(e.target.value)}
-                          //required
-                        /> } */}
                         <label>Select Category</label>
                         <select
                           id="categories"
                           className="w-100 mb-4"
                           onChange={(e) => setProductCategory(e.target.value)}>
-{/*                           <option value={""} disabled>
-                            Select Category
-                          </option> */}
                           {CategoriesInfo !== undefined &&
                             CategoriesInfo.map((c) => (
                               <option key={c.id} value={c.id}>
@@ -282,24 +266,12 @@ function AddProduct0() {
                             toolbar:
                               "undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
                             branding: false,
-                            forced_root_block: false, 
+                            forced_root_block: false,
                           }}
                           onEditorChange={(content) =>
                             setProductDescription(content)
                           }
                         />
-                        {/* <MDBInput
-                          wrapperClass="mb-4"
-                          //   labelClass="text-black"
-                          label="Description"
-                          size="lg"
-                          id="form8"
-                          type="text"
-                          onChange={(e) =>
-                            setProductDescription(e.target.value)
-                          }
-                          required
-                        /> */}
                       </MDBCol>
                       <MDBCol md="12" className="text-left mb-4">
                         <MDBFile
@@ -320,7 +292,7 @@ function AddProduct0() {
           </MDBCol>
         </form>
       </MDBRow>
-    </MDBContainer>  
+    </MDBContainer>
   );
 }
 

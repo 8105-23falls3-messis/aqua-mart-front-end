@@ -7,9 +7,8 @@ import logo from "../../images/Vista Logos/logo-transparent-png.png";
 import axios from "../../axios";
 import { useEffect } from "react";
 import { useStateValue } from "../StateProvider";
-
+import { Translation } from "react-i18next";
 function Home() {
-
   const [{}, dispatch] = useStateValue();
   useEffect(() => {
     provinces();
@@ -75,6 +74,9 @@ function Home() {
             </button>
           </Link>
         </div>
+
+       
+
       </div>
       <div className="home__img w-full">
         <img

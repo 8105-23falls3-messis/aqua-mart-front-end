@@ -22,7 +22,7 @@
     "@tinymce/tinymce-react": "^4.3.0",
     "axios": "^1.6.2",
     "cors": "^2.8.5",
-    "i18next": "^23.7.7",
+    "i18next": "^23.7.8",
     "i18next-browser-languagedetector": "^7.1.0",
     "i18next-http-backend": "^2.2.2",
     "mdb-react-ui-kit": "^6.3.0",

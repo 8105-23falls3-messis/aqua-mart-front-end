@@ -10,6 +10,7 @@ import App from './App';
 import { StateProvider } from './components/StateProvider';
 import reducer, { initialState } from './components/reducer';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import "./i18n";
 
 
 

@@ -81,7 +81,7 @@ function ProductByUser() {
   return (
     <>
       <div className="myproducts-section">
-        My Product
+       <h3>My Product</h3> 
         {userProducts === null ? (
           <h2>There is no product here...</h2>
         ) : (
@@ -90,11 +90,13 @@ function ProductByUser() {
               userProducts.map((p) => {
                 return (
                   <div key={p.id} className="product">
+                    {/* {!p.images == null && ( */}
                     <div className="product_img">
                       {p.images[0].url !== undefined && (
                         <img src={p.images[0].url} alt="img" />
                       )}        
                     </div>
+                    {/* )} */}
                     <div className="product_details">
                       <h3 className="product_details-title">{p.title}</h3>
                       <p className="product_details-description">
@@ -104,7 +106,7 @@ function ProductByUser() {
                         {p.category.name}
                       </h5>
                       <span className="product_details-brand">{p.brand}</span>
-                      <h3 className="product_details-cost">{p.cost}</h3>
+                      <h3 className="product_details-cost">${p.cost}</h3>
                       <div className="">
                         <Link
                           to={`/editproduct/${p.id}`}

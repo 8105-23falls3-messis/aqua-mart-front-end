@@ -164,7 +164,7 @@ function GetProducts() {
 
   return (
     <div className="products-section">
-      <main className="main-container mx-auto max-w-7xl px-2 flex sm:px-6 lg:px-8">
+      <main className="main-container px-2 flex sm:px-6 lg:px-8">
         <div className="sidebar">
           {/* Category Filters */}
           <div className="search">
@@ -176,47 +176,7 @@ function GetProducts() {
             />
           </div>
          
-          <div className="category-section">
-            <h4>Categories</h4>
-            {category !== undefined &&
-              category.map((category) => (
-                <div className="category" key={category.id}>
-                  <input
-                    className="category-checks"
-                    type="checkbox"
-                    checked={categoryFilter.includes(category.name)}
-                    onChange={handleCategoryFilterChange}
-                  />
-                  <label className="pl-2">{category.name}</label>
-                </div>
-              ))}
-          </div>
-          {/* <div>
-            <h4>Price Range</h4>
-            <label>Min: {priceRange.min}</label>
-            <input
-              className="price-range"
-              type="range"
-              min={0}
-              max={1000}
-              // value={priceRange.min}
-              onChange={(e) => {
-                console.log("Min Range Changed:", Number(e.target.value));
-                setPriceRange({ ...priceRange, min: Number(e.target.value) });
-              }}
-            />
-            <label>Max: {priceRange.max}</label>
-            <input
-              type="range"
-              min={0}
-              max={1000}
-              // value={priceRange.max}
-              onChange={(e) => {
-                console.log("Max Range Changed:", Number(e.target.value));
-                setPriceRange({ ...priceRange, max: Number(e.target.value) });
-              }}
-            />
-          </div> */}
+          
         </div>
 
         <div className="products">
@@ -235,11 +195,14 @@ function GetProducts() {
               .map((p) => {
                 return (
                   <div key={p.id} className="product">
+                    {/* {!p.images == null && ( */}
                     <div className="product_img">
                       {p.images[0].url !== undefined && (
                         <img src={p.images[0].url} alt="img" />
-                      )}
-                    </div>
+                        )}
+                        </div>
+                      {/* )} */}
+        
                     <div className="product_details">
                       <h3 className="product_details-title">{p.title}</h3>
                       <p className="product_details-description">
@@ -249,7 +212,7 @@ function GetProducts() {
                         {p.category.name}
                       </h5>
                       <span className="product_details-brand">{p.brand}</span>
-                      <h3 className="product_details-cost">{p.cost}</h3>
+                      <h3 className="product_details-cost">${p.cost}</h3>
 
                       <a
                         onClick={() => getProductOne(p.id)}
@@ -261,11 +224,11 @@ function GetProducts() {
                 );
               })}
         </div>
-      </main>
       <div className="pagination">
         <a onClick={() => getProducts(null, currPrevPage)}>Previous</a>
         <a onClick={() => getProducts(null, currNextPage)}>Next</a>
       </div>
+      </main>
     </div>
   );
 }

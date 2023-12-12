@@ -51,22 +51,22 @@
 @media screen and (max-width: 300px) {
   .footer__main h4{
     font-size: 0.9rem;
-    padding: 0 5px;
+    padding: 0 3px;
   }
   .links a{
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (min-width:299px) and (max-width: 600px) {
   .footer__main h4{
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
   .links a{
     font-size: 1rem;
   }
 }
-@media screen and (max-width: 900px) {
+@media (min-width:599px) and (max-width: 900px) {
   .footer__main h4{
     font-size: 1.3rem;
   }
