@@ -35,7 +35,7 @@ function App() {
             element={
               <>
                 <Header />
-                <UpdateProduct />
+                <UpdateProduct/>
                 <Footer />
               </>
             }

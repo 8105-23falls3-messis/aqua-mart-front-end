@@ -84,9 +84,19 @@ function Header() {
   const getUser = async (e) => {
     e.preventDefault();
     try {
+
+      if(userId==null){
+        let userInfo= localStorage.getItem("user");
+        const userInfoObj = JSON.parse(userInfo);
+        userId=userInfoObj.id;
+      }
+
+
+
       const response = await axios.get(`/user/userProfile?userId=${userId}`, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
+
       });
       dispatch({ type: "USER", details: response.data.content });
 

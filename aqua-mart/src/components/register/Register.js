@@ -67,7 +67,7 @@ function Register() {
   const toggleShowPassword = () => {
     setShowPsw(!showPsw);
   };
-  //   console.log(role);
+    console.log(countries);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -327,7 +327,7 @@ function Register() {
                       <MDBCol md="5">
                       <select className="w-100 mb-3" required>
                           <option value="" disabled selected>Select Countries</option>
-                          {!countries == undefined && countries.map((c)=>
+                          {countries.map((c)=>
                           <option key={c.id} value={c.id}> {c.name} </option>
                           )}
                         </select>
@@ -343,8 +343,6 @@ function Register() {
                     /> */}
                       </MDBCol>
                     </MDBRow>
-
-                   
 
                     <MDBRow>
                       <MDBCol md="5">
