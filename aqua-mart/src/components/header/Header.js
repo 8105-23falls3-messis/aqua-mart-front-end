@@ -14,6 +14,7 @@ function Header() {
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
   const handleClick = () => setToggle(!toggle);
+  const [activeLink, setActiveLink] = useState('/');
 
   const [{ setUser, setToken, userId, idRole, product }, dispatch] =
     useStateValue();
@@ -37,6 +38,7 @@ function Header() {
   const handleLinkClick = (path) => {
     setToggle(false);
     navigate(path);
+    setActiveLink(path);
     // console.log(path);
   };
   // console.log(options);
@@ -209,7 +211,7 @@ function Header() {
               <li className="cursor-pointer hover:text-sky-400">Home</li>
             </Link>} */}
             {!setUser ? (
-              <Link className="text-white" to={"/"}>
+              <Link  className={`text-white cursor-pointer hover:text-sky-400 ${activeLink === '/' ? 'active' : ''}`} to={"/"}>
                 <li className="link">Home</li>
               </Link>
             ) : (
@@ -234,7 +236,7 @@ function Header() {
                 {userInfoObj.idRole == 1 && (
                   <>
                   <Link className="text-white" to={"/addproduct"}>
-                    <li className="link">Add Item</li>
+                    <li className="link">Add Product</li>
                   </Link>
                   <Link className="text-white" to={"/myproduct"}>
                     <li className="link">My Products</li>

@@ -275,7 +275,7 @@ function UpdateProduct() {
                 multiple
               />
             </div>
-            <button className="btn update-btn" onClick={UpdateProductById}>
+            <button className="update-btn" onClick={UpdateProductById}>
               Update
             </button>
           </div>

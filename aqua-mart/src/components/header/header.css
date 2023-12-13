@@ -12,6 +12,13 @@
 .link:hover {
   color: #0099ff;
 }
+
+.link.active {
+  /* Add styles for the active link */
+  color: #3498db; /* Change the color to your preference */
+  font-weight: bold;
+  /* Add any additional styling you want for the active link */
+}
 .userFunctions {
   /* border: 1px solid #fff; */
   display: flex;
