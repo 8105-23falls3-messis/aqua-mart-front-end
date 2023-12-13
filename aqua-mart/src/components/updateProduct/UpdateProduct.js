@@ -69,28 +69,28 @@ function UpdateProduct() {
   }
 
   const handleInputChange = async (fieldName, value) => {
-    if (fieldName=="category"){
-      await axios.get(`/product/categories/${value}`, {
-        headers: { "Content-Type": "application/json", token: cookies.token },
-        withCredentials: true,
-      })
-      .then((response) => {
-        let category = {id:response.data.content.id, name:response.data.content.name};
-        value= category;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (fieldName == "category") {
+      await axios
+        .get(`/product/categories/${value}`, {
+          headers: { "Content-Type": "application/json", token: cookies.token },
+          withCredentials: true,
+        })
+        .then((response) => {
+          let category = {
+            id: response.data.content.id,
+            name: response.data.content.name,
+          };
+          value = category;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
 
-
-      setProductInfo((prevInfo) => ({
-        ...prevInfo,
-        [fieldName]: value,
-      }));
-    
-
-
+    setProductInfo((prevInfo) => ({
+      ...prevInfo,
+      [fieldName]: value,
+    }));
 
     console.log(productInfo);
   };
@@ -121,19 +121,20 @@ function UpdateProduct() {
   /***********
    * Update Product Information
    */
-// <<<<<<< HEAD
+  // <<<<<<< HEAD
   const UpdateProductById = async (e) => {
     let updateImage;
-    /*     if (imagenesArray.length==0){
-      updateImage=imagenesArray;
-    }else{
-      updateImage=null;
-    } */
-// =======
-  const UpdateProductById = async (e)=> {
-let updateImage;
+    if (imagenesArray.length == 0) {
+      updateImage = imagenesArray;
+    } else {
+      updateImage = null;
+    }
 
-// >>>>>>> 4249e30ae14f24f9eded543e5175f428f6e1b4fe
+    // =======
+    //   const UpdateProductById = async (e)=> {
+    // let updateImage;
+
+    // >>>>>>> 4249e30ae14f24f9eded543e5175f428f6e1b4fe
 
     e.preventDefault();
     try {
@@ -274,12 +275,13 @@ let updateImage;
                 multiple
               />
             </div>
-            <button className="btn update-btn" onClick={UpdateProductById}>Update</button>
+            <button className="btn update-btn" onClick={UpdateProductById}>
+              Update
+            </button>
           </div>
         </div>
       )}
     </div>
   );
-}
 }
 export default UpdateProduct;

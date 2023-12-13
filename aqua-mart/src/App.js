@@ -30,12 +30,22 @@ function App() {
     <div className="app">
       <Router>
         <Routes>
+          {/* <Route
+            path="/editproduct/:id"
+            element={
+              <>
+                <Header />
+                <UpdateProduct />
+                <Footer />
+              </>
+            }
+          /> */}
           <Route
             path="/editproduct/:id"
             element={
               <>
                 <Header />
-                <UpdateProduct/>
+                <UpdateProduct />
                 <Footer />
               </>
             }
